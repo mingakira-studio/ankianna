@@ -1,4 +1,4 @@
-# Project: Anna 记忆卡片 App
+# Project: ankianna — Anna 记忆卡片
 
 ## Meta
 - Area: education

@@ -1,0 +1,33 @@
+name: AnkiAnna
+options:
+  bundleIdPrefix: com.ming.ankianna
+  deploymentTarget:
+    iOS: "17.0"
+  xcodeVersion: "16.0"
+settings:
+  base:
+    TARGETED_DEVICE_FAMILY: "2"  # iPad only
+    SUPPORTS_XR_DESIGNED_FOR: "NO"
+targets:
+  AnkiAnna:
+    type: application
+    platform: iOS
+    sources:
+      - AnkiAnna
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        PRODUCT_BUNDLE_IDENTIFIER: com.ming.ankianna.AnkiAnna
+  AnkiAnnaTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - AnkiAnnaTests
+    dependencies:
+      - target: AnkiAnna
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES

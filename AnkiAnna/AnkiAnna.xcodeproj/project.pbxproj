@@ -1,0 +1,561 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0D7CF85BE6FEF407EBFE83A3 /* ReviewRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF401FED0B8846B0F416A3B /* ReviewRecord.swift */; };
+		20830D56FED9C2C35C763717 /* AnkiAnnaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D35344CDB93A204CA7CBD8 /* AnkiAnnaTests.swift */; };
+		22B7EE5A824593450D25FF75 /* SM2EngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F833511A10A25B7D26B5A25 /* SM2EngineTests.swift */; };
+		4647C8C774A95333EEAD46BA /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2600A0B9CABFD508C1F0055A /* ModelTests.swift */; };
+		55C35DC1141C8B2DB785B2BA /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846717C9766B879CB908CFB2 /* Card.swift */; };
+		5E66FEE695E81A59F160C9D4 /* AnkiAnnaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A225EB7005EEB2DE0653A5 /* AnkiAnnaApp.swift */; };
+		713CCE2BCA70CC7C9152BE42 /* DailySession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664E74B17927FF6135856C91 /* DailySession.swift */; };
+		9E528379A55871B7112556E0 /* TTSService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD626B345D9A023DF1934A2 /* TTSService.swift */; };
+		ACA33FE7CA8F2AD58F92DDF2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D58E6FEB619B9BE59B8D2FC /* ContentView.swift */; };
+		CDCAE78043D07782D1A02A1B /* CardContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A504A99F3A410B8068D5C2 /* CardContext.swift */; };
+		D30C62A311DFD5C3F6974696 /* TTSServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE88DED8995DAD67B8FBEE1 /* TTSServiceTests.swift */; };
+		E2582D8F56F4C79FDCA243EF /* SM2Engine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29A2961958B3248AF15AC72 /* SM2Engine.swift */; };
+		BB9F3A4C7D8E21F09A5B6C7D /* HandwritingRecognizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC8E2B3D6C7F10E08A4B5C6D /* HandwritingRecognizerTests.swift */; };
+		DD7D1A2E5B6C0FD09A3B4C5D /* HandwritingRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C09FD4A5B0EC08A2B3C4D /* HandwritingRecognizer.swift */; };
+		E5F6A7B8C9D0E1F2A3B4C5D6 /* ManualAddCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E1F2 /* ManualAddCardView.swift */; };
+		F6A7B8C9D0E1F2A3B4C5D6E7 /* AddCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6A7B8C9D0E1F2A3 /* AddCardView.swift */; };
+		A7B8C9D0E1F2A3B4C5D6E7F8 /* CardLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D4E5F6A7B8C9D0E1F2A3B4 /* CardLibraryView.swift */; };
+		B8C9D0E1F2A3B4C5D6E7F8A9 /* CardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5F6A7B8C9D0E1F2A3B4C5 /* CardDetailView.swift */; };
+		FCBD72DF67C8BD7A53A8E10D /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8C8F624B0D67EAA9B114C7 /* UserProfile.swift */; };
+		5E6F7A8B9C0D1E2F3A4B5C6D /* PointsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F7A8B9C0D1E2F /* PointsService.swift */; };
+		6F7A8B9C0D1E2F3A4B5C6D7E /* StreakCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3C4D5E6F7A8B9C0D1E2F3A /* StreakCalendarView.swift */; };
+		7A8B9C0D1E2F3A4B5C6D7E8F /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4D5E6F7A8B9C0D1E2F3A4B /* StatsView.swift */; };
+		8B9C0D1E2F3A4B5C6D7E8F9A /* PointsServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5E6F7A8B9C0D1E2F3A4B5C /* PointsServiceTests.swift */; };
+		FF6A7B8C9D0E1F2A3B4C5D6E /* LearningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B2C3D4E5F6A7B8C9D0E1F /* LearningViewModel.swift */; };
+		AA7B8C9D0E1F2A3B4C5D6E7F /* WritingCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2C3D4E5F6A7B8C9D0E1F2A /* WritingCanvasView.swift */; };
+		BB8C9D0E1F2A3B4C5D6E7F8A /* CardPromptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3D4E5F6A7B8C9D0E1F2A3B /* CardPromptView.swift */; };
+		CC9D0E1F2A3B4C5D6E7F8A9B /* ResultFeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4E5F6A7B8C9D0E1F2A3B4C /* ResultFeedbackView.swift */; };
+		DD0E1F2A3B4C5D6E7F8A9B0C /* LearningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5F6A7B8C9D0E1F2A3B4C5D /* LearningView.swift */; };
+		AA0B1C2D3E4F5A6B7C8D9E0F /* AIGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0A1B2C3D4E5F607B8C9D0E /* AIGenerator.swift */; };
+		CC2D3E4F5A6B7C8D9E0F1A2B /* AIGenerateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1C2D3E4F5A6B7C8D9E0F1A /* AIGenerateView.swift */; };
+		A1B2C3D4E5F6A7B8C9D0E1F3 /* IntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6A7B8C9D0E1F3A4 /* IntegrationTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		501925F256FE7B3768ECBC5B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C9DE45BAA115135099F27E24 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ACA4A9B01E0DAD3027A1CA31;
+			remoteInfo = AnkiAnna;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		15D35344CDB93A204CA7CBD8 /* AnkiAnnaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnkiAnnaTests.swift; sourceTree = "<group>"; };
+		2600A0B9CABFD508C1F0055A /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
+		2AD626B345D9A023DF1934A2 /* TTSService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTSService.swift; sourceTree = "<group>"; };
+		3AF401FED0B8846B0F416A3B /* ReviewRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewRecord.swift; sourceTree = "<group>"; };
+		3FE88DED8995DAD67B8FBEE1 /* TTSServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTSServiceTests.swift; sourceTree = "<group>"; };
+		CC8E2B3D6C7F10E08A4B5C6D /* HandwritingRecognizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandwritingRecognizerTests.swift; sourceTree = "<group>"; };
+		EE6C09FD4A5B0EC08A2B3C4D /* HandwritingRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandwritingRecognizer.swift; sourceTree = "<group>"; };
+		664E74B17927FF6135856C91 /* DailySession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySession.swift; sourceTree = "<group>"; };
+		6F833511A10A25B7D26B5A25 /* SM2EngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SM2EngineTests.swift; sourceTree = "<group>"; };
+		7C8C8F624B0D67EAA9B114C7 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		7D58E6FEB619B9BE59B8D2FC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		8007726F88F19791B909DB8F /* AnkiAnna.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = AnkiAnna.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		846717C9766B879CB908CFB2 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		B29A2961958B3248AF15AC72 /* SM2Engine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SM2Engine.swift; sourceTree = "<group>"; };
+		D6A225EB7005EEB2DE0653A5 /* AnkiAnnaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnkiAnnaApp.swift; sourceTree = "<group>"; };
+		E28608525112E217B1E21564 /* AnkiAnnaTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = AnkiAnnaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7A504A99F3A410B8068D5C2 /* CardContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardContext.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6A7B8C9D0E1F2 /* ManualAddCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualAddCardView.swift; sourceTree = "<group>"; };
+		B2C3D4E5F6A7B8C9D0E1F2A3 /* AddCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardView.swift; sourceTree = "<group>"; };
+		C3D4E5F6A7B8C9D0E1F2A3B4 /* CardLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardLibraryView.swift; sourceTree = "<group>"; };
+		D4E5F6A7B8C9D0E1F2A3B4C5 /* CardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailView.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F7A8B9C0D1E2F /* PointsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsService.swift; sourceTree = "<group>"; };
+		2B3C4D5E6F7A8B9C0D1E2F3A /* StreakCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCalendarView.swift; sourceTree = "<group>"; };
+		3C4D5E6F7A8B9C0D1E2F3A4B /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		4D5E6F7A8B9C0D1E2F3A4B5C /* PointsServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsServiceTests.swift; sourceTree = "<group>"; };
+		AA1B2C3D4E5F6A7B8C9D0E1F /* LearningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningViewModel.swift; sourceTree = "<group>"; };
+		BB2C3D4E5F6A7B8C9D0E1F2A /* WritingCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingCanvasView.swift; sourceTree = "<group>"; };
+		CC3D4E5F6A7B8C9D0E1F2A3B /* CardPromptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPromptView.swift; sourceTree = "<group>"; };
+		DD4E5F6A7B8C9D0E1F2A3B4C /* ResultFeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultFeedbackView.swift; sourceTree = "<group>"; };
+		EE5F6A7B8C9D0E1F2A3B4C5D /* LearningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningView.swift; sourceTree = "<group>"; };
+		FF0A1B2C3D4E5F607B8C9D0E /* AIGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIGenerator.swift; sourceTree = "<group>"; };
+		BB1C2D3E4F5A6B7C8D9E0F1A /* AIGenerateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIGenerateView.swift; sourceTree = "<group>"; };
+		B2C3D4E5F6A7B8C9D0E1F3A4 /* IntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		4D5EBB23BF74353015E84787 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B29A2961958B3248AF15AC72 /* SM2Engine.swift */,
+				2AD626B345D9A023DF1934A2 /* TTSService.swift */,
+				EE6C09FD4A5B0EC08A2B3C4D /* HandwritingRecognizer.swift */,
+				1A2B3C4D5E6F7A8B9C0D1E2F /* PointsService.swift */,
+				FF0A1B2C3D4E5F607B8C9D0E /* AIGenerator.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		5440DAFD575589F677769D80 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8007726F88F19791B909DB8F /* AnkiAnna.app */,
+				E28608525112E217B1E21564 /* AnkiAnnaTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		921B174ABFB7DCF24D69505A /* AnkiAnnaTests */ = {
+			isa = PBXGroup;
+			children = (
+				15D35344CDB93A204CA7CBD8 /* AnkiAnnaTests.swift */,
+				2600A0B9CABFD508C1F0055A /* ModelTests.swift */,
+				6F833511A10A25B7D26B5A25 /* SM2EngineTests.swift */,
+				3FE88DED8995DAD67B8FBEE1 /* TTSServiceTests.swift */,
+				CC8E2B3D6C7F10E08A4B5C6D /* HandwritingRecognizerTests.swift */,
+				4D5E6F7A8B9C0D1E2F3A4B5C /* PointsServiceTests.swift */,
+				B2C3D4E5F6A7B8C9D0E1F3A4 /* IntegrationTests.swift */,
+			);
+			path = AnkiAnnaTests;
+			sourceTree = "<group>";
+		};
+		A3486085836E78E49BF72208 /* AnkiAnna */ = {
+			isa = PBXGroup;
+			children = (
+				D6A225EB7005EEB2DE0653A5 /* AnkiAnnaApp.swift */,
+				7D58E6FEB619B9BE59B8D2FC /* ContentView.swift */,
+				E36DEF1A776DFDA47A5D216B /* Models */,
+				4D5EBB23BF74353015E84787 /* Services */,
+				C9D0E1F2A3B4C5D6E7F8A9BA /* Views */,
+			);
+			path = AnkiAnna;
+			sourceTree = "<group>";
+		};
+		BF1DBCBEF66E9432D0B66754 = {
+			isa = PBXGroup;
+			children = (
+				A3486085836E78E49BF72208 /* AnkiAnna */,
+				921B174ABFB7DCF24D69505A /* AnkiAnnaTests */,
+				5440DAFD575589F677769D80 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C9D0E1F2A3B4C5D6E7F8A9BA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D0E1F2A3B4C5D6E7F8A9BACB /* AddCard */,
+				E1F2A3B4C5D6E7F8A9BACBDC /* CardLibrary */,
+				F2A3B4C5D6E7F8A9BACBDCED /* Learning */,
+				9C0D1E2F3A4B5C6D7E8F9A0B /* Stats */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F2A3B4C5D6E7F8A9BACBDCED /* Learning */ = {
+			isa = PBXGroup;
+			children = (
+				CC3D4E5F6A7B8C9D0E1F2A3B /* CardPromptView.swift */,
+				EE5F6A7B8C9D0E1F2A3B4C5D /* LearningView.swift */,
+				AA1B2C3D4E5F6A7B8C9D0E1F /* LearningViewModel.swift */,
+				DD4E5F6A7B8C9D0E1F2A3B4C /* ResultFeedbackView.swift */,
+				BB2C3D4E5F6A7B8C9D0E1F2A /* WritingCanvasView.swift */,
+			);
+			path = Learning;
+			sourceTree = "<group>";
+		};
+		9C0D1E2F3A4B5C6D7E8F9A0B /* Stats */ = {
+			isa = PBXGroup;
+			children = (
+				3C4D5E6F7A8B9C0D1E2F3A4B /* StatsView.swift */,
+				2B3C4D5E6F7A8B9C0D1E2F3A /* StreakCalendarView.swift */,
+			);
+			path = Stats;
+			sourceTree = "<group>";
+		};
+		D0E1F2A3B4C5D6E7F8A9BACB /* AddCard */ = {
+			isa = PBXGroup;
+			children = (
+				B2C3D4E5F6A7B8C9D0E1F2A3 /* AddCardView.swift */,
+				A1B2C3D4E5F6A7B8C9D0E1F2 /* ManualAddCardView.swift */,
+				BB1C2D3E4F5A6B7C8D9E0F1A /* AIGenerateView.swift */,
+			);
+			path = AddCard;
+			sourceTree = "<group>";
+		};
+		E1F2A3B4C5D6E7F8A9BACBDC /* CardLibrary */ = {
+			isa = PBXGroup;
+			children = (
+				D4E5F6A7B8C9D0E1F2A3B4C5 /* CardDetailView.swift */,
+				C3D4E5F6A7B8C9D0E1F2A3B4 /* CardLibraryView.swift */,
+			);
+			path = CardLibrary;
+			sourceTree = "<group>";
+		};
+		E36DEF1A776DFDA47A5D216B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				846717C9766B879CB908CFB2 /* Card.swift */,
+				F7A504A99F3A410B8068D5C2 /* CardContext.swift */,
+				664E74B17927FF6135856C91 /* DailySession.swift */,
+				3AF401FED0B8846B0F416A3B /* ReviewRecord.swift */,
+				7C8C8F624B0D67EAA9B114C7 /* UserProfile.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		ACA4A9B01E0DAD3027A1CA31 /* AnkiAnna */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6A0FB8F0070EC54F80350F9D /* Build configuration list for PBXNativeTarget "AnkiAnna" */;
+			buildPhases = (
+				6C24E8F7D6818DA968423BA2 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AnkiAnna;
+			packageProductDependencies = (
+			);
+			productName = AnkiAnna;
+			productReference = 8007726F88F19791B909DB8F /* AnkiAnna.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DE6C72979DB2AF4E48D8CCDC /* AnkiAnnaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BD92946ABD40B2C310AA6FB6 /* Build configuration list for PBXNativeTarget "AnkiAnnaTests" */;
+			buildPhases = (
+				5073A05A860FAA3968FFBAEE /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A4F7C90C0CF7FB2E5F962E1B /* PBXTargetDependency */,
+			);
+			name = AnkiAnnaTests;
+			packageProductDependencies = (
+			);
+			productName = AnkiAnnaTests;
+			productReference = E28608525112E217B1E21564 /* AnkiAnnaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C9DE45BAA115135099F27E24 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+			};
+			buildConfigurationList = C59E36704FDB6ED6160BFEFD /* Build configuration list for PBXProject "AnkiAnna" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = BF1DBCBEF66E9432D0B66754;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				ACA4A9B01E0DAD3027A1CA31 /* AnkiAnna */,
+				DE6C72979DB2AF4E48D8CCDC /* AnkiAnnaTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5073A05A860FAA3968FFBAEE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				20830D56FED9C2C35C763717 /* AnkiAnnaTests.swift in Sources */,
+				4647C8C774A95333EEAD46BA /* ModelTests.swift in Sources */,
+				22B7EE5A824593450D25FF75 /* SM2EngineTests.swift in Sources */,
+				D30C62A311DFD5C3F6974696 /* TTSServiceTests.swift in Sources */,
+				BB9F3A4C7D8E21F09A5B6C7D /* HandwritingRecognizerTests.swift in Sources */,
+				8B9C0D1E2F3A4B5C6D7E8F9A /* PointsServiceTests.swift in Sources */,
+				A1B2C3D4E5F6A7B8C9D0E1F3 /* IntegrationTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6C24E8F7D6818DA968423BA2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5E66FEE695E81A59F160C9D4 /* AnkiAnnaApp.swift in Sources */,
+				55C35DC1141C8B2DB785B2BA /* Card.swift in Sources */,
+				CDCAE78043D07782D1A02A1B /* CardContext.swift in Sources */,
+				ACA33FE7CA8F2AD58F92DDF2 /* ContentView.swift in Sources */,
+				713CCE2BCA70CC7C9152BE42 /* DailySession.swift in Sources */,
+				0D7CF85BE6FEF407EBFE83A3 /* ReviewRecord.swift in Sources */,
+				E2582D8F56F4C79FDCA243EF /* SM2Engine.swift in Sources */,
+				9E528379A55871B7112556E0 /* TTSService.swift in Sources */,
+				DD7D1A2E5B6C0FD09A3B4C5D /* HandwritingRecognizer.swift in Sources */,
+				FCBD72DF67C8BD7A53A8E10D /* UserProfile.swift in Sources */,
+				E5F6A7B8C9D0E1F2A3B4C5D6 /* ManualAddCardView.swift in Sources */,
+				F6A7B8C9D0E1F2A3B4C5D6E7 /* AddCardView.swift in Sources */,
+				A7B8C9D0E1F2A3B4C5D6E7F8 /* CardLibraryView.swift in Sources */,
+				B8C9D0E1F2A3B4C5D6E7F8A9 /* CardDetailView.swift in Sources */,
+				5E6F7A8B9C0D1E2F3A4B5C6D /* PointsService.swift in Sources */,
+				6F7A8B9C0D1E2F3A4B5C6D7E /* StreakCalendarView.swift in Sources */,
+				7A8B9C0D1E2F3A4B5C6D7E8F /* StatsView.swift in Sources */,
+				FF6A7B8C9D0E1F2A3B4C5D6E /* LearningViewModel.swift in Sources */,
+				AA7B8C9D0E1F2A3B4C5D6E7F /* WritingCanvasView.swift in Sources */,
+				BB8C9D0E1F2A3B4C5D6E7F8A /* CardPromptView.swift in Sources */,
+				CC9D0E1F2A3B4C5D6E7F8A9B /* ResultFeedbackView.swift in Sources */,
+				DD0E1F2A3B4C5D6E7F8A9B0C /* LearningView.swift in Sources */,
+				AA0B1C2D3E4F5A6B7C8D9E0F /* AIGenerator.swift in Sources */,
+				CC2D3E4F5A6B7C8D9E0F1A2B /* AIGenerateView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A4F7C90C0CF7FB2E5F962E1B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ACA4A9B01E0DAD3027A1CA31 /* AnkiAnna */;
+			targetProxy = 501925F256FE7B3768ECBC5B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		5E18681A9F7FCB0A87CE5B02 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ming.ankianna.AnkiAnna;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6463AFB680BD582667E6A16B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTS_XR_DESIGNED_FOR = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		6F88528639690CFFB685AD27 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ming.ankianna.AnkiAnna;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		9D923128E0E0E99E18D7EDCB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTS_XR_DESIGNED_FOR = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Release;
+		};
+		A3A8C618AB2EFFD8BAC00316 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ming.ankianna.AnkiAnnaTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AnkiAnna.app/AnkiAnna";
+			};
+			name = Debug;
+		};
+		B796D1D93293A4D761C82193 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ming.ankianna.AnkiAnnaTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AnkiAnna.app/AnkiAnna";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6A0FB8F0070EC54F80350F9D /* Build configuration list for PBXNativeTarget "AnkiAnna" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5E18681A9F7FCB0A87CE5B02 /* Debug */,
+				6F88528639690CFFB685AD27 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		BD92946ABD40B2C310AA6FB6 /* Build configuration list for PBXNativeTarget "AnkiAnnaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A3A8C618AB2EFFD8BAC00316 /* Debug */,
+				B796D1D93293A4D761C82193 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C59E36704FDB6ED6160BFEFD /* Build configuration list for PBXProject "AnkiAnna" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6463AFB680BD582667E6A16B /* Debug */,
+				9D923128E0E0E99E18D7EDCB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C9DE45BAA115135099F27E24 /* Project object */;
+}

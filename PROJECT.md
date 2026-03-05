@@ -5,7 +5,7 @@
 - Status: active
 - Path: ~/Projects/ankianna
 - Created: 2025-05-01
-- Last Updated: 2026-02-25
+- Last Updated: 2026-03-05
 
 ## 目标
 为 Anna 打造个性化的记忆卡片应用，基于间隔重复算法帮助高效记忆学习内容。
@@ -17,22 +17,33 @@
 
 ## 任务大纲
 1. [x] 项目初始化 — 创建目录和虚拟环境 (迁移前)
-2. [>] 核心功能开发 — 实现卡片系统和间隔重复
+2. [x] 需求分析与设计 — brainstorming + 设计文档
+3. [>] 核心功能开发 — SwiftUI iPad App
 
 ## NEXT: 核心功能开发
 
 ### 子任务
-- [ ] **设计数据模型** | 预估: 30min | 类型: design
-  - 所需: 需求确认（卡片内容类型）
-  - 产出: 数据模型设计
-- [ ] **实现基础卡片 UI** | 预估: 2h | 类型: feature
+- [ ] **Xcode 项目搭建** | 预估: 30min | 类型: setup
+  - 所需: 设计文档
+  - 产出: SwiftUI 项目骨架 + SwiftData 模型
+- [ ] **SM-2 间隔重复引擎** | 预估: 1h | 类型: feature
   - 所需: 数据模型
-  - 产出: 可翻转的卡片界面
-- [ ] **实现间隔重复算法** | 预估: 1h | 类型: feature
-  - 所需: SM-2 或类似算法
-  - 产出: 复习调度逻辑
+  - 产出: SM2Engine + 单元测试
+- [ ] **TTS 发音服务** | 预估: 30min | 类型: feature
+  - 所需: AVSpeechSynthesizer
+  - 产出: TTSService（中英文朗读）
+- [ ] **听写主界面** | 预估: 3h | 类型: feature
+  - 所需: 数据模型 + TTS
+  - 产出: PencilKit 书写 + Vision 手写识别 + 判定流程
+- [ ] **卡片管理** | 预估: 2h | 类型: feature
+  - 所需: 数据模型
+  - 产出: 手动添加 + AI 生成 + 卡片库浏览
+- [ ] **游戏化与统计** | 预估: 2h | 类型: feature
+  - 所需: 复习记录
+  - 产出: 积分、打卡日历、小恐龙吉祥物
 
 ## Log
+- 2026-03-05: 完成需求分析与设计，确定 SwiftUI iPad 原生方案，输出设计文档
 - 2026-02-25: 从 /Volumes/nvme1/code/ankianna/ 迁移到 GTD 系统（源目录仅有 venv）
 
 ## 操作指南
@@ -45,5 +56,7 @@
 
 ### 项目备忘
 - 源目录 /Volumes/nvme1/code/ankianna/ 仅含 venv，无实际代码
-- 项目处于早期阶段，需从头开发
-- 可能的技术栈: Python 或 Swift (iOS/iPad)
+- 技术栈确定: SwiftUI 原生 iPad App (iOS 17+)
+- 核心场景: 中文听写 + 英文拼写（听/看语境 → 手写 → 判定）
+- 设计文档: docs/plans/2026-03-05-ankianna-design.md
+- Apple Pencil 手写识别需真机测试，无法完全自动化

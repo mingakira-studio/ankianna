@@ -23,24 +23,64 @@
 ## NEXT: 核心功能开发
 
 ### 子任务
-- [ ] **Xcode 项目搭建** | 预估: 30min | 类型: setup
+- [ ] **Create Xcode Project Skeleton** | 预估: 10min | 类型: code
   - 所需: 设计文档
-  - 产出: SwiftUI 项目骨架 + SwiftData 模型
-- [ ] **SM-2 间隔重复引擎** | 预估: 1h | 类型: feature
-  - 所需: 数据模型
-  - 产出: SM2Engine + 单元测试
-- [ ] **TTS 发音服务** | 预估: 30min | 类型: feature
-  - 所需: AVSpeechSynthesizer
-  - 产出: TTSService（中英文朗读）
-- [ ] **听写主界面** | 预估: 3h | 类型: feature
-  - 所需: 数据模型 + TTS
-  - 产出: PencilKit 书写 + Vision 手写识别 + 判定流程
-- [ ] **卡片管理** | 预估: 2h | 类型: feature
-  - 所需: 数据模型
-  - 产出: 手动添加 + AI 生成 + 卡片库浏览
-- [ ] **游戏化与统计** | 预估: 2h | 类型: feature
-  - 所需: 复习记录
-  - 产出: 积分、打卡日历、小恐龙吉祥物
+  - 产出: AnkiAnnaApp.swift + ContentView.swift + AnkiAnna.xcodeproj
+  - 参考: docs/plans/2026-03-05-ankianna-implementation.md#task-1
+- [ ] **SwiftData Models** | 预估: 30min | 类型: code
+  - 所需: 项目骨架 (Task 1)
+  - 产出: Card/CardContext/ReviewRecord/DailySession/UserProfile + ModelTests
+  - 验证: `xcodebuild test -scheme AnkiAnna`
+  - 参考: docs/plans/2026-03-05-ankianna-implementation.md#task-2
+  - blockedBy: Create Xcode Project Skeleton
+- [ ] **SM-2 Spaced Repetition Engine** | 预估: 30min | 类型: code
+  - 所需: data models (Card.swift)
+  - 产出: SM2Engine.swift + SM2EngineTests.swift
+  - 验证: `xcodebuild test -scheme AnkiAnna`
+  - 参考: docs/plans/2026-03-05-ankianna-implementation.md#task-3
+  - blockedBy: SwiftData Models
+- [ ] **TTS Service** | 预估: 30min | 类型: code
+  - 所需: data models
+  - 产出: TTSService.swift + TTSServiceTests.swift
+  - 验证: `xcodebuild test -scheme AnkiAnna`
+  - 参考: docs/plans/2026-03-05-ankianna-implementation.md#task-4
+  - blockedBy: SwiftData Models
+- [ ] **Handwriting Recognition Service** | 预估: 30min | 类型: code
+  - 所需: data models
+  - 产出: HandwritingRecognizer.swift + HandwritingRecognizerTests.swift
+  - 验证: `xcodebuild test -scheme AnkiAnna`
+  - 参考: docs/plans/2026-03-05-ankianna-implementation.md#task-5
+  - blockedBy: SwiftData Models
+- [ ] **Learning View (Dictation UI)** | 预估: 1h | 类型: code
+  - 所需: SM2Engine + TTSService + HandwritingRecognizer
+  - 产出: LearningView + WritingCanvasView + CardPromptView + ResultFeedbackView + LearningViewModel
+  - 验证: `xcodebuild build -scheme AnkiAnna`
+  - 参考: docs/plans/2026-03-05-ankianna-implementation.md#task-6
+  - blockedBy: SM-2 Spaced Repetition Engine, TTS Service, Handwriting Recognition Service
+- [ ] **Card Management (Add + Library)** | 预估: 1h | 类型: code
+  - 所需: data models
+  - 产出: ManualAddCardView + AddCardView + CardLibraryView + CardDetailView
+  - 验证: `xcodebuild build -scheme AnkiAnna`
+  - 参考: docs/plans/2026-03-05-ankianna-implementation.md#task-7
+  - blockedBy: SwiftData Models
+- [ ] **AI Card Generation** | 预估: 30min | 类型: code
+  - 所需: AddCardView (Task 7)
+  - 产出: AIGenerator.swift + AIGenerateView.swift
+  - 验证: `xcodebuild build -scheme AnkiAnna`
+  - 参考: docs/plans/2026-03-05-ankianna-implementation.md#task-8
+  - blockedBy: Card Management (Add + Library)
+- [ ] **Stats View (Points, Badges, Calendar)** | 预估: 1h | 类型: code
+  - 所需: ReviewRecord model
+  - 产出: StatsView + StreakCalendarView + PointsService
+  - 验证: `xcodebuild test -scheme AnkiAnna`
+  - 参考: docs/plans/2026-03-05-ankianna-implementation.md#task-9
+  - blockedBy: SwiftData Models
+- [ ] **Integration & Polish** | 预估: 10min | 类型: code
+  - 所需: all views + services
+  - 产出: IntegrationTests.swift + first-launch setup
+  - 验证: `xcodebuild test -scheme AnkiAnna`
+  - 参考: docs/plans/2026-03-05-ankianna-implementation.md#task-10
+  - blockedBy: Learning View (Dictation UI), AI Card Generation, Stats View (Points, Badges, Calendar)
 
 ## Log
 - 2026-03-05: 完成需求分析与设计，确定 SwiftUI iPad 原生方案，输出设计文档
@@ -59,4 +99,5 @@
 - 技术栈确定: SwiftUI 原生 iPad App (iOS 17+)
 - 核心场景: 中文听写 + 英文拼写（听/看语境 → 手写 → 判定）
 - 设计文档: docs/plans/2026-03-05-ankianna-design.md
+- 实施计划: docs/plans/2026-03-05-ankianna-implementation.md
 - Apple Pencil 手写识别需真机测试，无法完全自动化

@@ -1,6 +1,10 @@
 # Anna 记忆卡片 App - 操作日志
 
 ## 2026-03-06
+- 15:32 [project-next] 完成「核心功能开发」, 设置 NEXT=功能迭代, 生成 4 个子任务
+  - [决策] 手写识别 Vision → ML Kit Digital Ink（Vision 对单字返回 0 obs）
+  - [决策] AI 模型 Anthropic → qwen-plus（成本/可用性）
+  - [决策] Canvas pencilOnly → anyInput（支持手指）
 - [adhoc] 课本选课功能 + AI 生成优化 + Canvas 输入方式调整
   - 新增 TextbookDataProvider：课本课文数据加载（二年级上/下册 JSON）
   - ManualAddCardView 重构：新增"课本选课"模式，选课后批量 AI 生成卡片

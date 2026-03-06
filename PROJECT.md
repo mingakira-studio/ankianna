@@ -18,60 +18,30 @@
 ## 任务大纲
 1. [x] 项目初始化 — 创建目录和虚拟环境 (迁移前)
 2. [x] 需求分析与设计 — brainstorming + 设计文档
-3. [>] 核心功能开发 — SwiftUI iPad App
+3. [x] 核心功能开发 — SwiftUI iPad App (2026-03-05)
+4. [>] 功能迭代 — 英语键盘输入、题库系统、卡片编辑、游戏化
 
-## NEXT: 核心功能开发
+## NEXT: 功能迭代
 
 ### 子任务
-- [x] **Create Xcode Project Skeleton** | 预估: 10min | 类型: code (2026-03-05)
-  - 所需: 设计文档
-  - 产出: AnkiAnnaApp.swift + ContentView.swift + AnkiAnna.xcodeproj
-  - 参考: docs/plans/2026-03-05-ankianna-implementation.md#task-1
-- [x] **SwiftData Models** | 预估: 30min | 类型: code (2026-03-05)
-  - 所需: 项目骨架 (Task 1)
-  - 产出: Card/CardContext/ReviewRecord/DailySession/UserProfile + ModelTests
-  - 验证: `xcodebuild test -scheme AnkiAnna`
-  - 参考: docs/plans/2026-03-05-ankianna-implementation.md#task-2
-- [x] **SM-2 Spaced Repetition Engine** | 预估: 30min | 类型: code (2026-03-05)
-  - 所需: data models (Card.swift)
-  - 产出: SM2Engine.swift + SM2EngineTests.swift
-  - 验证: `xcodebuild test -scheme AnkiAnna`
-  - 参考: docs/plans/2026-03-05-ankianna-implementation.md#task-3
-- [x] **TTS Service** | 预估: 30min | 类型: code (2026-03-05)
-  - 所需: data models
-  - 产出: TTSService.swift + TTSServiceTests.swift
-  - 验证: `xcodebuild test -scheme AnkiAnna`
-  - 参考: docs/plans/2026-03-05-ankianna-implementation.md#task-4
-- [x] **Handwriting Recognition Service** | 预估: 30min | 类型: code (2026-03-05)
-  - 所需: data models
-  - 产出: HandwritingRecognizer.swift + HandwritingRecognizerTests.swift
-  - 验证: `xcodebuild test -scheme AnkiAnna`
-  - 参考: docs/plans/2026-03-05-ankianna-implementation.md#task-5
-- [x] **Learning View (Dictation UI)** | 预估: 1h | 类型: code (2026-03-05)
-  - 所需: SM2Engine + TTSService + HandwritingRecognizer
-  - 产出: LearningView + WritingCanvasView + CardPromptView + ResultFeedbackView + LearningViewModel
-  - 验证: `xcodebuild build -scheme AnkiAnna`
-  - 参考: docs/plans/2026-03-05-ankianna-implementation.md#task-6
-- [x] **Card Management (Add + Library)** | 预估: 1h | 类型: code (2026-03-05)
-  - 所需: data models
-  - 产出: ManualAddCardView + AddCardView + CardLibraryView + CardDetailView
-  - 验证: `xcodebuild build -scheme AnkiAnna`
-  - 参考: docs/plans/2026-03-05-ankianna-implementation.md#task-7
-- [x] **AI Card Generation** | 预估: 30min | 类型: code (2026-03-05)
-  - 所需: AddCardView (Task 7)
-  - 产出: AIGenerator.swift + AIGenerateView.swift
-  - 验证: `xcodebuild build -scheme AnkiAnna`
-  - 参考: docs/plans/2026-03-05-ankianna-implementation.md#task-8
-- [x] **Stats View (Points, Badges, Calendar)** | 预估: 1h | 类型: code (2026-03-05)
-  - 所需: ReviewRecord model
-  - 产出: StatsView + StreakCalendarView + PointsService
-  - 验证: `xcodebuild test -scheme AnkiAnna`
-  - 参考: docs/plans/2026-03-05-ankianna-implementation.md#task-9
-- [x] **Integration & Polish** | 预估: 10min | 类型: code (2026-03-05)
-  - 所需: all views + services
-  - 产出: IntegrationTests.swift + first-launch setup
-  - 验证: `xcodebuild test -scheme AnkiAnna`
-  - 参考: docs/plans/2026-03-05-ankianna-implementation.md#task-10
+- [ ] **英语拼写改键盘输入** | 类型: code
+  - 英语拼写卡不再用手写，改为键盘输入
+  - 拼写错误的字母标红显示（逐字对比）
+  - 中文卡保持手写不变
+- [ ] **1-5 年级语文题库** | 类型: code
+  - 下载 1-5 年级语文课本，整理为 JSON（沿用现有 TextbookDataProvider 格式）
+  - 内置默认题库，用户可浏览年级/课文/生字
+  - 添加卡片三入口：手动、AI 生成、题库直选
+  - 题库中可勾选生字直接加入复习列表
+- [ ] **卡片及语境可编辑** | 类型: code
+  - 支持修改已有卡片的语境（例句/例词）
+  - CardDetailView 加编辑模式
+  - 可增删语境条目
+- [ ] **界面游戏化** | 类型: code
+  - 吉祥物动画/表情反馈（答对/答错）
+  - 连续正确 combo 特效
+  - 积分/徽章展示优化
+  - 学习进度可视化增强
 
 ## Log
 - 2026-03-06: 课本选课功能（TextbookDataProvider + 并发AI生成）、模型换 qwen-plus、Canvas 改 anyInput、手写识别优化
@@ -94,3 +64,6 @@
 - 设计文档: docs/plans/2026-03-05-ankianna-design.md
 - 实施计划: docs/plans/2026-03-05-ankianna-implementation.md
 - Apple Pencil 手写识别需真机测试，无法完全自动化
+- [决策] 2026-03-06: 手写识别引擎替换 — 原方案: Vision VNRecognizeTextRequest → 新方案: Google ML Kit Digital Ink Recognition（原因: Vision 对单个手写汉字返回 0 observations，穷尽调参无效）
+- [决策] 2026-03-06: AI 模型切换 — 原方案: Anthropic Claude API → 新方案: 阿里 qwen-plus OpenAI 兼容格式（原因: 成本和可用性）
+- [决策] 2026-03-06: Canvas 输入方式 — 原方案: pencilOnly → 新方案: anyInput（原因: 支持手指输入便于调试和非 Pencil 场景）

@@ -3,6 +3,7 @@ import SwiftUI
 struct ResultFeedbackView: View {
     let isCorrect: Bool
     let correctAnswer: String
+    var charResults: [SpellingChecker.CharResult]? = nil
     let onNext: () -> Void
     let onRetry: () -> Void
 
@@ -18,6 +19,20 @@ struct ResultFeedbackView: View {
                 Image(systemName: "xmark.circle.fill")
                     .font(.system(size: 80))
                     .foregroundStyle(.red)
+
+                // Per-character feedback for English spelling
+                if let charResults = charResults {
+                    Text("你的拼写")
+                        .font(.headline)
+                    HStack(spacing: 2) {
+                        ForEach(Array(charResults.enumerated()), id: \.offset) { _, result in
+                            Text(String(result.character))
+                                .font(.system(size: 36, weight: .bold, design: .monospaced))
+                                .foregroundStyle(result.isCorrect ? .green : .red)
+                        }
+                    }
+                }
+
                 Text("正确答案")
                     .font(.headline)
                 Text(correctAnswer)

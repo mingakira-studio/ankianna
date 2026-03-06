@@ -21,21 +21,55 @@ enum TextbookDataProvider {
         let words: [String]
     }
 
-    enum Semester: String {
-        case upper = "textbook_grade2_upper"
-        case lower = "textbook_grade2_lower"
+    // MARK: - Grade enum
+
+    enum Grade: Int, CaseIterable, Codable {
+        case grade1 = 1, grade2, grade3, grade4, grade5
 
         var displayName: String {
             switch self {
-            case .upper: return "二年级上册"
-            case .lower: return "二年级下册"
+            case .grade1: return "一年级"
+            case .grade2: return "二年级"
+            case .grade3: return "三年级"
+            case .grade4: return "四年级"
+            case .grade5: return "五年级"
             }
         }
     }
 
-    /// Load all lessons from a semester
-    static func loadLessons(semester: Semester) -> [TextbookLesson] {
-        guard let url = Bundle.main.url(forResource: semester.rawValue, withExtension: "json"),
+    // MARK: - Semester enum
+
+    enum Semester: String, CaseIterable, Codable {
+        case upper
+        case lower
+
+        var displayName: String {
+            switch self {
+            case .upper: return "上册"
+            case .lower: return "下册"
+            }
+        }
+    }
+
+    // MARK: - Resource naming
+
+    /// Build the JSON resource name for a given grade and semester
+    static func resourceName(grade: Grade, semester: Semester) -> String {
+        "textbook_grade\(grade.rawValue)_\(semester.rawValue)"
+    }
+
+    /// Human-readable display name combining grade and semester
+    static func semesterDisplayName(grade: Grade, semester: Semester) -> String {
+        let semesterSuffix = semester == .upper ? "上册" : "下册"
+        return "\(grade.displayName)\(semesterSuffix)"
+    }
+
+    // MARK: - Loading
+
+    /// Load all lessons for a specific grade and semester
+    static func loadLessons(grade: Grade, semester: Semester) -> [TextbookLesson] {
+        let name = resourceName(grade: grade, semester: semester)
+        guard let url = Bundle.main.url(forResource: name, withExtension: "json"),
               let data = try? Data(contentsOf: url),
               let lessons = try? JSONDecoder().decode([TextbookLesson].self, from: data) else {
             return []
@@ -43,23 +77,28 @@ enum TextbookDataProvider {
         return lessons
     }
 
+    /// Backward-compatible: load lessons for grade 2 (existing callers)
+    static func loadLessons(semester: Semester) -> [TextbookLesson] {
+        loadLessons(grade: .grade2, semester: semester)
+    }
+
+    // MARK: - Context
+
     /// Find textbook words and their phrases for given target characters.
     /// Returns a context string suitable for injection into AI prompts.
-    static func contextForWords(_ words: [String], semester: Semester? = nil) -> String {
-        let semesters: [Semester] = semester.map { [$0] } ?? [.upper, .lower]
+    static func contextForWords(_ words: [String], grade: Grade, semester: Semester) -> String {
+        let lessons = loadLessons(grade: grade, semester: semester)
         var matches: [(char: String, lesson: String, words: [String])] = []
+        let displayName = semesterDisplayName(grade: grade, semester: semester)
 
-        for sem in semesters {
-            let lessons = loadLessons(semester: sem)
-            for lesson in lessons {
-                for char in lesson.characters {
-                    if words.contains(char.char) {
-                        matches.append((
-                            char: char.char,
-                            lesson: "\(sem.displayName) \(lesson.title)",
-                            words: char.words
-                        ))
-                    }
+        for lesson in lessons {
+            for char in lesson.characters {
+                if words.contains(char.char) {
+                    matches.append((
+                        char: char.char,
+                        lesson: "\(displayName) \(lesson.title)",
+                        words: char.words
+                    ))
                 }
             }
         }
@@ -68,6 +107,40 @@ enum TextbookDataProvider {
 
         var lines: [String] = ["以下是课本中这些字的组词参考："]
         for match in matches {
+            lines.append("- \(match.char)（\(match.lesson)）：\(match.words.joined(separator: "、"))")
+        }
+        return lines.joined(separator: "\n")
+    }
+
+    /// Backward-compatible: search across all grades and semesters
+    static func contextForWords(_ words: [String], semester: Semester? = nil) -> String {
+        var allMatches: [(char: String, lesson: String, words: [String])] = []
+
+        let grades = Grade.allCases
+        let semesters: [Semester] = semester.map { [$0] } ?? Semester.allCases
+
+        for grade in grades {
+            for sem in semesters {
+                let lessons = loadLessons(grade: grade, semester: sem)
+                let displayName = semesterDisplayName(grade: grade, semester: sem)
+                for lesson in lessons {
+                    for char in lesson.characters {
+                        if words.contains(char.char) {
+                            allMatches.append((
+                                char: char.char,
+                                lesson: "\(displayName) \(lesson.title)",
+                                words: char.words
+                            ))
+                        }
+                    }
+                }
+            }
+        }
+
+        guard !allMatches.isEmpty else { return "" }
+
+        var lines: [String] = ["以下是课本中这些字的组词参考："]
+        for match in allMatches {
             lines.append("- \(match.char)（\(match.lesson)）：\(match.words.joined(separator: "、"))")
         }
         return lines.joined(separator: "\n")
@@ -90,14 +163,16 @@ enum TextbookDataProvider {
         }
     }
 
-    /// Get all unique characters across both semesters
+    /// Get all unique characters across all grades and semesters
     static func allCharacters() -> [String] {
         var chars: [String] = []
-        for sem in [Semester.upper, .lower] {
-            for lesson in loadLessons(semester: sem) {
-                for char in lesson.characters {
-                    if !chars.contains(char.char) {
-                        chars.append(char.char)
+        for grade in Grade.allCases {
+            for sem in Semester.allCases {
+                for lesson in loadLessons(grade: grade, semester: sem) {
+                    for char in lesson.characters {
+                        if !chars.contains(char.char) {
+                            chars.append(char.char)
+                        }
                     }
                 }
             }

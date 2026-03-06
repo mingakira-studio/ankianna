@@ -24,6 +24,10 @@ final class Card {
     var source: CardSource
     var createdAt: Date
 
+    var canDeleteContext: Bool {
+        contexts.count > 1
+    }
+
     init(
         type: CardType,
         answer: String,

@@ -20,6 +20,7 @@ struct ManualAddCardView: View {
     @State private var errorMessage: String?
 
     // Textbook mode state
+    @State private var selectedGrade: TextbookDataProvider.Grade = .grade2
     @State private var selectedSemester: TextbookDataProvider.Semester = .upper
     @State private var selectedLessonIndex: Int = 0
     @State private var lessons: [TextbookDataProvider.TextbookLesson] = []
@@ -84,6 +85,9 @@ struct ManualAddCardView: View {
             }
         }
         .navigationTitle("手动添加")
+        .onChange(of: selectedGrade) {
+            loadLessons()
+        }
         .onChange(of: selectedSemester) {
             loadLessons()
         }
@@ -132,9 +136,17 @@ struct ManualAddCardView: View {
     @ViewBuilder
     private var textbookInputSections: some View {
         Section("选择课文") {
+            Picker("年级", selection: $selectedGrade) {
+                ForEach(TextbookDataProvider.Grade.allCases, id: \.self) { grade in
+                    Text(grade.displayName).tag(grade)
+                }
+            }
+
             Picker("学期", selection: $selectedSemester) {
-                Text("二年级上册").tag(TextbookDataProvider.Semester.upper)
-                Text("二年级下册").tag(TextbookDataProvider.Semester.lower)
+                ForEach(TextbookDataProvider.Semester.allCases, id: \.self) { semester in
+                    Text(TextbookDataProvider.semesterDisplayName(grade: selectedGrade, semester: semester))
+                        .tag(semester)
+                }
             }
 
             if !lessons.isEmpty {
@@ -183,7 +195,7 @@ struct ManualAddCardView: View {
     }
 
     private func loadLessons() {
-        lessons = TextbookDataProvider.loadLessons(semester: selectedSemester)
+        lessons = TextbookDataProvider.loadLessons(grade: selectedGrade, semester: selectedSemester)
         selectedLessonIndex = 0
         // Clear previous results when switching
         generatedCards = []
@@ -230,7 +242,7 @@ struct ManualAddCardView: View {
         let isTextbook = inputMode == .textbook
         let tagList: [String]
         if isTextbook, let lesson = currentLesson {
-            tagList = [selectedSemester.displayName, lesson.displayLabel]
+            tagList = [TextbookDataProvider.semesterDisplayName(grade: selectedGrade, semester: selectedSemester), lesson.displayLabel]
         } else {
             tagList = tags.split(separator: ",").map { String($0).trimmingCharacters(in: .whitespaces) }
         }

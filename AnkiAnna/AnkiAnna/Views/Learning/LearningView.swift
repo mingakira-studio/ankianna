@@ -8,6 +8,7 @@ struct LearningView: View {
     @Query private var profiles: [UserProfile]
     @State private var viewModel = LearningViewModel()
     @State private var drawing = PKDrawing()
+    @State private var typedAnswer: String = ""
 
     private var profile: UserProfile? { profiles.first }
 
@@ -60,16 +61,35 @@ struct LearningView: View {
                     ResultFeedbackView(
                         isCorrect: viewModel.isCorrect,
                         correctAnswer: card.answer,
+                        charResults: card.type == .englishSpelling ? viewModel.charResults : nil,
                         onNext: {
                             drawing = PKDrawing()
+                            typedAnswer = ""
                             viewModel.next()
                         },
                         onRetry: {
                             drawing = PKDrawing()
+                            typedAnswer = ""
                             viewModel.retry()
                         }
                     )
+                } else if card.type == .englishSpelling {
+                    // Keyboard input for English spelling
+                    TextField("输入拼写...", text: $typedAnswer)
+                        .textFieldStyle(.roundedBorder)
+                        .font(.system(size: 32))
+                        .autocorrectionDisabled()
+                        .textInputAutocapitalization(.never)
+                        .padding()
+
+                    Button("提交") {
+                        viewModel.submitTypedAnswer(typed: typedAnswer, modelContext: modelContext, profile: profile)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.large)
+                    .padding(.bottom)
                 } else {
+                    // Handwriting input for Chinese cards
                     WritingCanvasView(drawing: $drawing)
                         .background(
                             RoundedRectangle(cornerRadius: 16)

@@ -3,4 +3,8 @@ platform :ios, '17.0'
 target 'AnkiAnna' do
   use_frameworks!
   pod 'GoogleMLKit/DigitalInkRecognition', '~> 8.0'
+
+  target 'AnkiAnnaTests' do
+    inherit! :search_paths
+  end
 end

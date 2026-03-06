@@ -8,11 +8,14 @@ struct AIGenerateView: View {
     @State private var cardType: CardType = .chineseWriting
     @State private var grade = "二年级"
     @State private var topic = ""
+    @State private var endpoint = ""
     @State private var apiKey = ""
+    @State private var model = ""
     @State private var isLoading = false
     @State private var generatedCards: [AIGenerator.GeneratedCard] = []
     @State private var selectedIndices: Set<Int> = []
     @State private var errorMessage: String?
+    @State private var showSettings = false
 
     let grades = ["一年级", "二年级", "三年级", "四年级", "五年级", "六年级"]
 
@@ -32,13 +35,17 @@ struct AIGenerateView: View {
                 TextField("主题/单元（如：动物、第三课）", text: $topic)
             }
 
-            if apiKey.isEmpty {
-                Section("API Key") {
-                    SecureField("Anthropic API Key", text: $apiKey)
-                    Button("保存 Key") {
-                        AIGenerator.saveAPIKey(apiKey)
+            Section {
+                DisclosureGroup("API 设置", isExpanded: $showSettings) {
+                    TextField("API 地址", text: $endpoint, prompt: Text(AIGenerator.defaultEndpoint))
+                    SecureField("API Key", text: $apiKey)
+                    TextField("模型", text: $model, prompt: Text(AIGenerator.defaultModel))
+                    Button("保存设置") {
+                        if !apiKey.isEmpty { AIGenerator.saveAPIKey(apiKey) }
+                        if !endpoint.isEmpty { AIGenerator.saveEndpoint(endpoint) }
+                        if !model.isEmpty { AIGenerator.saveModel(model) }
+                        showSettings = false
                     }
-                    .disabled(apiKey.isEmpty)
                 }
             }
 
@@ -90,6 +97,8 @@ struct AIGenerateView: View {
         .navigationTitle("AI 生成")
         .onAppear {
             apiKey = AIGenerator.loadAPIKey() ?? ""
+            endpoint = AIGenerator.loadEndpoint() ?? ""
+            model = AIGenerator.loadModel() ?? ""
         }
     }
 
@@ -97,11 +106,15 @@ struct AIGenerateView: View {
         isLoading = true
         errorMessage = nil
         do {
-            let key = apiKey.isEmpty ? (AIGenerator.loadAPIKey() ?? "") : apiKey
+            let key = apiKey.isEmpty ? (AIGenerator.loadAPIKey() ?? AIGenerator.defaultAPIKey) : apiKey
+            guard !key.isEmpty else { throw AIGenerator.GeneratorError.noAPIKey }
+            let ep = endpoint.isEmpty ? (AIGenerator.loadEndpoint() ?? AIGenerator.defaultEndpoint) : endpoint
+            let md = model.isEmpty ? (AIGenerator.loadModel() ?? AIGenerator.defaultModel) : model
+            let config = AIGenerator.APIConfig(endpoint: ep, apiKey: key, model: md)
             generatedCards = try await AIGenerator.generateCards(
-                subject: cardType, grade: grade, topic: topic, apiKey: key
+                subject: cardType, grade: grade, topic: topic, config: config
             )
-            selectedIndices = Set(generatedCards.indices) // Select all by default
+            selectedIndices = Set(generatedCards.indices)
         } catch {
             errorMessage = "生成失败: \(error.localizedDescription)"
         }

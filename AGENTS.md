@@ -10,7 +10,7 @@
 - Swift / SwiftUI (iOS 17+, iPad)
 - SwiftData (本地持久化)
 - PencilKit (Apple Pencil 手写输入)
-- Vision framework (手写识别)
+- Google ML Kit Digital Ink Recognition (手写识别)
 - AVSpeechSynthesizer (TTS)
 - XCTest (测试)
 
@@ -27,5 +27,8 @@
 - 儿童友好的 UI 设计（小恐龙/龙/粉虫吉祥物）
 - 数据本地存储 (SwiftData)
 - TDD: 先写测试再实现
-- 测试命令: `xcodebuild test -scheme AnkiAnna`
-- 构建命令: `xcodebuild build -scheme AnkiAnna`
+- 依赖管理: CocoaPods (`AnkiAnna/Podfile`)
+- 构建必须使用 xcworkspace（不是 xcodeproj）
+- 测试命令: `xcodebuild test -workspace AnkiAnna.xcworkspace -scheme AnkiAnna`
+- 构建命令: `xcodebuild build -workspace AnkiAnna.xcworkspace -scheme AnkiAnna`
+- 真机部署: `xcodebuild clean build -workspace AnkiAnna.xcworkspace -scheme AnkiAnna -destination 'platform=iOS,name=盛明的iPad' -allowProvisioningUpdates`

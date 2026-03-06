@@ -9,6 +9,7 @@ enum CardType: String, Codable {
 enum CardSource: String, Codable {
     case manual
     case aiGenerated
+    case textbook
 }
 
 @Model

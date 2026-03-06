@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,33 +11,37 @@
 		20830D56FED9C2C35C763717 /* AnkiAnnaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D35344CDB93A204CA7CBD8 /* AnkiAnnaTests.swift */; };
 		22B7EE5A824593450D25FF75 /* SM2EngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F833511A10A25B7D26B5A25 /* SM2EngineTests.swift */; };
 		4647C8C774A95333EEAD46BA /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2600A0B9CABFD508C1F0055A /* ModelTests.swift */; };
+		530192DB8C86350DA339B40B /* Pods_AnkiAnna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9F1C3FB7E3459311F538A67 /* Pods_AnkiAnna.framework */; };
 		55C35DC1141C8B2DB785B2BA /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846717C9766B879CB908CFB2 /* Card.swift */; };
 		5E66FEE695E81A59F160C9D4 /* AnkiAnnaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A225EB7005EEB2DE0653A5 /* AnkiAnnaApp.swift */; };
-		713CCE2BCA70CC7C9152BE42 /* DailySession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664E74B17927FF6135856C91 /* DailySession.swift */; };
-		9E528379A55871B7112556E0 /* TTSService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD626B345D9A023DF1934A2 /* TTSService.swift */; };
-		ACA33FE7CA8F2AD58F92DDF2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D58E6FEB619B9BE59B8D2FC /* ContentView.swift */; };
-		CDCAE78043D07782D1A02A1B /* CardContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A504A99F3A410B8068D5C2 /* CardContext.swift */; };
-		D30C62A311DFD5C3F6974696 /* TTSServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE88DED8995DAD67B8FBEE1 /* TTSServiceTests.swift */; };
-		E2582D8F56F4C79FDCA243EF /* SM2Engine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29A2961958B3248AF15AC72 /* SM2Engine.swift */; };
-		BB9F3A4C7D8E21F09A5B6C7D /* HandwritingRecognizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC8E2B3D6C7F10E08A4B5C6D /* HandwritingRecognizerTests.swift */; };
-		DD7D1A2E5B6C0FD09A3B4C5D /* HandwritingRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C09FD4A5B0EC08A2B3C4D /* HandwritingRecognizer.swift */; };
-		E5F6A7B8C9D0E1F2A3B4C5D6 /* ManualAddCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E1F2 /* ManualAddCardView.swift */; };
-		F6A7B8C9D0E1F2A3B4C5D6E7 /* AddCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6A7B8C9D0E1F2A3 /* AddCardView.swift */; };
-		A7B8C9D0E1F2A3B4C5D6E7F8 /* CardLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D4E5F6A7B8C9D0E1F2A3B4 /* CardLibraryView.swift */; };
-		B8C9D0E1F2A3B4C5D6E7F8A9 /* CardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5F6A7B8C9D0E1F2A3B4C5 /* CardDetailView.swift */; };
-		FCBD72DF67C8BD7A53A8E10D /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8C8F624B0D67EAA9B114C7 /* UserProfile.swift */; };
 		5E6F7A8B9C0D1E2F3A4B5C6D /* PointsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F7A8B9C0D1E2F /* PointsService.swift */; };
 		6F7A8B9C0D1E2F3A4B5C6D7E /* StreakCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3C4D5E6F7A8B9C0D1E2F3A /* StreakCalendarView.swift */; };
+		713CCE2BCA70CC7C9152BE42 /* DailySession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664E74B17927FF6135856C91 /* DailySession.swift */; };
 		7A8B9C0D1E2F3A4B5C6D7E8F /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4D5E6F7A8B9C0D1E2F3A4B /* StatsView.swift */; };
 		8B9C0D1E2F3A4B5C6D7E8F9A /* PointsServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5E6F7A8B9C0D1E2F3A4B5C /* PointsServiceTests.swift */; };
-		FF6A7B8C9D0E1F2A3B4C5D6E /* LearningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B2C3D4E5F6A7B8C9D0E1F /* LearningViewModel.swift */; };
-		AA7B8C9D0E1F2A3B4C5D6E7F /* WritingCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2C3D4E5F6A7B8C9D0E1F2A /* WritingCanvasView.swift */; };
-		BB8C9D0E1F2A3B4C5D6E7F8A /* CardPromptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3D4E5F6A7B8C9D0E1F2A3B /* CardPromptView.swift */; };
-		CC9D0E1F2A3B4C5D6E7F8A9B /* ResultFeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4E5F6A7B8C9D0E1F2A3B4C /* ResultFeedbackView.swift */; };
-		DD0E1F2A3B4C5D6E7F8A9B0C /* LearningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5F6A7B8C9D0E1F2A3B4C5D /* LearningView.swift */; };
-		AA0B1C2D3E4F5A6B7C8D9E0F /* AIGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0A1B2C3D4E5F607B8C9D0E /* AIGenerator.swift */; };
-		CC2D3E4F5A6B7C8D9E0F1A2B /* AIGenerateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1C2D3E4F5A6B7C8D9E0F1A /* AIGenerateView.swift */; };
+		9E528379A55871B7112556E0 /* TTSService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD626B345D9A023DF1934A2 /* TTSService.swift */; };
 		A1B2C3D4E5F6A7B8C9D0E1F3 /* IntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6A7B8C9D0E1F3A4 /* IntegrationTests.swift */; };
+		A2B3C4D5E6F7A8B9C0D1E2F4 /* textbook_grade2_lower.json in Resources */ = {isa = PBXBuildFile; fileRef = B3C4D5E6F7A8B9C0D1E2F3A5 /* textbook_grade2_lower.json */; };
+		A7B8C9D0E1F2A3B4C5D6E7F8 /* CardLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D4E5F6A7B8C9D0E1F2A3B4 /* CardLibraryView.swift */; };
+		AA0B1C2D3E4F5A6B7C8D9E0F /* AIGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0A1B2C3D4E5F607B8C9D0E /* AIGenerator.swift */; };
+		AA7B8C9D0E1F2A3B4C5D6E7F /* WritingCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2C3D4E5F6A7B8C9D0E1F2A /* WritingCanvasView.swift */; };
+		ACA33FE7CA8F2AD58F92DDF2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D58E6FEB619B9BE59B8D2FC /* ContentView.swift */; };
+		B8C9D0E1F2A3B4C5D6E7F8A9 /* CardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5F6A7B8C9D0E1F2A3B4C5 /* CardDetailView.swift */; };
+		BB8C9D0E1F2A3B4C5D6E7F8A /* CardPromptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3D4E5F6A7B8C9D0E1F2A3B /* CardPromptView.swift */; };
+		BB9F3A4C7D8E21F09A5B6C7D /* HandwritingRecognizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC8E2B3D6C7F10E08A4B5C6D /* HandwritingRecognizerTests.swift */; };
+		CC2D3E4F5A6B7C8D9E0F1A2B /* AIGenerateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1C2D3E4F5A6B7C8D9E0F1A /* AIGenerateView.swift */; };
+		CC9D0E1F2A3B4C5D6E7F8A9B /* ResultFeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4E5F6A7B8C9D0E1F2A3B4C /* ResultFeedbackView.swift */; };
+		CDCAE78043D07782D1A02A1B /* CardContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A504A99F3A410B8068D5C2 /* CardContext.swift */; };
+		D30C62A311DFD5C3F6974696 /* TTSServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE88DED8995DAD67B8FBEE1 /* TTSServiceTests.swift */; };
+		D56A4DEE04C940C1B5174118 /* TextbookDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1593D93F25403A93A21960 /* TextbookDataProvider.swift */; };
+		DB550CD1700F46299047BFA1 /* textbook_grade2_upper.json in Resources */ = {isa = PBXBuildFile; fileRef = 7DBDBB45CEE64E598163B01E /* textbook_grade2_upper.json */; };
+		DD0E1F2A3B4C5D6E7F8A9B0C /* LearningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5F6A7B8C9D0E1F2A3B4C5D /* LearningView.swift */; };
+		DD7D1A2E5B6C0FD09A3B4C5D /* HandwritingRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C09FD4A5B0EC08A2B3C4D /* HandwritingRecognizer.swift */; };
+		E2582D8F56F4C79FDCA243EF /* SM2Engine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29A2961958B3248AF15AC72 /* SM2Engine.swift */; };
+		E5F6A7B8C9D0E1F2A3B4C5D6 /* ManualAddCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E1F2 /* ManualAddCardView.swift */; };
+		F6A7B8C9D0E1F2A3B4C5D6E7 /* AddCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E5F6A7B8C9D0E1F2A3 /* AddCardView.swift */; };
+		FCBD72DF67C8BD7A53A8E10D /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8C8F624B0D67EAA9B114C7 /* UserProfile.swift */; };
+		FF6A7B8C9D0E1F2A3B4C5D6E /* LearningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B2C3D4E5F6A7B8C9D0E1F /* LearningViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,40 +55,57 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		021FA91BD56857F67DFB8283 /* Pods-AnkiAnna.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnkiAnna.release.xcconfig"; path = "Target Support Files/Pods-AnkiAnna/Pods-AnkiAnna.release.xcconfig"; sourceTree = "<group>"; };
 		15D35344CDB93A204CA7CBD8 /* AnkiAnnaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnkiAnnaTests.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F7A8B9C0D1E2F /* PointsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsService.swift; sourceTree = "<group>"; };
 		2600A0B9CABFD508C1F0055A /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
 		2AD626B345D9A023DF1934A2 /* TTSService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTSService.swift; sourceTree = "<group>"; };
+		2B3C4D5E6F7A8B9C0D1E2F3A /* StreakCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCalendarView.swift; sourceTree = "<group>"; };
 		3AF401FED0B8846B0F416A3B /* ReviewRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewRecord.swift; sourceTree = "<group>"; };
+		3C4D5E6F7A8B9C0D1E2F3A4B /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		3FE88DED8995DAD67B8FBEE1 /* TTSServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTSServiceTests.swift; sourceTree = "<group>"; };
-		CC8E2B3D6C7F10E08A4B5C6D /* HandwritingRecognizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandwritingRecognizerTests.swift; sourceTree = "<group>"; };
-		EE6C09FD4A5B0EC08A2B3C4D /* HandwritingRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandwritingRecognizer.swift; sourceTree = "<group>"; };
+		4D5E6F7A8B9C0D1E2F3A4B5C /* PointsServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsServiceTests.swift; sourceTree = "<group>"; };
 		664E74B17927FF6135856C91 /* DailySession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySession.swift; sourceTree = "<group>"; };
 		6F833511A10A25B7D26B5A25 /* SM2EngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SM2EngineTests.swift; sourceTree = "<group>"; };
 		7C8C8F624B0D67EAA9B114C7 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		7D58E6FEB619B9BE59B8D2FC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		8007726F88F19791B909DB8F /* AnkiAnna.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = AnkiAnna.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DBDBB45CEE64E598163B01E /* textbook_grade2_upper.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = textbook_grade2_upper.json; sourceTree = "<group>"; };
+		8007726F88F19791B909DB8F /* AnkiAnna.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnkiAnna.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		846717C9766B879CB908CFB2 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
-		B29A2961958B3248AF15AC72 /* SM2Engine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SM2Engine.swift; sourceTree = "<group>"; };
-		D6A225EB7005EEB2DE0653A5 /* AnkiAnnaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnkiAnnaApp.swift; sourceTree = "<group>"; };
-		E28608525112E217B1E21564 /* AnkiAnnaTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = AnkiAnnaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F7A504A99F3A410B8068D5C2 /* CardContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardContext.swift; sourceTree = "<group>"; };
+		9E1593D93F25403A93A21960 /* TextbookDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextbookDataProvider.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F6A7B8C9D0E1F2 /* ManualAddCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualAddCardView.swift; sourceTree = "<group>"; };
-		B2C3D4E5F6A7B8C9D0E1F2A3 /* AddCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardView.swift; sourceTree = "<group>"; };
-		C3D4E5F6A7B8C9D0E1F2A3B4 /* CardLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardLibraryView.swift; sourceTree = "<group>"; };
-		D4E5F6A7B8C9D0E1F2A3B4C5 /* CardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailView.swift; sourceTree = "<group>"; };
-		1A2B3C4D5E6F7A8B9C0D1E2F /* PointsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsService.swift; sourceTree = "<group>"; };
-		2B3C4D5E6F7A8B9C0D1E2F3A /* StreakCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCalendarView.swift; sourceTree = "<group>"; };
-		3C4D5E6F7A8B9C0D1E2F3A4B /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
-		4D5E6F7A8B9C0D1E2F3A4B5C /* PointsServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsServiceTests.swift; sourceTree = "<group>"; };
 		AA1B2C3D4E5F6A7B8C9D0E1F /* LearningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningViewModel.swift; sourceTree = "<group>"; };
-		BB2C3D4E5F6A7B8C9D0E1F2A /* WritingCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingCanvasView.swift; sourceTree = "<group>"; };
-		CC3D4E5F6A7B8C9D0E1F2A3B /* CardPromptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPromptView.swift; sourceTree = "<group>"; };
-		DD4E5F6A7B8C9D0E1F2A3B4C /* ResultFeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultFeedbackView.swift; sourceTree = "<group>"; };
-		EE5F6A7B8C9D0E1F2A3B4C5D /* LearningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningView.swift; sourceTree = "<group>"; };
-		FF0A1B2C3D4E5F607B8C9D0E /* AIGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIGenerator.swift; sourceTree = "<group>"; };
-		BB1C2D3E4F5A6B7C8D9E0F1A /* AIGenerateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIGenerateView.swift; sourceTree = "<group>"; };
+		B29A2961958B3248AF15AC72 /* SM2Engine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SM2Engine.swift; sourceTree = "<group>"; };
+		B2C3D4E5F6A7B8C9D0E1F2A3 /* AddCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardView.swift; sourceTree = "<group>"; };
 		B2C3D4E5F6A7B8C9D0E1F3A4 /* IntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationTests.swift; sourceTree = "<group>"; };
+		B3C4D5E6F7A8B9C0D1E2F3A5 /* textbook_grade2_lower.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = textbook_grade2_lower.json; sourceTree = "<group>"; };
+		B9F1C3FB7E3459311F538A67 /* Pods_AnkiAnna.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AnkiAnna.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB1C2D3E4F5A6B7C8D9E0F1A /* AIGenerateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIGenerateView.swift; sourceTree = "<group>"; };
+		BB2C3D4E5F6A7B8C9D0E1F2A /* WritingCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingCanvasView.swift; sourceTree = "<group>"; };
+		C3D4E5F6A7B8C9D0E1F2A3B4 /* CardLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardLibraryView.swift; sourceTree = "<group>"; };
+		CC3D4E5F6A7B8C9D0E1F2A3B /* CardPromptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPromptView.swift; sourceTree = "<group>"; };
+		CC8E2B3D6C7F10E08A4B5C6D /* HandwritingRecognizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandwritingRecognizerTests.swift; sourceTree = "<group>"; };
+		D1A12A6E22A1C32918FA7BA5 /* Pods-AnkiAnna.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnkiAnna.debug.xcconfig"; path = "Target Support Files/Pods-AnkiAnna/Pods-AnkiAnna.debug.xcconfig"; sourceTree = "<group>"; };
+		D4E5F6A7B8C9D0E1F2A3B4C5 /* CardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailView.swift; sourceTree = "<group>"; };
+		D6A225EB7005EEB2DE0653A5 /* AnkiAnnaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnkiAnnaApp.swift; sourceTree = "<group>"; };
+		DD4E5F6A7B8C9D0E1F2A3B4C /* ResultFeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultFeedbackView.swift; sourceTree = "<group>"; };
+		E28608525112E217B1E21564 /* AnkiAnnaTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = AnkiAnnaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE5F6A7B8C9D0E1F2A3B4C5D /* LearningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningView.swift; sourceTree = "<group>"; };
+		EE6C09FD4A5B0EC08A2B3C4D /* HandwritingRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandwritingRecognizer.swift; sourceTree = "<group>"; };
+		F7A504A99F3A410B8068D5C2 /* CardContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardContext.swift; sourceTree = "<group>"; };
+		FF0A1B2C3D4E5F607B8C9D0E /* AIGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIGenerator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		31761C46E732DE9486E2628B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				530192DB8C86350DA339B40B /* Pods_AnkiAnna.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		4D5EBB23BF74353015E84787 /* Services */ = {
@@ -95,6 +116,7 @@
 				EE6C09FD4A5B0EC08A2B3C4D /* HandwritingRecognizer.swift */,
 				1A2B3C4D5E6F7A8B9C0D1E2F /* PointsService.swift */,
 				FF0A1B2C3D4E5F607B8C9D0E /* AIGenerator.swift */,
+				9E1593D93F25403A93A21960 /* TextbookDataProvider.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -106,6 +128,24 @@
 				E28608525112E217B1E21564 /* AnkiAnnaTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		5F6172208EFC50E7031E2AE0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B9F1C3FB7E3459311F538A67 /* Pods_AnkiAnna.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6FF5AC35E0AC65E2A78DDA8A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D1A12A6E22A1C32918FA7BA5 /* Pods-AnkiAnna.debug.xcconfig */,
+				021FA91BD56857F67DFB8283 /* Pods-AnkiAnna.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		921B174ABFB7DCF24D69505A /* AnkiAnnaTests */ = {
@@ -122,6 +162,15 @@
 			path = AnkiAnnaTests;
 			sourceTree = "<group>";
 		};
+		9C0D1E2F3A4B5C6D7E8F9A0B /* Stats */ = {
+			isa = PBXGroup;
+			children = (
+				3C4D5E6F7A8B9C0D1E2F3A4B /* StatsView.swift */,
+				2B3C4D5E6F7A8B9C0D1E2F3A /* StreakCalendarView.swift */,
+			);
+			path = Stats;
+			sourceTree = "<group>";
+		};
 		A3486085836E78E49BF72208 /* AnkiAnna */ = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +178,7 @@
 				7D58E6FEB619B9BE59B8D2FC /* ContentView.swift */,
 				E36DEF1A776DFDA47A5D216B /* Models */,
 				4D5EBB23BF74353015E84787 /* Services */,
+				C4D5E6F7A8B9C0D1E2F3A4B6 /* Resources */,
 				C9D0E1F2A3B4C5D6E7F8A9BA /* Views */,
 			);
 			path = AnkiAnna;
@@ -140,7 +190,18 @@
 				A3486085836E78E49BF72208 /* AnkiAnna */,
 				921B174ABFB7DCF24D69505A /* AnkiAnnaTests */,
 				5440DAFD575589F677769D80 /* Products */,
+				6FF5AC35E0AC65E2A78DDA8A /* Pods */,
+				5F6172208EFC50E7031E2AE0 /* Frameworks */,
 			);
+			sourceTree = "<group>";
+		};
+		C4D5E6F7A8B9C0D1E2F3A4B6 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7DBDBB45CEE64E598163B01E /* textbook_grade2_upper.json */,
+				B3C4D5E6F7A8B9C0D1E2F3A5 /* textbook_grade2_lower.json */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		C9D0E1F2A3B4C5D6E7F8A9BA /* Views */ = {
@@ -152,27 +213,6 @@
 				9C0D1E2F3A4B5C6D7E8F9A0B /* Stats */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		F2A3B4C5D6E7F8A9BACBDCED /* Learning */ = {
-			isa = PBXGroup;
-			children = (
-				CC3D4E5F6A7B8C9D0E1F2A3B /* CardPromptView.swift */,
-				EE5F6A7B8C9D0E1F2A3B4C5D /* LearningView.swift */,
-				AA1B2C3D4E5F6A7B8C9D0E1F /* LearningViewModel.swift */,
-				DD4E5F6A7B8C9D0E1F2A3B4C /* ResultFeedbackView.swift */,
-				BB2C3D4E5F6A7B8C9D0E1F2A /* WritingCanvasView.swift */,
-			);
-			path = Learning;
-			sourceTree = "<group>";
-		};
-		9C0D1E2F3A4B5C6D7E8F9A0B /* Stats */ = {
-			isa = PBXGroup;
-			children = (
-				3C4D5E6F7A8B9C0D1E2F3A4B /* StatsView.swift */,
-				2B3C4D5E6F7A8B9C0D1E2F3A /* StreakCalendarView.swift */,
-			);
-			path = Stats;
 			sourceTree = "<group>";
 		};
 		D0E1F2A3B4C5D6E7F8A9BACB /* AddCard */ = {
@@ -206,6 +246,18 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		F2A3B4C5D6E7F8A9BACBDCED /* Learning */ = {
+			isa = PBXGroup;
+			children = (
+				CC3D4E5F6A7B8C9D0E1F2A3B /* CardPromptView.swift */,
+				EE5F6A7B8C9D0E1F2A3B4C5D /* LearningView.swift */,
+				AA1B2C3D4E5F6A7B8C9D0E1F /* LearningViewModel.swift */,
+				DD4E5F6A7B8C9D0E1F2A3B4C /* ResultFeedbackView.swift */,
+				BB2C3D4E5F6A7B8C9D0E1F2A /* WritingCanvasView.swift */,
+			);
+			path = Learning;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -213,15 +265,18 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6A0FB8F0070EC54F80350F9D /* Build configuration list for PBXNativeTarget "AnkiAnna" */;
 			buildPhases = (
+				7D36AE85E6149558308CE0D4 /* [CP] Check Pods Manifest.lock */,
 				6C24E8F7D6818DA968423BA2 /* Sources */,
+				E5F6A7B8C9D0E1F2A3B4C5D7 /* Resources */,
+				31761C46E732DE9486E2628B /* Frameworks */,
+				AE3BC7C21151210233F04F9A /* [CP] Embed Pods Frameworks */,
+				3514EA151FFD143C8EBC914E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = AnkiAnna;
-			packageProductDependencies = (
-			);
 			productName = AnkiAnna;
 			productReference = 8007726F88F19791B909DB8F /* AnkiAnna.app */;
 			productType = "com.apple.product-type.application";
@@ -238,8 +293,6 @@
 				A4F7C90C0CF7FB2E5F962E1B /* PBXTargetDependency */,
 			);
 			name = AnkiAnnaTests;
-			packageProductDependencies = (
-			);
 			productName = AnkiAnnaTests;
 			productReference = E28608525112E217B1E21564 /* AnkiAnnaTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -263,7 +316,7 @@
 			);
 			mainGroup = BF1DBCBEF66E9432D0B66754;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
+			productRefGroup = 5440DAFD575589F677769D80 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -272,6 +325,77 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E5F6A7B8C9D0E1F2A3B4C5D7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB550CD1700F46299047BFA1 /* textbook_grade2_upper.json in Resources */,
+				A2B3C4D5E6F7A8B9C0D1E2F4 /* textbook_grade2_lower.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3514EA151FFD143C8EBC914E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AnkiAnna/Pods-AnkiAnna-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AnkiAnna/Pods-AnkiAnna-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AnkiAnna/Pods-AnkiAnna-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7D36AE85E6149558308CE0D4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AnkiAnna-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AE3BC7C21151210233F04F9A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AnkiAnna/Pods-AnkiAnna-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AnkiAnna/Pods-AnkiAnna-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AnkiAnna/Pods-AnkiAnna-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5073A05A860FAA3968FFBAEE /* Sources */ = {
@@ -316,6 +440,7 @@
 				DD0E1F2A3B4C5D6E7F8A9B0C /* LearningView.swift in Sources */,
 				AA0B1C2D3E4F5A6B7C8D9E0F /* AIGenerator.swift in Sources */,
 				CC2D3E4F5A6B7C8D9E0F1A2B /* AIGenerateView.swift in Sources */,
+				D56A4DEE04C940C1B5174118 /* TextbookDataProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,9 +457,11 @@
 /* Begin XCBuildConfiguration section */
 		5E18681A9F7FCB0A87CE5B02 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D1A12A6E22A1C32918FA7BA5 /* Pods-AnkiAnna.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = SSG79B289M;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -416,9 +543,11 @@
 		};
 		6F88528639690CFFB685AD27 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 021FA91BD56857F67DFB8283 /* Pods-AnkiAnna.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = SSG79B289M;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

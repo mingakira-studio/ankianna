@@ -1,5 +1,18 @@
 # Anna 记忆卡片 App - 操作日志
 
+## 2026-03-06
+- [adhoc] 课本选课功能 + AI 生成优化 + Canvas 输入方式调整
+  - 新增 TextbookDataProvider：课本课文数据加载（二年级上/下册 JSON）
+  - ManualAddCardView 重构：新增"课本选课"模式，选课后批量 AI 生成卡片
+  - AIGenerator 切换 Anthropic API → 阿里 qwen-plus（OpenAI 兼容格式）
+  - AIGenerateView 新增 API 设置面板（endpoint/key/model 可配置）
+  - Card 模型新增 .textbook source 类型
+  - WritingCanvasView 改 drawingPolicy 为 .anyInput（支持手指输入）
+  - 新增课本资源文件：Resources/textbook_grade2_{upper,lower}.json
+  - 新增课本原文参考：docs/textbooks/语文二年级{上,下}册.{md,pdf}
+- [adhoc] 手写识别引擎替换 Vision → Google ML Kit Digital Ink Recognition
+  - 详见 commit fa2516a
+
 ## 2026-03-05
 - 14:25 [auto-dev] completed 10/10 subtasks:
   - Task 1 "Create Xcode Project Skeleton": project.yml + XcodeGen, Worker-1 (Sonnet)

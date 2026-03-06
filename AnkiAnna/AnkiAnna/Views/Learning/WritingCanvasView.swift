@@ -8,7 +8,7 @@ struct WritingCanvasView: UIViewRepresentable {
         let canvas = PKCanvasView()
         canvas.drawing = drawing
         canvas.tool = PKInkingTool(.pen, color: .black, width: 5)
-        canvas.drawingPolicy = .pencilOnly
+        canvas.drawingPolicy = .anyInput
         canvas.backgroundColor = .clear
         canvas.delegate = context.coordinator
         return canvas

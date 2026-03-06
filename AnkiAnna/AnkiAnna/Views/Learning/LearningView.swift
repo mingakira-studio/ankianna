@@ -25,6 +25,7 @@ struct LearningView: View {
             .navigationTitle("学习")
             .onAppear {
                 viewModel.loadDueCards(from: cards, dailyGoal: 15)
+                HandwritingRecognizer.downloadModel(language: "zh-CN") { _ in }
             }
         }
     }

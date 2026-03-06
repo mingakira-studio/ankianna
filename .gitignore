@@ -25,3 +25,10 @@ node_modules/
 
 # Database
 *.db
+
+# Xcode
+xcuserdata/
+*.xcuserstate
+
+# CocoaPods
+AnkiAnna/Pods/

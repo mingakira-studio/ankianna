@@ -4,8 +4,14 @@ struct ResultFeedbackView: View {
     let isCorrect: Bool
     let correctAnswer: String
     var charResults: [SpellingChecker.CharResult]? = nil
+    var combo: Int = 0
+    var pointsEarned: Int = 0
     let onNext: () -> Void
     let onRetry: () -> Void
+
+    @State private var pointsScale: CGFloat = 2.0
+    @State private var comboScale: CGFloat = 0.5
+    @State private var checkmarkScale: CGFloat = 0.5
 
     var body: some View {
         VStack(spacing: 20) {
@@ -13,8 +19,46 @@ struct ResultFeedbackView: View {
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: 80))
                     .foregroundStyle(.green)
+                    .scaleEffect(checkmarkScale)
+                    .accessibilityIdentifier("correctFeedback")
+                    .onAppear {
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.5)) {
+                            checkmarkScale = 1.0
+                        }
+                    }
+
+                if pointsEarned > 0 {
+                    Text("+\(pointsEarned)")
+                        .font(.system(size: 28, weight: .bold))
+                        .foregroundStyle(.orange)
+                        .scaleEffect(pointsScale)
+                        .accessibilityIdentifier("pointsEarnedText")
+                        .onAppear {
+                            withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
+                                pointsScale = 1.0
+                            }
+                        }
+                }
+
+                if combo >= 2 {
+                    Text("🔥 x\(combo)")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundStyle(.orange)
+                        .scaleEffect(comboScale)
+                        .accessibilityIdentifier("comboText")
+                        .onAppear {
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.4)) {
+                                comboScale = 1.0
+                            }
+                        }
+                }
+
                 Text("太棒了！")
                     .font(.system(size: 32, weight: .bold))
+
+                if combo >= 3 {
+                    ComboFireView(combo: combo)
+                }
             } else {
                 Image(systemName: "xmark.circle.fill")
                     .font(.system(size: 80))
@@ -37,6 +81,7 @@ struct ResultFeedbackView: View {
                     .font(.headline)
                 Text(correctAnswer)
                     .font(.system(size: 48, weight: .bold))
+                    .accessibilityIdentifier("correctAnswerText")
             }
 
             HStack(spacing: 20) {
@@ -44,12 +89,23 @@ struct ResultFeedbackView: View {
                     Button("再试一次", action: onRetry)
                         .buttonStyle(.bordered)
                         .controlSize(.large)
+                        .accessibilityIdentifier("retryButton")
                 }
                 Button(isCorrect ? "下一个" : "跳过", action: onNext)
                     .buttonStyle(.borderedProminent)
                     .controlSize(.large)
+                    .accessibilityIdentifier(isCorrect ? "nextButton" : "skipButton")
+            }
+
+            if !isCorrect {
+                EncouragementView()
             }
         }
         .padding()
+        .overlay {
+            if isCorrect {
+                ConfettiView()
+            }
+        }
     }
 }

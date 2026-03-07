@@ -35,14 +35,14 @@ final class SpellingCheckerTests: XCTestCase {
     }
 
     func testWrongCharacterHighlighted() {
-        // "dragan" vs "dragon" → index 3 ('a' vs 'g') and index 4 ('g' vs 'o') wrong
+        // "dragan" vs "dragon" → index 4 ('a' vs 'o') is the only wrong char
         let result = SpellingChecker.check(typed: "dragan", expected: "dragon")
         XCTAssertEqual(result.charResults.count, 6)
         XCTAssertTrue(result.charResults[0].isCorrect)   // d
         XCTAssertTrue(result.charResults[1].isCorrect)   // r
         XCTAssertTrue(result.charResults[2].isCorrect)   // a
-        XCTAssertFalse(result.charResults[3].isCorrect)  // a != g
-        XCTAssertFalse(result.charResults[4].isCorrect)  // g != o
+        XCTAssertTrue(result.charResults[3].isCorrect)   // g
+        XCTAssertFalse(result.charResults[4].isCorrect)  // a != o
         XCTAssertTrue(result.charResults[5].isCorrect)   // n
     }
 

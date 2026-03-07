@@ -7,4 +7,56 @@ target 'AnkiAnna' do
   target 'AnkiAnnaTests' do
     inherit! :search_paths
   end
+
+  # Note: AnkiAnnaUITests intentionally excluded — XCUITests run in a
+  # separate process and don't need pod dependencies.
+end
+
+post_install do |installer|
+  # MLKit pre-built frameworks don't include simulator slices.
+  # 1) Remove EXCLUDED_ARCHS so arm64 simulators appear as destinations.
+  #    BUT keep it for MLKit targets (they need it to avoid building for simulator).
+  # 2) Strip MLKit framework link flags and search paths for simulator builds.
+  mlkit_targets = ['MLKitCommon', 'MLKitDigitalInkRecognition', 'MLKitMDD', 'GoogleMLKit']
+  installer.pods_project.targets.each do |target|
+    next if mlkit_targets.include?(target.name)
+    target.build_configurations.each do |config|
+      config.build_settings.delete('EXCLUDED_ARCHS[sdk=iphonesimulator*]')
+    end
+  end
+
+  mlkit_fw_re = /-framework\s+"(?:MLKitCommon|MLKitDigitalInkRecognition|MLKitMDD)"/
+  mlkit_path_re = /"\$\{PODS_ROOT\}\/MLKit[^"]*"/
+  mlkit_module_re = /"-F\$\{PODS_CONFIGURATION_BUILD_DIR\}\/(?:MLKitCommon|MLKitDigitalInkRecognition|MLKitMDD|GoogleMLKit)"/
+
+  Dir.glob("Pods/Target Support Files/Pods-*/Pods-*.xcconfig").each do |path|
+    content = File.read(path)
+    content.gsub!(/^EXCLUDED_ARCHS\[sdk=iphonesimulator\*\].*\n/, '')
+
+    replacements = {}
+
+    # OTHER_LDFLAGS: add simulator override without MLKit (no $(inherited))
+    if content =~ /^OTHER_LDFLAGS = (.+)$/
+      base = $1
+      sim_val = base.gsub(mlkit_fw_re, '').gsub(/\$\(inherited\)/, '').gsub(/\s+/, ' ').strip
+      replacements["OTHER_LDFLAGS = #{base}"] = "OTHER_LDFLAGS = #{base}\nOTHER_LDFLAGS[sdk=iphonesimulator*] = #{sim_val}"
+    end
+
+    # FRAMEWORK_SEARCH_PATHS: add simulator override without MLKit (no $(inherited))
+    if content =~ /^FRAMEWORK_SEARCH_PATHS = (.+)$/
+      base = $1
+      sim_val = base.gsub(mlkit_path_re, '').gsub(/\$\(inherited\)/, '').gsub(/\s+/, ' ').strip
+      replacements["FRAMEWORK_SEARCH_PATHS = #{base}"] = "FRAMEWORK_SEARCH_PATHS = #{base}\nFRAMEWORK_SEARCH_PATHS[sdk=iphonesimulator*] = #{sim_val}"
+    end
+
+    # OTHER_MODULE_VERIFIER_FLAGS: add simulator override without MLKit (no $(inherited))
+    if content =~ /^OTHER_MODULE_VERIFIER_FLAGS = (.+)$/
+      base = $1
+      sim_val = base.gsub(mlkit_module_re, '').gsub(/\$\(inherited\)/, '').gsub(/\s+/, ' ').strip
+      replacements["OTHER_MODULE_VERIFIER_FLAGS = #{base}"] = "OTHER_MODULE_VERIFIER_FLAGS = #{base}\nOTHER_MODULE_VERIFIER_FLAGS[sdk=iphonesimulator*] = #{sim_val}"
+    end
+
+    replacements.each { |old, new_val| content.sub!(old, new_val) }
+    File.write(path, content)
+  end
 end

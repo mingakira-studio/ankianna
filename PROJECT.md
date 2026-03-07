@@ -5,7 +5,7 @@
 - Status: active
 - Path: ~/Projects/ankianna
 - Created: 2025-05-01
-- Last Updated: 2026-03-06
+- Last Updated: 2026-03-07
 
 ## 目标
 为 Anna 打造个性化的记忆卡片应用，基于间隔重复算法帮助高效记忆学习内容。
@@ -20,11 +20,12 @@
 2. [x] 需求分析与设计 — brainstorming + 设计文档
 3. [x] 核心功能开发 — SwiftUI iPad App (2026-03-05)
 4. [x] 功能迭代 — 英语键盘输入、题库系统、卡片编辑 (2026-03-06)
-5. [>] 界面游戏化 — 吉祥物动画、combo 特效、徽章系统、进度可视化 ← NEXT
+5. [x] 界面游戏化 — 吉祥物动画、combo 特效、徽章系统、进度可视化 (2026-03-07)
 
-## NEXT: 界面游戏化
+## NEXT: (全部完成)
 
 ## Log
+- 2026-03-07: [project-next] 完成「界面游戏化」— BadgeService(5徽章+解锁逻辑), LevelService(等级/XP进度条), combo计数器+积分弹出动画, confetti/火焰庆祝特效, 恐龙吉祥物表情状态; 68 unit tests + 23 UI tests passed
 - 2026-03-06: 课本选课功能（TextbookDataProvider + 并发AI生成）、模型换 qwen-plus、Canvas 改 anyInput、手写识别优化
 - 2026-03-05: [auto-dev] 完成全部 10 个子任务, 27 tests passed, BUILD SUCCEEDED
 - 2026-03-05: 完成需求分析与设计，确定 SwiftUI iPad 原生方案，输出设计文档

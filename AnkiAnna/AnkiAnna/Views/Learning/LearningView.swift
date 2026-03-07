@@ -31,10 +31,23 @@ struct LearningView: View {
         }
     }
 
+    private var mascotState: MascotState {
+        if viewModel.showResult {
+            return viewModel.isCorrect ? .happy : .encourage
+        } else if viewModel.combo >= 3 {
+            return .celebrate
+        } else {
+            return .idle
+        }
+    }
+
     private func learningContentView(card: Card) -> some View {
         HStack(spacing: 0) {
             // Left: prompt + controls
             VStack {
+                MascotView(state: mascotState)
+                    .padding(.top, 8)
+
                 Spacer()
                 CardPromptView(
                     context: viewModel.currentContext,
@@ -47,11 +60,21 @@ struct LearningView: View {
                 )
                 Spacer()
 
+                // Combo counter
+                if viewModel.combo >= 2 {
+                    Text("🔥 x\(viewModel.combo)")
+                        .font(.system(size: 22, weight: .bold))
+                        .foregroundStyle(.orange)
+                        .accessibilityIdentifier("comboCounter")
+                        .transition(.scale.combined(with: .opacity))
+                }
+
                 // Progress
                 Text("\(viewModel.completedCount)/\(viewModel.totalCount)")
                     .font(.headline)
                     .foregroundStyle(.secondary)
                     .padding(.bottom)
+                    .accessibilityIdentifier("progressText")
             }
             .frame(maxWidth: .infinity)
 
@@ -62,6 +85,8 @@ struct LearningView: View {
                         isCorrect: viewModel.isCorrect,
                         correctAnswer: card.answer,
                         charResults: card.type == .englishSpelling ? viewModel.charResults : nil,
+                        combo: viewModel.combo,
+                        pointsEarned: PointsService.pointsForAnswer(correct: viewModel.isCorrect, combo: viewModel.combo),
                         onNext: {
                             drawing = PKDrawing()
                             typedAnswer = ""
@@ -81,6 +106,7 @@ struct LearningView: View {
                         .autocorrectionDisabled()
                         .textInputAutocapitalization(.never)
                         .padding()
+                        .accessibilityIdentifier("spellingTextField")
 
                     Button("提交") {
                         viewModel.submitTypedAnswer(typed: typedAnswer, modelContext: modelContext, profile: profile)
@@ -88,6 +114,7 @@ struct LearningView: View {
                     .buttonStyle(.borderedProminent)
                     .controlSize(.large)
                     .padding(.bottom)
+                    .accessibilityIdentifier("submitButton")
                 } else {
                     // Handwriting input for Chinese cards
                     WritingCanvasView(drawing: $drawing)
@@ -112,6 +139,8 @@ struct LearningView: View {
 
     private var sessionCompleteView: some View {
         VStack(spacing: 20) {
+            MascotView(state: .celebrate)
+
             Image(systemName: "star.fill")
                 .font(.system(size: 80))
                 .foregroundStyle(.yellow)
@@ -120,6 +149,7 @@ struct LearningView: View {
             Text("正确 \(viewModel.correctCount)/\(viewModel.totalCount)")
                 .font(.title2)
         }
+        .accessibilityIdentifier("sessionCompleteView")
     }
 
     private var emptyStateView: some View {
@@ -132,6 +162,7 @@ struct LearningView: View {
             Text("去「添加」页面创建一些卡片吧")
                 .foregroundStyle(.secondary)
         }
+        .accessibilityIdentifier("emptyStateView")
     }
 
     private func submitDrawing(card: Card) {

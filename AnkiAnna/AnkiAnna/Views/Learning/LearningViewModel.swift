@@ -27,7 +27,7 @@ final class LearningViewModel {
         completedCount = 0
         correctCount = 0
         combo = 0
-        sessionComplete = dueCards.isEmpty
+        sessionComplete = false
         if !dueCards.isEmpty {
             advanceToNext()
         }

@@ -67,6 +67,7 @@ struct CardDetailView: View {
                 Button(isEditing ? "完成" : "编辑") {
                     isEditing.toggle()
                 }
+                .accessibilityIdentifier("editToggleButton")
             }
         }
     }

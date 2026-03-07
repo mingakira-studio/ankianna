@@ -29,6 +29,22 @@ struct StatsView: View {
         NavigationStack {
             List {
                 Section {
+                    let info = LevelService.levelInfo(for: profile?.totalPoints ?? 0)
+                    VStack(spacing: 12) {
+                        Text("Lv.\(info.level) \(LevelService.title(forLevel: info.level))")
+                            .font(.system(size: 28, weight: .bold))
+
+                        ProgressView(value: info.progressFraction)
+                            .tint(.purple)
+
+                        Text("\(info.progressInLevel)/\(info.xpNeededForCurrentLevel) XP")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding(.vertical)
+                }
+
+                Section {
                     HStack {
                         VStack {
                             Text("\(profile?.totalPoints ?? 0)")
@@ -58,13 +74,24 @@ struct StatsView: View {
                 }
 
                 Section("徽章") {
-                    if let badges = profile?.badges, !badges.isEmpty {
-                        ForEach(badges, id: \.self) { badge in
-                            Text(badge)
+                    let earnedBadges = Set(profile?.badges ?? [])
+                    LazyVGrid(columns: [
+                        GridItem(.adaptive(minimum: 80), spacing: 16)
+                    ], spacing: 16) {
+                        ForEach(Badge.allCases, id: \.id) { badge in
+                            let isEarned = earnedBadges.contains(badge.id)
+                            VStack(spacing: 4) {
+                                Text(badge.icon)
+                                    .font(.system(size: 36))
+                                Text(badge.name)
+                                    .font(.caption)
+                                    .multilineTextAlignment(.center)
+                            }
+                            .opacity(isEarned ? 1.0 : 0.3)
+                            .grayscale(isEarned ? 0.0 : 1.0)
                         }
-                    } else {
-                        Text("继续学习解锁徽章").foregroundStyle(.secondary)
                     }
+                    .padding(.vertical, 8)
                 }
             }
             .navigationTitle("统计")

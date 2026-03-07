@@ -1,6 +1,9 @@
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
+    @Environment(\.modelContext) private var modelContext
+
     var body: some View {
         TabView {
             LearningView()
@@ -20,5 +23,14 @@ struct ContentView: View {
                     Label("统计", systemImage: "chart.bar")
                 }
         }
+        #if DEBUG
+        .onAppear {
+            if CommandLine.arguments.contains("-SeedTestData") {
+                UITestSeeder.seedTestData(context: modelContext)
+            } else if CommandLine.arguments.contains("-SeedSingleCard") {
+                UITestSeeder.seedSingleCard(context: modelContext)
+            }
+        }
+        #endif
     }
 }

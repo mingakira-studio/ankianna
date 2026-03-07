@@ -17,9 +17,11 @@
 ## 代码结构
 - `AnkiAnna/AnkiAnna/` — 主应用代码
   - `Models/` — SwiftData 数据模型
-  - `Services/` — 业务逻辑 (SM2Engine, TTSService, HandwritingRecognizer, AIGenerator, PointsService)
+  - `Services/` — 业务逻辑 (SM2Engine, TTSService, HandwritingRecognizer, AIGenerator, PointsService, BadgeService, LevelService)
   - `Views/` — SwiftUI 视图 (Learning/, AddCard/, CardLibrary/, Stats/)
-- `AnkiAnna/AnkiAnnaTests/` — 单元测试
+    - `Learning/` — MascotView, CelebrationEffects (confetti/fire/encouragement), ResultFeedbackView (combo/points animations)
+- `AnkiAnna/AnkiAnnaTests/` — 单元测试 (68 tests)
+- `AnkiAnna/AnkiAnnaUITests/` — E2E 测试 (23 tests)
 - `docs/plans/` — 设计文档和实施计划
 
 ## 开发约定

@@ -1,10 +1,14 @@
 import PencilKit
+#if !targetEnvironment(simulator)
 import MLKitDigitalInkRecognition
+#endif
 
 enum HandwritingRecognizer {
 
+    #if !targetEnvironment(simulator)
     /// Strong reference to prevent ARC deallocation during async recognition
     private static var activeRecognizer: DigitalInkRecognizer?
+    #endif
 
     private static func log(_ msg: String) {
         NSLog("[Recognizer] %@", msg)
@@ -41,6 +45,7 @@ enum HandwritingRecognizer {
 
     // MARK: - ML Kit Model Management
 
+    #if !targetEnvironment(simulator)
     /// Map language code to ML Kit DigitalInkRecognitionModelIdentifier tag
     private static func mlKitTag(for language: String) -> String {
         switch language {
@@ -50,9 +55,13 @@ enum HandwritingRecognizer {
         default: return language
         }
     }
+    #endif
 
     /// Download the ML Kit model for a given language (no-op if already downloaded)
     static func downloadModel(language: String, completion: @escaping (Bool) -> Void) {
+        #if targetEnvironment(simulator)
+        completion(false)
+        #else
         let tag = mlKitTag(for: language)
         log("downloadModel: language=\(language) tag=\(tag)")
         guard let identifier = DigitalInkRecognitionModelIdentifier(forLanguageTag: tag) else {
@@ -88,14 +97,19 @@ enum HandwritingRecognizer {
             completion(false)
         }
         observers = [successObserver, failObserver]
+        #endif
     }
 
     /// Check if model is ready for a given language
     static func isModelReady(language: String) -> Bool {
+        #if targetEnvironment(simulator)
+        return false
+        #else
         let tag = mlKitTag(for: language)
         guard let identifier = DigitalInkRecognitionModelIdentifier(forLanguageTag: tag) else { return false }
         let model = DigitalInkRecognitionModel(modelIdentifier: identifier)
         return ModelManager.modelManager().isModelDownloaded(model)
+        #endif
     }
 
     // MARK: - Recognition
@@ -106,6 +120,9 @@ enum HandwritingRecognizer {
         language: String,
         completion: @escaping (Result<[String], Error>) -> Void
     ) {
+        #if targetEnvironment(simulator)
+        completion(.failure(RecognitionError.modelNotReady))
+        #else
         let tag = mlKitTag(for: language)
         log("START lang=\(language) tag=\(tag) strokes=\(drawing.strokes.count)")
 
@@ -166,6 +183,7 @@ enum HandwritingRecognizer {
             log("RESULT: \(candidates)")
             completion(.success(candidates))
         }
+        #endif
     }
 
     enum RecognitionError: Error {

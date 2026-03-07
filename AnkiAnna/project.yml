@@ -8,6 +8,17 @@ settings:
   base:
     TARGETED_DEVICE_FAMILY: "2"  # iPad only
     SUPPORTS_XR_DESIGNED_FOR: "NO"
+schemes:
+  AnkiAnna:
+    build:
+      targets:
+        AnkiAnna: all
+        AnkiAnnaTests: [test]
+        AnkiAnnaUITests: [test]
+    test:
+      targets:
+        - AnkiAnnaTests
+        - AnkiAnnaUITests
 targets:
   AnkiAnna:
     type: application
@@ -26,6 +37,16 @@ targets:
     platform: iOS
     sources:
       - AnkiAnnaTests
+    dependencies:
+      - target: AnkiAnna
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+  AnkiAnnaUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - AnkiAnnaUITests
     dependencies:
       - target: AnkiAnna
     settings:

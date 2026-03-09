@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00BA7C9D2C5C36FE01A143D5 /* CardEditTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A712BB5249349C21C5B6F7 /* CardEditTests.swift */; };
+		04ED7705C2D576832C719B99 /* TextbookDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3790D4420D472B6E79FFBE4 /* TextbookDataProviderTests.swift */; };
 		0D7CF85BE6FEF407EBFE83A3 /* ReviewRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF401FED0B8846B0F416A3B /* ReviewRecord.swift */; };
 		136E4AFB2BF3FB37C6163542 /* textbook_grade2_lower.json in Resources */ = {isa = PBXBuildFile; fileRef = 2BFA2E208693A3AE316A4FC0 /* textbook_grade2_lower.json */; };
 		153AFEF148995E8C65C01CDD /* textbook_grade4_lower.json in Resources */ = {isa = PBXBuildFile; fileRef = A0F194E15DE332D4E4AAF4C6 /* textbook_grade4_lower.json */; };
@@ -15,21 +16,23 @@
 		1931A8B420CE51DBE6CB7181 /* CardPromptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3675974735D72044D27836 /* CardPromptView.swift */; };
 		1C6255B5D89BBBA5B422FC1A /* StreakCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894905687DC7EBE0A8EA3F81 /* StreakCalendarView.swift */; };
 		205CBBBCD0038AAD763628E1 /* CelebrationEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988881E3DABB97C441CAFDAC /* CelebrationEffects.swift */; };
-			22B7EE5A824593450D25FF75 /* SM2EngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F833511A10A25B7D26B5A25 /* SM2EngineTests.swift */; };
+		22B7EE5A824593450D25FF75 /* SM2EngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F833511A10A25B7D26B5A25 /* SM2EngineTests.swift */; };
 		23B75C01A9C4E4984CAA3376 /* textbook_grade2_upper.json in Resources */ = {isa = PBXBuildFile; fileRef = 26CD99F77E2EF86C2F74E4FF /* textbook_grade2_upper.json */; };
 		2672235C05FC96A31A413077 /* TextbookDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9460DD91D6007DBC2F6B1CB /* TextbookDataProvider.swift */; };
-		274199F21FE4FF29BE70D219 /* Pods_AnkiAnna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98A5D78959DD0F87AA091AF1 /* Pods_AnkiAnna.framework */; };
 		2CCE423069110BB5189C6B4B /* LearningFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851C00104F444E3D3A060CDC /* LearningFlowTests.swift */; };
 		2D3C64CE9370FA4B17FDBAA3 /* LaunchHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0777EA2DB6ABAEF2754EDE55 /* LaunchHelper.swift */; };
 		2FB2FFA63DF8A9DB497DDA2A /* MascotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FA6C5CB871576E090B6D24 /* MascotView.swift */; };
+		321EC5267967E2B0058ACAB9 /* LearningViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95BD5751D2748459F459680 /* LearningViewModelTests.swift */; };
 		42407C847F116E5EDD97AD77 /* WritingCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC81E7894202A55B306F9BB6 /* WritingCanvasView.swift */; };
 		4647C8C774A95333EEAD46BA /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2600A0B9CABFD508C1F0055A /* ModelTests.swift */; };
 		4724F55BA0D57A4B8412CF5C /* EmptyStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93D933ECB8A3C85780CF188 /* EmptyStateTests.swift */; };
+		4B2B70B9BF20602EE590EAA2 /* TextbookSeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0464B8DFEAB0260D62670486 /* TextbookSeeder.swift */; };
 		4D04F19EA1600064BE2433EA /* textbook_grade4_upper.json in Resources */ = {isa = PBXBuildFile; fileRef = F8FFE296C2090B810C21CBF9 /* textbook_grade4_upper.json */; };
 		55C35DC1141C8B2DB785B2BA /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846717C9766B879CB908CFB2 /* Card.swift */; };
 		59C1A6717F8482B1E2E676B7 /* StatsViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF518E62533FE77BDFCAAF7 /* StatsViewTests.swift */; };
 		5E66FEE695E81A59F160C9D4 /* AnkiAnnaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A225EB7005EEB2DE0653A5 /* AnkiAnnaApp.swift */; };
 		6408417B60EA440DDCF89365 /* textbook_grade3_upper.json in Resources */ = {isa = PBXBuildFile; fileRef = A9789ADBDCB5A84715862967 /* textbook_grade3_upper.json */; };
+		68F445460B3F6AD67A810209 /* TextbookSeederTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC952E6603595C868BEE1F80 /* TextbookSeederTests.swift */; };
 		713CCE2BCA70CC7C9152BE42 /* DailySession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664E74B17927FF6135856C91 /* DailySession.swift */; };
 		796CEBFA78BB7E05CCFF59B5 /* LevelServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3901FCCD8F76ABAD0A946D3F /* LevelServiceTests.swift */; };
 		81C581AAF70AB0529D12A249 /* textbook_grade1_lower.json in Resources */ = {isa = PBXBuildFile; fileRef = E19010BF3F9A0A68655335E7 /* textbook_grade1_lower.json */; };
@@ -37,16 +40,13 @@
 		858D6C7AB48867A77F87AA39 /* CardEditTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED0EB7040C345DD0694E265 /* CardEditTests.swift */; };
 		8AF6B8B33A76AC883193FF09 /* UITestSeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94438DFDD81EEB8AE6732939 /* UITestSeeder.swift */; };
 		8B3B6A4A5235DADB2D72C4B5 /* PointsServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F7C19DF4FBC3DC354601E2 /* PointsServiceTests.swift */; };
+		8D60B9A59A6C40499075A83E /* CharacterStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F0BC5E415A8BBA970D2891 /* CharacterStats.swift */; };
 		8E51AAA41A46993C860D75E7 /* ResultFeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1C91C7A20F84D3E2085F6 /* ResultFeedbackView.swift */; };
 		8FD09C8629BFF8019DE25B01 /* SpellingCheckerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FBCA921861E86D6C50AD94 /* SpellingCheckerTests.swift */; };
 		913A4588F4C12F18EA0E2B2D /* textbook_grade5_upper.json in Resources */ = {isa = PBXBuildFile; fileRef = FDA1E2437E346958B6AD9BCD /* textbook_grade5_upper.json */; };
-			9B00410AAA964A49B2A3F2C5 /* TextbookGradeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A16E26CA517C7303BD9A75 /* TextbookGradeTests.swift */; };
-			B1A100000000000000000001 /* AIGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A100000000000000000004 /* AIGeneratorTests.swift */; };
-			B1A100000000000000000002 /* LearningViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A100000000000000000005 /* LearningViewModelTests.swift */; };
-			B1A100000000000000000003 /* TextbookDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A100000000000000000006 /* TextbookDataProviderTests.swift */; };
+		9B00410AAA964A49B2A3F2C5 /* TextbookGradeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A16E26CA517C7303BD9A75 /* TextbookGradeTests.swift */; };
 		9E528379A55871B7112556E0 /* TTSService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD626B345D9A023DF1934A2 /* TTSService.swift */; };
 		9EC8FC6C724C634928467F0A /* textbook_grade3_lower.json in Resources */ = {isa = PBXBuildFile; fileRef = 2BF2128133161ED9C979AAEF /* textbook_grade3_lower.json */; };
-		A2D77B1B31354B320468FA24 /* Pods_AnkiAnnaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B053F36B83E7B4ED86C3AF9B /* Pods_AnkiAnnaTests.framework */; };
 		A3A6D054C6BEC1B73F30AA03 /* LearningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D25B4CD7699D5EA008AF3C8B /* LearningViewModel.swift */; };
 		ACA33FE7CA8F2AD58F92DDF2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D58E6FEB619B9BE59B8D2FC /* ContentView.swift */; };
 		AFBFBE4016BECB6BD14CC48A /* IntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00159B46B20EABF39130234 /* IntegrationTests.swift */; };
@@ -54,6 +54,7 @@
 		BBD2D824E18421C3C1B9F443 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F0031BE44FFB683858845F /* StatsView.swift */; };
 		BFDA3AA665D8C27B9D3503B8 /* CardLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5AE2DE76102B8F3423EEF2 /* CardLibraryView.swift */; };
 		C0C3D0730E454D93C1153F73 /* AIGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CAD302D14F5BFB2A99B825 /* AIGenerator.swift */; };
+		C0D71ACAD86DB483FDC1D27F /* CharacterStatsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EBAAE31A1925F4BA85E261 /* CharacterStatsTests.swift */; };
 		C2E7C66E7952F57E229B4C1D /* SpellingChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADE2042F64C5F50A9BCAF24 /* SpellingChecker.swift */; };
 		CCBC3A780E9610935640F66E /* LearningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1704334E23D54543707B11F4 /* LearningView.swift */; };
 		CDCAE78043D07782D1A02A1B /* CardContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A504A99F3A410B8068D5C2 /* CardContext.swift */; };
@@ -69,6 +70,7 @@
 		E65E4C8620D68C8231CB1AB0 /* CardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452F373EE47DDF0314FDFAE0 /* CardDetailView.swift */; };
 		E891FC17EDE145B303781B57 /* LevelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494AE74582602E6464E9AE5B /* LevelService.swift */; };
 		EA2116699E23712EE63C6962 /* CardLibraryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C549A8485569ABAB0BFF62 /* CardLibraryTests.swift */; };
+		EE7D73F6B76C24F55CF46970 /* AIGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F7C0B6E96E330280FCBC9D /* AIGeneratorTests.swift */; };
 		FB08D4E4D9FF9206F98191F3 /* TabNavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D377E3C210703363C0C7F7 /* TabNavigationTests.swift */; };
 		FBF8BA44E08C243DC83C8E1B /* PointsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF33B3F00D5AC1C9289982B /* PointsService.swift */; };
 		FCBD72DF67C8BD7A53A8E10D /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8C8F624B0D67EAA9B114C7 /* UserProfile.swift */; };
@@ -93,14 +95,15 @@
 
 /* Begin PBXFileReference section */
 		02CAD302D14F5BFB2A99B825 /* AIGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIGenerator.swift; sourceTree = "<group>"; };
+		0464B8DFEAB0260D62670486 /* TextbookSeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextbookSeeder.swift; sourceTree = "<group>"; };
 		0777EA2DB6ABAEF2754EDE55 /* LaunchHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchHelper.swift; sourceTree = "<group>"; };
 		07D377E3C210703363C0C7F7 /* TabNavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabNavigationTests.swift; sourceTree = "<group>"; };
 		0ADE2042F64C5F50A9BCAF24 /* SpellingChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellingChecker.swift; sourceTree = "<group>"; };
 		0C5497CBBFB43009DF6E6E00 /* HandwritingRecognizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandwritingRecognizerTests.swift; sourceTree = "<group>"; };
-			15EFDDB132A3E952B9C465F1 /* AIGenerateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIGenerateView.swift; sourceTree = "<group>"; };
+		15EFDDB132A3E952B9C465F1 /* AIGenerateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIGenerateView.swift; sourceTree = "<group>"; };
 		1704334E23D54543707B11F4 /* LearningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningView.swift; sourceTree = "<group>"; };
-		1B33DFDD4E70D8D4D7EB814B /* Pods-AnkiAnna.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnkiAnna.debug.xcconfig"; path = "Target Support Files/Pods-AnkiAnna/Pods-AnkiAnna.debug.xcconfig"; sourceTree = "<group>"; };
 		2103AB8F71425C88801BEE6B /* ManualAddCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualAddCardView.swift; sourceTree = "<group>"; };
+		24F7C0B6E96E330280FCBC9D /* AIGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIGeneratorTests.swift; sourceTree = "<group>"; };
 		2600A0B9CABFD508C1F0055A /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
 		26CD99F77E2EF86C2F74E4FF /* textbook_grade2_upper.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = textbook_grade2_upper.json; sourceTree = "<group>"; };
 		28F7C19DF4FBC3DC354601E2 /* PointsServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsServiceTests.swift; sourceTree = "<group>"; };
@@ -108,6 +111,7 @@
 		2BF2128133161ED9C979AAEF /* textbook_grade3_lower.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = textbook_grade3_lower.json; sourceTree = "<group>"; };
 		2BFA2E208693A3AE316A4FC0 /* textbook_grade2_lower.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = textbook_grade2_lower.json; sourceTree = "<group>"; };
 		30F0031BE44FFB683858845F /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		36EBAAE31A1925F4BA85E261 /* CharacterStatsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterStatsTests.swift; sourceTree = "<group>"; };
 		3901FCCD8F76ABAD0A946D3F /* LevelServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelServiceTests.swift; sourceTree = "<group>"; };
 		3AF401FED0B8846B0F416A3B /* ReviewRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewRecord.swift; sourceTree = "<group>"; };
 		3FE88DED8995DAD67B8FBEE1 /* TTSServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTSServiceTests.swift; sourceTree = "<group>"; };
@@ -117,6 +121,7 @@
 		49F6B9AE8BA86168C766738A /* textbook_grade5_lower.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = textbook_grade5_lower.json; sourceTree = "<group>"; };
 		664E74B17927FF6135856C91 /* DailySession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySession.swift; sourceTree = "<group>"; };
 		6F833511A10A25B7D26B5A25 /* SM2EngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SM2EngineTests.swift; sourceTree = "<group>"; };
+		72F0BC5E415A8BBA970D2891 /* CharacterStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterStats.swift; sourceTree = "<group>"; };
 		78CE539EA26B80CC88550A77 /* AnkiAnnaUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = AnkiAnnaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C8C8F624B0D67EAA9B114C7 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		7D58E6FEB619B9BE59B8D2FC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -129,27 +134,21 @@
 		894905687DC7EBE0A8EA3F81 /* StreakCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCalendarView.swift; sourceTree = "<group>"; };
 		94438DFDD81EEB8AE6732939 /* UITestSeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestSeeder.swift; sourceTree = "<group>"; };
 		988881E3DABB97C441CAFDAC /* CelebrationEffects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelebrationEffects.swift; sourceTree = "<group>"; };
-		98A5D78959DD0F87AA091AF1 /* Pods_AnkiAnna.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AnkiAnna.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C3675974735D72044D27836 /* CardPromptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPromptView.swift; sourceTree = "<group>"; };
 		9ED0EB7040C345DD0694E265 /* CardEditTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardEditTests.swift; sourceTree = "<group>"; };
 		A0F194E15DE332D4E4AAF4C6 /* textbook_grade4_lower.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = textbook_grade4_lower.json; sourceTree = "<group>"; };
-			A3A16E26CA517C7303BD9A75 /* TextbookGradeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextbookGradeTests.swift; sourceTree = "<group>"; };
-			B1A100000000000000000004 /* AIGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIGeneratorTests.swift; sourceTree = "<group>"; };
-			B1A100000000000000000005 /* LearningViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningViewModelTests.swift; sourceTree = "<group>"; };
-			B1A100000000000000000006 /* TextbookDataProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextbookDataProviderTests.swift; sourceTree = "<group>"; };
-			A784FCE3DABBB5150E85C1F9 /* textbook_grade1_upper.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = textbook_grade1_upper.json; sourceTree = "<group>"; };
+		A3A16E26CA517C7303BD9A75 /* TextbookGradeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextbookGradeTests.swift; sourceTree = "<group>"; };
+		A784FCE3DABBB5150E85C1F9 /* textbook_grade1_upper.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = textbook_grade1_upper.json; sourceTree = "<group>"; };
 		A9789ADBDCB5A84715862967 /* textbook_grade3_upper.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = textbook_grade3_upper.json; sourceTree = "<group>"; };
-		AD96C39F772D39633CE36576 /* Pods-AnkiAnnaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnkiAnnaTests.debug.xcconfig"; path = "Target Support Files/Pods-AnkiAnnaTests/Pods-AnkiAnnaTests.debug.xcconfig"; sourceTree = "<group>"; };
-		B053F36B83E7B4ED86C3AF9B /* Pods_AnkiAnnaTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AnkiAnnaTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B29A2961958B3248AF15AC72 /* SM2Engine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SM2Engine.swift; sourceTree = "<group>"; };
 		BBF33B3F00D5AC1C9289982B /* PointsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsService.swift; sourceTree = "<group>"; };
+		BC952E6603595C868BEE1F80 /* TextbookSeederTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextbookSeederTests.swift; sourceTree = "<group>"; };
 		BCF518E62533FE77BDFCAAF7 /* StatsViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewTests.swift; sourceTree = "<group>"; };
 		C00159B46B20EABF39130234 /* IntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationTests.swift; sourceTree = "<group>"; };
 		C0C549A8485569ABAB0BFF62 /* CardLibraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardLibraryTests.swift; sourceTree = "<group>"; };
-		C79FE58845CFEFB456071077 /* Pods-AnkiAnnaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnkiAnnaTests.release.xcconfig"; path = "Target Support Files/Pods-AnkiAnnaTests/Pods-AnkiAnnaTests.release.xcconfig"; sourceTree = "<group>"; };
 		D25B4CD7699D5EA008AF3C8B /* LearningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningViewModel.swift; sourceTree = "<group>"; };
-		D54BDE444793383A49746A73 /* Pods-AnkiAnna.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnkiAnna.release.xcconfig"; path = "Target Support Files/Pods-AnkiAnna/Pods-AnkiAnna.release.xcconfig"; sourceTree = "<group>"; };
 		D6A225EB7005EEB2DE0653A5 /* AnkiAnnaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnkiAnnaApp.swift; sourceTree = "<group>"; };
+		D95BD5751D2748459F459680 /* LearningViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningViewModelTests.swift; sourceTree = "<group>"; };
 		DC7BAEAC75ED454053EBEF60 /* AddCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardView.swift; sourceTree = "<group>"; };
 		E19010BF3F9A0A68655335E7 /* textbook_grade1_lower.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = textbook_grade1_lower.json; sourceTree = "<group>"; };
 		E28608525112E217B1E21564 /* AnkiAnnaTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = AnkiAnnaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -157,6 +156,7 @@
 		E7FA6C5CB871576E090B6D24 /* MascotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotView.swift; sourceTree = "<group>"; };
 		E93D933ECB8A3C85780CF188 /* EmptyStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateTests.swift; sourceTree = "<group>"; };
 		E9460DD91D6007DBC2F6B1CB /* TextbookDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextbookDataProvider.swift; sourceTree = "<group>"; };
+		F3790D4420D472B6E79FFBE4 /* TextbookDataProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextbookDataProviderTests.swift; sourceTree = "<group>"; };
 		F7A504A99F3A410B8068D5C2 /* CardContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardContext.swift; sourceTree = "<group>"; };
 		F8FFE296C2090B810C21CBF9 /* textbook_grade4_upper.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = textbook_grade4_upper.json; sourceTree = "<group>"; };
 		F9D8DB76F431F78CD7FFF91B /* SessionCompleteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCompleteTests.swift; sourceTree = "<group>"; };
@@ -166,38 +166,7 @@
 		FDA1E2437E346958B6AD9BCD /* textbook_grade5_upper.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = textbook_grade5_upper.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFrameworksBuildPhase section */
-		7AEDA76B5AE256D55ED10888 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				274199F21FE4FF29BE70D219 /* Pods_AnkiAnna.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D46817D560D958FBAE3E7CDD /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A2D77B1B31354B320468FA24 /* Pods_AnkiAnnaTests.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
-
 /* Begin PBXGroup section */
-		2AF17795357B1BDC290DA1F9 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				1B33DFDD4E70D8D4D7EB814B /* Pods-AnkiAnna.debug.xcconfig */,
-				D54BDE444793383A49746A73 /* Pods-AnkiAnna.release.xcconfig */,
-				AD96C39F772D39633CE36576 /* Pods-AnkiAnnaTests.debug.xcconfig */,
-				C79FE58845CFEFB456071077 /* Pods-AnkiAnnaTests.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		4D5EBB23BF74353015E84787 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -209,6 +178,7 @@
 				B29A2961958B3248AF15AC72 /* SM2Engine.swift */,
 				0ADE2042F64C5F50A9BCAF24 /* SpellingChecker.swift */,
 				E9460DD91D6007DBC2F6B1CB /* TextbookDataProvider.swift */,
+				0464B8DFEAB0260D62670486 /* TextbookSeeder.swift */,
 				2AD626B345D9A023DF1934A2 /* TTSService.swift */,
 			);
 			path = Services;
@@ -292,24 +262,26 @@
 			path = AnkiAnnaUITests;
 			sourceTree = "<group>";
 		};
-			921B174ABFB7DCF24D69505A /* AnkiAnnaTests */ = {
-				isa = PBXGroup;
-				children = (
-					B1A100000000000000000004 /* AIGeneratorTests.swift */,
-					85C31B41011F456A834B9ADE /* BadgeServiceTests.swift */,
-					48A712BB5249349C21C5B6F7 /* CardEditTests.swift */,
-					0C5497CBBFB43009DF6E6E00 /* HandwritingRecognizerTests.swift */,
-					C00159B46B20EABF39130234 /* IntegrationTests.swift */,
-					3901FCCD8F76ABAD0A946D3F /* LevelServiceTests.swift */,
-					B1A100000000000000000005 /* LearningViewModelTests.swift */,
-					2600A0B9CABFD508C1F0055A /* ModelTests.swift */,
-					28F7C19DF4FBC3DC354601E2 /* PointsServiceTests.swift */,
-					6F833511A10A25B7D26B5A25 /* SM2EngineTests.swift */,
-					E3FBCA921861E86D6C50AD94 /* SpellingCheckerTests.swift */,
-					A3A16E26CA517C7303BD9A75 /* TextbookGradeTests.swift */,
-					B1A100000000000000000006 /* TextbookDataProviderTests.swift */,
-					3FE88DED8995DAD67B8FBEE1 /* TTSServiceTests.swift */,
-				);
+		921B174ABFB7DCF24D69505A /* AnkiAnnaTests */ = {
+			isa = PBXGroup;
+			children = (
+				24F7C0B6E96E330280FCBC9D /* AIGeneratorTests.swift */,
+				85C31B41011F456A834B9ADE /* BadgeServiceTests.swift */,
+				48A712BB5249349C21C5B6F7 /* CardEditTests.swift */,
+				36EBAAE31A1925F4BA85E261 /* CharacterStatsTests.swift */,
+				0C5497CBBFB43009DF6E6E00 /* HandwritingRecognizerTests.swift */,
+				C00159B46B20EABF39130234 /* IntegrationTests.swift */,
+				D95BD5751D2748459F459680 /* LearningViewModelTests.swift */,
+				3901FCCD8F76ABAD0A946D3F /* LevelServiceTests.swift */,
+				2600A0B9CABFD508C1F0055A /* ModelTests.swift */,
+				28F7C19DF4FBC3DC354601E2 /* PointsServiceTests.swift */,
+				6F833511A10A25B7D26B5A25 /* SM2EngineTests.swift */,
+				E3FBCA921861E86D6C50AD94 /* SpellingCheckerTests.swift */,
+				F3790D4420D472B6E79FFBE4 /* TextbookDataProviderTests.swift */,
+				A3A16E26CA517C7303BD9A75 /* TextbookGradeTests.swift */,
+				BC952E6603595C868BEE1F80 /* TextbookSeederTests.swift */,
+				3FE88DED8995DAD67B8FBEE1 /* TTSServiceTests.swift */,
+			);
 			path = AnkiAnnaTests;
 			sourceTree = "<group>";
 		};
@@ -342,18 +314,7 @@
 				921B174ABFB7DCF24D69505A /* AnkiAnnaTests */,
 				78AE814F56B8DCC46426EB95 /* AnkiAnnaUITests */,
 				5440DAFD575589F677769D80 /* Products */,
-				2AF17795357B1BDC290DA1F9 /* Pods */,
-				C2F8FACE750BEDB984C42FEC /* Frameworks */,
 			);
-			sourceTree = "<group>";
-		};
-		C2F8FACE750BEDB984C42FEC /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				98A5D78959DD0F87AA091AF1 /* Pods_AnkiAnna.framework */,
-				B053F36B83E7B4ED86C3AF9B /* Pods_AnkiAnnaTests.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		DC77018B4D14B9A86F5271B2 /* Views */ = {
@@ -372,6 +333,7 @@
 			children = (
 				846717C9766B879CB908CFB2 /* Card.swift */,
 				F7A504A99F3A410B8068D5C2 /* CardContext.swift */,
+				72F0BC5E415A8BBA970D2891 /* CharacterStats.swift */,
 				664E74B17927FF6135856C91 /* DailySession.swift */,
 				3AF401FED0B8846B0F416A3B /* ReviewRecord.swift */,
 				7C8C8F624B0D67EAA9B114C7 /* UserProfile.swift */,
@@ -400,18 +362,16 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6A0FB8F0070EC54F80350F9D /* Build configuration list for PBXNativeTarget "AnkiAnna" */;
 			buildPhases = (
-				E162321C2D93AC8DE2052FF4 /* [CP] Check Pods Manifest.lock */,
 				6C24E8F7D6818DA968423BA2 /* Sources */,
 				0BEBA4DE10B1F7F90CF9E249 /* Resources */,
-				7AEDA76B5AE256D55ED10888 /* Frameworks */,
-				2ED6BA5130C05CF8D8EF7695 /* [CP] Embed Pods Frameworks */,
-				A6BB4038DAA78CDA398B5F14 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = AnkiAnna;
+			packageProductDependencies = (
+			);
 			productName = AnkiAnna;
 			productReference = 8007726F88F19791B909DB8F /* AnkiAnna.app */;
 			productType = "com.apple.product-type.application";
@@ -428,6 +388,8 @@
 				2317B1D07AB9F9C399278089 /* PBXTargetDependency */,
 			);
 			name = AnkiAnnaUITests;
+			packageProductDependencies = (
+			);
 			productName = AnkiAnnaUITests;
 			productReference = 78CE539EA26B80CC88550A77 /* AnkiAnnaUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -436,9 +398,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BD92946ABD40B2C310AA6FB6 /* Build configuration list for PBXNativeTarget "AnkiAnnaTests" */;
 			buildPhases = (
-				CC6666C4D84B23A2F9952ECB /* [CP] Check Pods Manifest.lock */,
 				5073A05A860FAA3968FFBAEE /* Sources */,
-				D46817D560D958FBAE3E7CDD /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -446,6 +406,8 @@
 				A4F7C90C0CF7FB2E5F962E1B /* PBXTargetDependency */,
 			);
 			name = AnkiAnnaTests;
+			packageProductDependencies = (
+			);
 			productName = AnkiAnnaTests;
 			productReference = E28608525112E217B1E21564 /* AnkiAnnaTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -475,7 +437,6 @@
 			mainGroup = BF1DBCBEF66E9432D0B66754;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 5440DAFD575589F677769D80 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -506,87 +467,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		2ED6BA5130C05CF8D8EF7695 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AnkiAnna/Pods-AnkiAnna-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AnkiAnna/Pods-AnkiAnna-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AnkiAnna/Pods-AnkiAnna-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A6BB4038DAA78CDA398B5F14 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AnkiAnna/Pods-AnkiAnna-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AnkiAnna/Pods-AnkiAnna-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AnkiAnna/Pods-AnkiAnna-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		CC6666C4D84B23A2F9952ECB /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AnkiAnnaTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E162321C2D93AC8DE2052FF4 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AnkiAnna-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		2FF85C7033D85D718AD764E8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -603,25 +483,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-			5073A05A860FAA3968FFBAEE /* Sources */ = {
-				isa = PBXSourcesBuildPhase;
-				buildActionMask = 2147483647;
-				files = (
-					B1A100000000000000000001 /* AIGeneratorTests.swift in Sources */,
-					B71C44A5DEED2CE5ED93C95C /* BadgeServiceTests.swift in Sources */,
-					00BA7C9D2C5C36FE01A143D5 /* CardEditTests.swift in Sources */,
-					D63827A262C4A4615C30EC56 /* HandwritingRecognizerTests.swift in Sources */,
-					AFBFBE4016BECB6BD14CC48A /* IntegrationTests.swift in Sources */,
-					796CEBFA78BB7E05CCFF59B5 /* LevelServiceTests.swift in Sources */,
-					B1A100000000000000000002 /* LearningViewModelTests.swift in Sources */,
-					4647C8C774A95333EEAD46BA /* ModelTests.swift in Sources */,
-					8B3B6A4A5235DADB2D72C4B5 /* PointsServiceTests.swift in Sources */,
-					22B7EE5A824593450D25FF75 /* SM2EngineTests.swift in Sources */,
-					8FD09C8629BFF8019DE25B01 /* SpellingCheckerTests.swift in Sources */,
-					D30C62A311DFD5C3F6974696 /* TTSServiceTests.swift in Sources */,
-					9B00410AAA964A49B2A3F2C5 /* TextbookGradeTests.swift in Sources */,
-					B1A100000000000000000003 /* TextbookDataProviderTests.swift in Sources */,
-				);
+		5073A05A860FAA3968FFBAEE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE7D73F6B76C24F55CF46970 /* AIGeneratorTests.swift in Sources */,
+				B71C44A5DEED2CE5ED93C95C /* BadgeServiceTests.swift in Sources */,
+				00BA7C9D2C5C36FE01A143D5 /* CardEditTests.swift in Sources */,
+				C0D71ACAD86DB483FDC1D27F /* CharacterStatsTests.swift in Sources */,
+				D63827A262C4A4615C30EC56 /* HandwritingRecognizerTests.swift in Sources */,
+				AFBFBE4016BECB6BD14CC48A /* IntegrationTests.swift in Sources */,
+				321EC5267967E2B0058ACAB9 /* LearningViewModelTests.swift in Sources */,
+				796CEBFA78BB7E05CCFF59B5 /* LevelServiceTests.swift in Sources */,
+				4647C8C774A95333EEAD46BA /* ModelTests.swift in Sources */,
+				8B3B6A4A5235DADB2D72C4B5 /* PointsServiceTests.swift in Sources */,
+				22B7EE5A824593450D25FF75 /* SM2EngineTests.swift in Sources */,
+				8FD09C8629BFF8019DE25B01 /* SpellingCheckerTests.swift in Sources */,
+				D30C62A311DFD5C3F6974696 /* TTSServiceTests.swift in Sources */,
+				04ED7705C2D576832C719B99 /* TextbookDataProviderTests.swift in Sources */,
+				9B00410AAA964A49B2A3F2C5 /* TextbookGradeTests.swift in Sources */,
+				68F445460B3F6AD67A810209 /* TextbookSeederTests.swift in Sources */,
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		6C24E8F7D6818DA968423BA2 /* Sources */ = {
@@ -639,6 +521,7 @@
 				BFDA3AA665D8C27B9D3503B8 /* CardLibraryView.swift in Sources */,
 				1931A8B420CE51DBE6CB7181 /* CardPromptView.swift in Sources */,
 				205CBBBCD0038AAD763628E1 /* CelebrationEffects.swift in Sources */,
+				8D60B9A59A6C40499075A83E /* CharacterStats.swift in Sources */,
 				ACA33FE7CA8F2AD58F92DDF2 /* ContentView.swift in Sources */,
 				713CCE2BCA70CC7C9152BE42 /* DailySession.swift in Sources */,
 				DBA6BBA9A5EAFED5D5790457 /* HandwritingRecognizer.swift in Sources */,
@@ -656,6 +539,7 @@
 				1C6255B5D89BBBA5B422FC1A /* StreakCalendarView.swift in Sources */,
 				9E528379A55871B7112556E0 /* TTSService.swift in Sources */,
 				2672235C05FC96A31A413077 /* TextbookDataProvider.swift in Sources */,
+				4B2B70B9BF20602EE590EAA2 /* TextbookSeeder.swift in Sources */,
 				8AF6B8B33A76AC883193FF09 /* UITestSeeder.swift in Sources */,
 				FCBD72DF67C8BD7A53A8E10D /* UserProfile.swift in Sources */,
 				42407C847F116E5EDD97AD77 /* WritingCanvasView.swift in Sources */,
@@ -680,7 +564,6 @@
 /* Begin XCBuildConfiguration section */
 		5E18681A9F7FCB0A87CE5B02 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B33DFDD4E70D8D4D7EB814B /* Pods-AnkiAnna.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -765,7 +648,6 @@
 		};
 		6F88528639690CFFB685AD27 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D54BDE444793383A49746A73 /* Pods-AnkiAnna.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -877,7 +759,6 @@
 		};
 		A3A8C618AB2EFFD8BAC00316 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AD96C39F772D39633CE36576 /* Pods-AnkiAnnaTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -895,7 +776,6 @@
 		};
 		B796D1D93293A4D761C82193 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C79FE58845CFEFB456071077 /* Pods-AnkiAnnaTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GENERATE_INFOPLIST_FILE = YES;

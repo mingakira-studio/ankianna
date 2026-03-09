@@ -8,7 +8,9 @@ final class DailySession {
     var targetCount: Int
     var completedCount: Int
     var correctCount: Int
+    var newMastered: Int
     var streak: Int
+    var gameMode: String?
 
     init(date: Date, targetCount: Int) {
         self.id = UUID()
@@ -16,6 +18,8 @@ final class DailySession {
         self.targetCount = targetCount
         self.completedCount = 0
         self.correctCount = 0
+        self.newMastered = 0
         self.streak = 0
+        self.gameMode = nil
     }
 }

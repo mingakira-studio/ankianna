@@ -6,6 +6,7 @@ struct LearningView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var cards: [Card]
     @Query private var profiles: [UserProfile]
+    @Query private var allCharacterStats: [CharacterStats]
     @State private var viewModel = LearningViewModel()
     @State private var drawing = PKDrawing()
     @State private var typedAnswer: String = ""
@@ -25,7 +26,12 @@ struct LearningView: View {
             }
             .navigationTitle("学习")
             .onAppear {
-                viewModel.loadDueCards(from: cards, dailyGoal: 15)
+                let dailyGoal = profile?.dailyGoal ?? 15
+                if allCharacterStats.isEmpty {
+                    viewModel.loadDueCards(from: cards, dailyGoal: dailyGoal)
+                } else {
+                    viewModel.loadDueCards(allCards: cards, characterStats: allCharacterStats, dailyGoal: dailyGoal)
+                }
                 HandwritingRecognizer.downloadModel(language: "zh-CN") { _ in }
             }
         }

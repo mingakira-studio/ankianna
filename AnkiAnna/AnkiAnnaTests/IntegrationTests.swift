@@ -11,7 +11,7 @@ final class IntegrationTests: XCTestCase {
         super.setUp()
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         container = try! ModelContainer(
-            for: Card.self, ReviewRecord.self, DailySession.self, UserProfile.self,
+            for: Card.self, ReviewRecord.self, DailySession.self, UserProfile.self, CharacterStats.self,
             configurations: config
         )
     }
@@ -35,6 +35,7 @@ final class IntegrationTests: XCTestCase {
             result: .correct,
             ease: sm2Result.ease,
             interval: sm2Result.interval,
+            repetition: sm2Result.repetition,
             nextReviewDate: sm2Result.nextReviewDate
         )
         context.insert(record)

@@ -11,7 +11,7 @@ final class ModelTests: XCTestCase {
         super.setUp()
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         container = try! ModelContainer(
-            for: Card.self, ReviewRecord.self, DailySession.self, UserProfile.self,
+            for: Card.self, ReviewRecord.self, DailySession.self, UserProfile.self, CharacterStats.self,
             configurations: config
         )
     }
@@ -67,6 +67,7 @@ final class ModelTests: XCTestCase {
             result: .correct,
             ease: 2.5,
             interval: 1,
+            repetition: 1,
             nextReviewDate: Date().addingTimeInterval(86400)
         )
         context.insert(record)
@@ -75,6 +76,7 @@ final class ModelTests: XCTestCase {
         let fetched = try context.fetch(FetchDescriptor<ReviewRecord>())
         XCTAssertEqual(fetched.count, 1)
         XCTAssertEqual(fetched[0].result, .correct)
+        XCTAssertEqual(fetched[0].repetition, 1)
     }
 
     func testDailySession() throws {
@@ -87,6 +89,8 @@ final class ModelTests: XCTestCase {
         XCTAssertEqual(fetched.count, 1)
         XCTAssertEqual(fetched[0].targetCount, 15)
         XCTAssertEqual(fetched[0].completedCount, 0)
+        XCTAssertEqual(fetched[0].newMastered, 0)
+        XCTAssertNil(fetched[0].gameMode)
     }
 
     func testUserProfile() throws {

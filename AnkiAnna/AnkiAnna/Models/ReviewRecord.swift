@@ -14,6 +14,7 @@ final class ReviewRecord {
     var result: ReviewResult
     var ease: Double
     var interval: Int
+    var repetition: Int
     var nextReviewDate: Date
     var handwritingImage: Data?
 
@@ -22,6 +23,7 @@ final class ReviewRecord {
         result: ReviewResult,
         ease: Double,
         interval: Int,
+        repetition: Int,
         nextReviewDate: Date
     ) {
         self.id = UUID()
@@ -30,6 +32,7 @@ final class ReviewRecord {
         self.result = result
         self.ease = ease
         self.interval = interval
+        self.repetition = repetition
         self.nextReviewDate = nextReviewDate
     }
 }

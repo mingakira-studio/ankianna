@@ -18,9 +18,56 @@ final class LearningViewModel {
     private var dueCards: [Card] = []
     private var currentIndex: Int = 0
     private var usedContextIds: Set<UUID> = []
+    private var characterStatsMap: [String: CharacterStats] = [:]
 
+    /// Load due cards using SM-2 scheduling from CharacterStats
+    func loadDueCards(allCards: [Card], characterStats: [CharacterStats], dailyGoal: Int) {
+        // Build character -> stats map (keep first occurrence for duplicates)
+        characterStatsMap = [:]
+        for stats in characterStats {
+            if characterStatsMap[stats.character] == nil {
+                characterStatsMap[stats.character] = stats
+            }
+        }
+
+        // Build schedules from CharacterStats for SM-2 selection
+        let schedules = characterStats.map { stats in
+            SM2Engine.CardSchedule(
+                cardId: stats.id,
+                nextReviewDate: stats.nextReviewDate,
+                ease: stats.ease,
+                interval: stats.interval,
+                repetition: stats.repetition
+            )
+        }
+        let dueSchedules = SM2Engine.selectDueCards(from: schedules, limit: dailyGoal)
+        let dueCharacters = Set(dueSchedules.compactMap { schedule in
+            characterStats.first(where: { $0.id == schedule.cardId })?.character
+        })
+
+        // Select cards matching due characters
+        var selected = allCards.filter { dueCharacters.contains($0.answer) }
+        if selected.count < dailyGoal {
+            let remaining = allCards.filter { !dueCharacters.contains($0.answer) }.shuffled()
+            selected.append(contentsOf: remaining.prefix(dailyGoal - selected.count))
+        }
+
+        dueCards = selected
+        totalCount = dueCards.count
+        currentIndex = 0
+        completedCount = 0
+        correctCount = 0
+        combo = 0
+        sessionComplete = false
+        usedContextIds = []
+        if !dueCards.isEmpty {
+            advanceToNext()
+        }
+    }
+
+    /// Backward-compatible: load cards without SM-2 scheduling (for tests or no CharacterStats)
     func loadDueCards(from cards: [Card], dailyGoal: Int) {
-        // Filter cards that are due (simplified: all cards for now)
+        characterStatsMap = [:]
         dueCards = Array(cards.prefix(dailyGoal))
         totalCount = dueCards.count
         currentIndex = 0
@@ -28,6 +75,7 @@ final class LearningViewModel {
         correctCount = 0
         combo = 0
         sessionComplete = false
+        usedContextIds = []
         if !dueCards.isEmpty {
             advanceToNext()
         }
@@ -57,22 +105,27 @@ final class LearningViewModel {
             combo = 0
         }
 
-        // SM-2
+        // Look up CharacterStats for real SM-2 state
+        let stats = characterStatsMap[card.answer]
         let quality = isCorrect ? 4 : 1
         let sm2 = SM2Engine.calculateNext(
             quality: quality,
-            previousEase: 2.5,
-            previousInterval: 0,
-            repetition: 0
+            previousEase: stats?.ease ?? 2.5,
+            previousInterval: stats?.interval ?? 0,
+            repetition: stats?.repetition ?? 0
         )
         let record = ReviewRecord(
             card: card,
             result: isCorrect ? .correct : .wrong,
             ease: sm2.ease,
             interval: sm2.interval,
+            repetition: sm2.repetition,
             nextReviewDate: sm2.nextReviewDate
         )
         modelContext.insert(record)
+
+        // Update CharacterStats
+        stats?.recordReview(correct: isCorrect, reviewOutput: sm2)
 
         // Points
         if let profile {
@@ -95,22 +148,27 @@ final class LearningViewModel {
             combo = 0
         }
 
-        // SM-2
+        // Look up CharacterStats for real SM-2 state
+        let stats = characterStatsMap[card.answer]
         let quality = isCorrect ? 4 : 1
         let sm2 = SM2Engine.calculateNext(
             quality: quality,
-            previousEase: 2.5,
-            previousInterval: 0,
-            repetition: 0
+            previousEase: stats?.ease ?? 2.5,
+            previousInterval: stats?.interval ?? 0,
+            repetition: stats?.repetition ?? 0
         )
         let record = ReviewRecord(
             card: card,
             result: isCorrect ? .correct : .wrong,
             ease: sm2.ease,
             interval: sm2.interval,
+            repetition: sm2.repetition,
             nextReviewDate: sm2.nextReviewDate
         )
         modelContext.insert(record)
+
+        // Update CharacterStats
+        stats?.recordReview(correct: isCorrect, reviewOutput: sm2)
 
         // Points
         if let profile {

@@ -12,7 +12,7 @@ final class CardEditTests: XCTestCase {
         super.setUp()
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         container = try! ModelContainer(
-            for: Card.self, ReviewRecord.self, DailySession.self, UserProfile.self,
+            for: Card.self, ReviewRecord.self, DailySession.self, UserProfile.self, CharacterStats.self,
             configurations: config
         )
     }

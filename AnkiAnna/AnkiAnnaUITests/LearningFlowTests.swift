@@ -5,14 +5,17 @@ final class LearningFlowTests: XCTestCase {
 
     override func setUpWithError() throws {
         continueAfterFailure = false
-        app = LaunchHelper.launchApp()
+        app = LaunchHelper.launchApp(seedData: false, englishOnly: true)
+    }
+
+    private func requireSpellingField() -> XCUIElement {
+        let textField = app.textFields["spellingTextField"]
+        XCTAssertTrue(textField.waitForExistence(timeout: 5), "Expected an English spelling card for this test")
+        return textField
     }
 
     func testCorrectSpellingShowsGreenCheckmark() {
-        // Wait for learning view to load with cards
-        let textField = app.textFields["spellingTextField"]
-        // Cards may include Chinese ones (no textField). If first card is Chinese, skip with a guard.
-        guard textField.waitForExistence(timeout: 5) else { return }
+        let textField = requireSpellingField()
 
         textField.tap()
 
@@ -38,9 +41,7 @@ final class LearningFlowTests: XCTestCase {
     }
 
     func testWrongSpellingShowsCorrectAnswer() {
-        let textField = app.textFields["spellingTextField"]
-        guard textField.waitForExistence(timeout: 5) else { return }
-
+        let textField = requireSpellingField()
         textField.tap()
         textField.typeText("wronganswer")
 
@@ -52,9 +53,7 @@ final class LearningFlowTests: XCTestCase {
     }
 
     func testRetryButtonAfterWrongAnswer() {
-        let textField = app.textFields["spellingTextField"]
-        guard textField.waitForExistence(timeout: 5) else { return }
-
+        let textField = requireSpellingField()
         textField.tap()
         textField.typeText("wronganswer")
         app.buttons["submitButton"].tap()
@@ -68,9 +67,7 @@ final class LearningFlowTests: XCTestCase {
     }
 
     func testSkipButtonAfterWrongAnswer() {
-        let textField = app.textFields["spellingTextField"]
-        guard textField.waitForExistence(timeout: 5) else { return }
-
+        let textField = requireSpellingField()
         textField.tap()
         textField.typeText("wronganswer")
         app.buttons["submitButton"].tap()
@@ -79,18 +76,19 @@ final class LearningFlowTests: XCTestCase {
         XCTAssertTrue(skipButton.waitForExistence(timeout: 3))
         skipButton.tap()
 
-        // Should advance to next card or show session complete
-        let nextTextField = app.textFields["spellingTextField"]
+        // After skipping, the next card may be English, Chinese, or the session may complete.
+        let englishSubmit = app.buttons["submitButton"]
+        let chineseSubmit = app.buttons["提交"]
         let sessionComplete = app.otherElements["sessionCompleteView"]
-        let advanced = nextTextField.waitForExistence(timeout: 3) || sessionComplete.waitForExistence(timeout: 3)
+        let advanced = englishSubmit.waitForExistence(timeout: 3)
+            || chineseSubmit.waitForExistence(timeout: 3)
+            || sessionComplete.waitForExistence(timeout: 3)
         XCTAssertTrue(advanced, "Should advance after skip")
+        XCTAssertFalse(skipButton.exists, "Skip button should disappear after advancing")
     }
 
     func testProgressTextUpdates() {
         let progressText = app.staticTexts["progressText"]
-        guard progressText.waitForExistence(timeout: 5) else { return }
-
-        // Progress should show initial state like "0/N"
-        XCTAssertTrue(progressText.exists)
+        XCTAssertTrue(progressText.waitForExistence(timeout: 5), "Progress text should be visible")
     }
 }

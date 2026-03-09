@@ -32,6 +32,25 @@ enum UITestSeeder {
         try? context.save()
     }
 
+    static func seedEnglishCards(context: ModelContext) {
+        let profile = UserProfile(name: "Anna", dailyGoal: 15)
+        context.insert(profile)
+
+        let cards = [
+            ("apple", "an ___", "an apple"),
+            ("book", "I read a ___", "I read a book"),
+            ("cat", "a ___", "a cat")
+        ]
+
+        for (answer, text, fullText) in cards {
+            let card = Card(type: .englishSpelling, answer: answer, audioText: answer)
+            card.contexts.append(CardContext(type: .phrase, text: text, fullText: fullText))
+            context.insert(card)
+        }
+
+        try? context.save()
+    }
+
     static func seedSingleCard(context: ModelContext) {
         let profile = UserProfile(name: "Anna", dailyGoal: 15)
         context.insert(profile)

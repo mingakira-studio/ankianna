@@ -2,6 +2,8 @@ import Foundation
 import Security
 
 enum AIGenerator {
+    typealias GeneratedContext = (type: ContextType, text: String, fullText: String)
+    typealias TextbookBatchResult = [String: (phrases: [GeneratedContext], sentences: [GeneratedContext])]
 
     static let defaultEndpoint = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
     static let defaultModel = "qwen-plus"
@@ -9,7 +11,7 @@ enum AIGenerator {
 
     struct GeneratedCard {
         let answer: String
-        let contexts: [(type: ContextType, text: String, fullText: String)]
+        let contexts: [GeneratedContext]
     }
 
     struct APIConfig {
@@ -56,40 +58,7 @@ enum AIGenerator {
         request.httpBody = try JSONSerialization.data(withJSONObject: body)
 
         let (data, _) = try await URLSession.shared.data(for: request)
-
-        // Parse OpenAI-compatible response
-        guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-              let choices = json["choices"] as? [[String: Any]],
-              let message = choices.first?["message"] as? [String: Any],
-              let text = message["content"] as? String else {
-            // Check for error message from API
-            if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-               let error = json["error"] as? [String: Any],
-               let msg = error["message"] as? String {
-                throw GeneratorError.apiError(msg)
-            }
-            throw GeneratorError.parseError
-        }
-
-        // Extract JSON array from response text
-        guard let jsonStart = text.firstIndex(of: "["),
-              let jsonEnd = text.lastIndex(of: "]") else {
-            throw GeneratorError.parseError
-        }
-        let jsonString = String(text[jsonStart...jsonEnd])
-        let cardsData = try JSONSerialization.jsonObject(with: jsonString.data(using: .utf8)!) as? [[String: Any]] ?? []
-
-        return cardsData.compactMap { cardDict -> GeneratedCard? in
-            guard let answer = cardDict["answer"] as? String,
-                  let contexts = cardDict["contexts"] as? [[String: Any]] else { return nil }
-            let parsedContexts = contexts.compactMap { ctx -> (type: ContextType, text: String, fullText: String)? in
-                guard let text = ctx["text"] as? String,
-                      let fullText = ctx["fullText"] as? String else { return nil }
-                let type: ContextType = (ctx["type"] as? String) == "sentence" ? .sentence : .phrase
-                return (type: type, text: text, fullText: fullText)
-            }
-            return GeneratedCard(answer: answer, contexts: parsedContexts)
-        }
+        return try generatedCards(from: data)
     }
 
     /// Generate contexts for a batch of given words/characters in one API call
@@ -137,37 +106,7 @@ enum AIGenerator {
         request.httpBody = try JSONSerialization.data(withJSONObject: body)
 
         let (data, _) = try await URLSession.shared.data(for: request)
-
-        guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-              let choices = json["choices"] as? [[String: Any]],
-              let message = choices.first?["message"] as? [String: Any],
-              let text = message["content"] as? String else {
-            if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-               let error = json["error"] as? [String: Any],
-               let msg = error["message"] as? String {
-                throw GeneratorError.apiError(msg)
-            }
-            throw GeneratorError.parseError
-        }
-
-        guard let jsonStart = text.firstIndex(of: "["),
-              let jsonEnd = text.lastIndex(of: "]") else {
-            throw GeneratorError.parseError
-        }
-        let jsonString = String(text[jsonStart...jsonEnd])
-        let cardsData = try JSONSerialization.jsonObject(with: jsonString.data(using: .utf8)!) as? [[String: Any]] ?? []
-
-        return cardsData.compactMap { cardDict -> GeneratedCard? in
-            guard let answer = cardDict["answer"] as? String,
-                  let contexts = cardDict["contexts"] as? [[String: Any]] else { return nil }
-            let parsedContexts = contexts.compactMap { ctx -> (type: ContextType, text: String, fullText: String)? in
-                guard let text = ctx["text"] as? String,
-                      let fullText = ctx["fullText"] as? String else { return nil }
-                let type: ContextType = (ctx["type"] as? String) == "sentence" ? .sentence : .phrase
-                return (type: type, text: text, fullText: fullText)
-            }
-            return GeneratedCard(answer: answer, contexts: parsedContexts)
-        }
+        return try generatedCards(from: data)
     }
 
     /// Generate contexts for a textbook lesson using parallel batch requests.
@@ -185,41 +124,20 @@ enum AIGenerator {
         }
 
         // Run all batches concurrently
-        let allAIResults = try await withThrowingTaskGroup(
-            of: [String: (phrases: [(type: ContextType, text: String, fullText: String)],
-                          sentences: [(type: ContextType, text: String, fullText: String)])].self
-        ) { group in
+        let allAIResults = try await withThrowingTaskGroup(of: TextbookBatchResult.self) { group in
             for batch in batches {
                 group.addTask {
                     try await callTextbookBatch(characters: batch, lessonTitle: lessonTitle, config: config)
                 }
             }
-            var merged: [String: (phrases: [(type: ContextType, text: String, fullText: String)],
-                                  sentences: [(type: ContextType, text: String, fullText: String)])] = [:]
+            var merged: TextbookBatchResult = [:]
             for try await result in group {
                 merged.merge(result) { _, new in new }
             }
             return merged
         }
 
-        // Merge: textbook phrases first, then AI phrases (dedup), then AI sentences
-        return characters.map { char in
-            let textbookPhrases = TextbookDataProvider.phrasesFromTextbookWords(char: char.char, words: char.words)
-            let existingFullTexts = Set(textbookPhrases.map(\.fullText))
-
-            var allPhrases = textbookPhrases
-            if let ai = allAIResults[char.char] {
-                for phrase in ai.phrases {
-                    if allPhrases.count >= 5 { break }
-                    if !existingFullTexts.contains(phrase.fullText) {
-                        allPhrases.append(phrase)
-                    }
-                }
-                let sentences = Array(ai.sentences.prefix(3))
-                return GeneratedCard(answer: char.char, contexts: allPhrases + sentences)
-            }
-            return GeneratedCard(answer: char.char, contexts: allPhrases)
-        }
+        return mergeTextbookContexts(characters: characters, aiResults: allAIResults)
     }
 
     /// Call API for a single batch of characters
@@ -227,8 +145,7 @@ enum AIGenerator {
         characters: [TextbookDataProvider.TextbookCharacter],
         lessonTitle: String,
         config: APIConfig
-    ) async throws -> [String: (phrases: [(type: ContextType, text: String, fullText: String)],
-                                sentences: [(type: ContextType, text: String, fullText: String)])] {
+    ) async throws -> TextbookBatchResult {
         var charLines: [String] = []
         for char in characters {
             let wordsStr = char.words.joined(separator: "、")
@@ -269,7 +186,73 @@ enum AIGenerator {
         request.httpBody = try JSONSerialization.data(withJSONObject: body)
 
         let (data, _) = try await URLSession.shared.data(for: request)
+        return try textbookBatchResult(from: data)
+    }
 
+    static func generatedCards(from data: Data) throws -> [GeneratedCard] {
+        let text = try messageContent(from: data)
+        guard let jsonStart = text.firstIndex(of: "["),
+              let jsonEnd = text.lastIndex(of: "]") else {
+            throw GeneratorError.parseError
+        }
+        let jsonString = String(text[jsonStart...jsonEnd])
+        let cardsData = try JSONSerialization.jsonObject(with: jsonString.data(using: .utf8)!) as? [[String: Any]] ?? []
+
+        return cardsData.compactMap { cardDict -> GeneratedCard? in
+            guard let answer = cardDict["answer"] as? String,
+                  let contexts = cardDict["contexts"] as? [[String: Any]] else { return nil }
+            let parsedContexts = contexts.compactMap { parseContext($0) }
+            return GeneratedCard(answer: answer, contexts: parsedContexts)
+        }
+    }
+
+    static func textbookBatchResult(from data: Data) throws -> TextbookBatchResult {
+        let text = try messageContent(from: data)
+        guard let jsonStart = text.firstIndex(of: "["),
+              let jsonEnd = text.lastIndex(of: "]") else {
+            throw GeneratorError.parseError
+        }
+        let jsonString = String(text[jsonStart...jsonEnd])
+        let cardsData = try JSONSerialization.jsonObject(with: jsonString.data(using: .utf8)!) as? [[String: Any]] ?? []
+
+        var results: TextbookBatchResult = [:]
+        for cardDict in cardsData {
+            guard let answer = cardDict["answer"] as? String else { continue }
+            let phrases = (cardDict["phrases"] as? [[String: Any]] ?? []).compactMap {
+                parseContext($0, defaultType: .phrase)
+            }
+            let sentences = (cardDict["sentences"] as? [[String: Any]] ?? []).compactMap {
+                parseContext($0, defaultType: .sentence)
+            }
+            results[answer] = (phrases: phrases, sentences: sentences)
+        }
+        return results
+    }
+
+    static func mergeTextbookContexts(
+        characters: [TextbookDataProvider.TextbookCharacter],
+        aiResults: TextbookBatchResult
+    ) -> [GeneratedCard] {
+        characters.map { char in
+            let textbookPhrases = TextbookDataProvider.phrasesFromTextbookWords(char: char.char, words: char.words)
+            var seenFullTexts = Set(textbookPhrases.map(\.fullText))
+
+            var allPhrases = textbookPhrases
+            if let ai = aiResults[char.char] {
+                for phrase in ai.phrases {
+                    if allPhrases.count >= 5 { break }
+                    if seenFullTexts.insert(phrase.fullText).inserted {
+                        allPhrases.append(phrase)
+                    }
+                }
+                let sentences = Array(ai.sentences.prefix(3))
+                return GeneratedCard(answer: char.char, contexts: allPhrases + sentences)
+            }
+            return GeneratedCard(answer: char.char, contexts: allPhrases)
+        }
+    }
+
+    private static func messageContent(from data: Data) throws -> String {
         guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
               let choices = json["choices"] as? [[String: Any]],
               let message = choices.first?["message"] as? [String: Any],
@@ -281,29 +264,22 @@ enum AIGenerator {
             }
             throw GeneratorError.parseError
         }
+        return text
+    }
 
-        guard let jsonStart = text.firstIndex(of: "["),
-              let jsonEnd = text.lastIndex(of: "]") else {
-            throw GeneratorError.parseError
+    private static func parseContext(
+        _ ctx: [String: Any],
+        defaultType: ContextType = .phrase
+    ) -> GeneratedContext? {
+        guard let text = ctx["text"] as? String,
+              let fullText = ctx["fullText"] as? String else { return nil }
+        let type: ContextType
+        if let rawType = ctx["type"] as? String {
+            type = rawType == "sentence" ? .sentence : .phrase
+        } else {
+            type = defaultType
         }
-        let jsonString = String(text[jsonStart...jsonEnd])
-        let cardsData = try JSONSerialization.jsonObject(with: jsonString.data(using: .utf8)!) as? [[String: Any]] ?? []
-
-        var results: [String: (phrases: [(type: ContextType, text: String, fullText: String)],
-                               sentences: [(type: ContextType, text: String, fullText: String)])] = [:]
-        for cardDict in cardsData {
-            guard let answer = cardDict["answer"] as? String else { continue }
-            let phrases = (cardDict["phrases"] as? [[String: Any]] ?? []).compactMap { ctx -> (type: ContextType, text: String, fullText: String)? in
-                guard let t = ctx["text"] as? String, let ft = ctx["fullText"] as? String else { return nil }
-                return (type: .phrase, text: t, fullText: ft)
-            }
-            let sentences = (cardDict["sentences"] as? [[String: Any]] ?? []).compactMap { ctx -> (type: ContextType, text: String, fullText: String)? in
-                guard let t = ctx["text"] as? String, let ft = ctx["fullText"] as? String else { return nil }
-                return (type: .sentence, text: t, fullText: ft)
-            }
-            results[answer] = (phrases: phrases, sentences: sentences)
-        }
-        return results
+        return (type: type, text: text, fullText: fullText)
     }
 
     static func loadConfig() -> APIConfig {
@@ -349,7 +325,7 @@ enum AIGenerator {
     static func saveModel(_ model: String) { saveKeychain(model, account: "ankianna-model") }
     static func loadModel() -> String? { loadKeychain(account: "ankianna-model") }
 
-    enum GeneratorError: LocalizedError {
+    enum GeneratorError: LocalizedError, Equatable {
         case parseError
         case noAPIKey
         case invalidEndpoint

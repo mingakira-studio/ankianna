@@ -25,7 +25,9 @@ struct ContentView: View {
         }
         #if DEBUG
         .onAppear {
-            if CommandLine.arguments.contains("-SeedTestData") {
+            if CommandLine.arguments.contains("-SeedEnglishCards") {
+                UITestSeeder.seedEnglishCards(context: modelContext)
+            } else if CommandLine.arguments.contains("-SeedTestData") {
                 UITestSeeder.seedTestData(context: modelContext)
             } else if CommandLine.arguments.contains("-SeedSingleCard") {
                 UITestSeeder.seedSingleCard(context: modelContext)

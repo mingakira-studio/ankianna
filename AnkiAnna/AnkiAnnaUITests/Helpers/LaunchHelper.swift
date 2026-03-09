@@ -1,10 +1,16 @@
 import XCTest
 
 enum LaunchHelper {
-    static func launchApp(seedData: Bool = true, singleCard: Bool = false) -> XCUIApplication {
+    static func launchApp(
+        seedData: Bool = true,
+        singleCard: Bool = false,
+        englishOnly: Bool = false
+    ) -> XCUIApplication {
         let app = XCUIApplication()
         app.launchArguments.append("-UITestMode")
-        if singleCard {
+        if englishOnly {
+            app.launchArguments.append("-SeedEnglishCards")
+        } else if singleCard {
             app.launchArguments.append("-SeedSingleCard")
         } else if seedData {
             app.launchArguments.append("-SeedTestData")

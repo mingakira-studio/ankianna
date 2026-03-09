@@ -1,5 +1,10 @@
 # Anna 记忆卡片 App - 操作日志
 
+## 2026-03-09
+- 23:26 [adhoc] 更新 sp-bridge skill：新增文档引用规则（任务→Phase/Task映射、NEXT→设计/实施文档引用、子任务→计划Task引用）；修复技能自动发现问题
+- 23:26 [adhoc] V2 brainstorming + writing-plans 完成，产出设计文档和 23-task 实施计划，转换为 GTD 任务大纲（task 7-11）
+- 11:52 [adhoc] 补齐 AIGenerator、LearningViewModel、TextbookDataProvider 测试，修正 LearningFlow/SessionComplete UI 测试假通过，新增英文-only UITest seed；全量 105 个测试通过
+
 ## 2026-03-06
 - 17:20 [project-next] 完成「功能迭代」, 设置 NEXT=界面游戏化
   - 英语拼写改键盘输入 + 逐字对比反馈（SpellingChecker）

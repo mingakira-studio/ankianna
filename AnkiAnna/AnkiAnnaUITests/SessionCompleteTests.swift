@@ -9,12 +9,14 @@ final class SessionCompleteTests: XCTestCase {
         app = LaunchHelper.launchApp(seedData: false, singleCard: true)
     }
 
-    func testSessionCompleteAfterAllCards() {
+    private func requireSpellingField() -> XCUIElement {
         let textField = app.textFields["spellingTextField"]
-        guard textField.waitForExistence(timeout: 5) else {
-            // If no text field, might already be session complete or Chinese card
-            return
-        }
+        XCTAssertTrue(textField.waitForExistence(timeout: 5), "Expected single-card seeding to show the spelling field")
+        return textField
+    }
+
+    func testSessionCompleteAfterAllCards() {
+        let textField = requireSpellingField()
 
         // Submit the single card (answer is "apple")
         textField.tap()
@@ -39,9 +41,7 @@ final class SessionCompleteTests: XCTestCase {
     }
 
     func testSessionCompleteShowsStats() {
-        let textField = app.textFields["spellingTextField"]
-        guard textField.waitForExistence(timeout: 5) else { return }
-
+        let textField = requireSpellingField()
         textField.tap()
         textField.typeText("apple")
         app.buttons["submitButton"].tap()

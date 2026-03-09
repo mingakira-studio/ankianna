@@ -16,11 +16,11 @@
 
 ## 代码结构
 - `AnkiAnna/AnkiAnna/` — 主应用代码
-  - `Models/` — SwiftData 数据模型
-  - `Services/` — 业务逻辑 (SM2Engine, TTSService, HandwritingRecognizer, AIGenerator, PointsService, BadgeService, LevelService)
+  - `Models/` — SwiftData 数据模型 (Card, CardContext, ReviewRecord, DailySession, UserProfile, CharacterStats)
+  - `Services/` — 业务逻辑 (SM2Engine, TTSService, HandwritingRecognizer, AIGenerator, PointsService, BadgeService, LevelService, TextbookSeeder)
   - `Views/` — SwiftUI 视图 (Learning/, AddCard/, CardLibrary/, Stats/)
     - `Learning/` — MascotView, CelebrationEffects (confetti/fire/encouragement), ResultFeedbackView (combo/points animations)
-- `AnkiAnna/AnkiAnnaTests/` — 单元测试 (68 tests)
+- `AnkiAnna/AnkiAnnaTests/` — 单元测试 (104 tests)
 - `AnkiAnna/AnkiAnnaUITests/` — E2E 测试 (23 tests)
 - `docs/plans/` — 设计文档和实施计划
 
@@ -41,7 +41,8 @@
 - 并行开发时优先用 Agent Team（TeamCreate + 有 tmux panel），不用 background Agent，这样进度更直观
 
 ### 构建环境
-- 有 iPad Simulator（iPad Pro 13-inch M5 等），可用于自动化 UI 测试
+- iPad Simulator: `iPad Pro 13-inch (M5)` (OS 26.2), 使用 `id=493C6161-D3FC-40E0-8324-1678831049EB`
+- xcodegen 管理项目结构（`AnkiAnna/project.yml`），新增文件后运行 `cd AnkiAnna && xcodegen generate`
 - 真机测试设备：盛明的iPad（需解锁）
 - CocoaPods MLKit 依赖需要 test target 添加 `inherit! :search_paths`
 - AnkiAnnaTests target 需要 DEVELOPMENT_TEAM = SSG79B289M

@@ -5,7 +5,7 @@
 - Status: active
 - Path: ~/Projects/ankianna
 - Created: 2025-05-01
-- Last Updated: 2026-03-09
+- Last Updated: 2026-03-10
 
 ## 目标
 为 Anna 打造个性化的记忆卡片应用，基于间隔重复算法帮助高效记忆学习内容。
@@ -22,22 +22,15 @@
 4. [x] 功能迭代 — 英语键盘输入、题库系统、卡片编辑 (2026-03-06)
 5. [x] 界面游戏化 — 吉祥物动画、combo 特效、徽章系统、进度可视化 (2026-03-07)
 6. [x] V2 设计 — 5 功能模块设计 + 实施计划 (2026-03-09)
-7. [ ] 基础重构 — CharacterStats 模型、SM-2 修复、技术债清理、课本预装 (Phase 1, Task 1-6)
-8. [ ] 字库浏览器 — 替代卡片库，按年级/课文/掌握状态浏览筛选搜索 (Phase 2, Task 7-9)
+7. [x] 基础重构 — CharacterStats 模型、SM-2 修复、技术债清理、课本预装 (Phase 1, Task 1-6) (2026-03-09)
+8. [>] 字库浏览器 — 替代卡片库，按年级/课文/掌握状态浏览筛选搜索 (Phase 2, Task 7-9) ← NEXT
 9. [ ] 游戏模式 — 快速学习 + 限时挑战 + 生存模式 + 闯关模式 + 连连看 (Phase 3, Task 10-16)
 10. [ ] 报告系统 — 今日概览、学习趋势图、掌握进度、易错字排行 (Phase 4, Task 17-20)
 11. [ ] 集成收尾 — 设置页、全量测试修复、文档更新 (Phase 5, Task 21-23)
 
-## NEXT: 基础重构
+## NEXT: 字库浏览器
 > 设计文档: docs/plans/2026-03-09-v2-features-design.md
-> 实施计划: docs/plans/2026-03-09-v2-implementation.md（Phase 1, Task 1-6）
-
-- [ ] 新增 CharacterStats 模型（掌握状态 + SM-2 调度字段）→ 计划 Task 1
-- [ ] ReviewRecord 增加 repetition 字段，DailySession 增加 newMastered/gameMode → 计划 Task 2
-- [ ] TextbookSeeder 服务（首次启动预生成 Cards + CharacterStats）→ 计划 Task 3
-- [ ] 修复 SM-2 集成（LearningViewModel 从 CharacterStats 读实际值）→ 计划 Task 4
-- [ ] 修复 DailySession 创建 + BadgeService 接入 + UserProfile 初始化 → 计划 Task 5
-- [ ] App 启动时课本数据 seeding → 计划 Task 6
+> 实施计划: docs/plans/2026-03-09-v2-implementation.md（Phase 2, Task 7-9）
 
 ## Log
 - 2026-03-09: [project-next] 完成 V2 设计，设置 NEXT=基础重构；设计文档 docs/plans/2026-03-09-v2-features-design.md，实施计划 docs/plans/2026-03-09-v2-implementation.md（23 tasks / 5 phases）

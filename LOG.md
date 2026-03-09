@@ -1,6 +1,14 @@
 # Anna 记忆卡片 App - 操作日志
 
 ## 2026-03-09
+- 23:43 [project-next] 完成「基础重构」(Phase 1, Task 1-6), 设置 NEXT=字库浏览器
+  - CharacterStats 模型（mastery tracking + SM-2 state）+ 14 tests
+  - ReviewRecord +repetition, DailySession +newMastered/gameMode
+  - TextbookSeeder 首次启动预装课本字符数据 + 4 tests
+  - LearningViewModel SM-2 集成修复（从 CharacterStats 读真实 ease/interval/repetition）+ 4 tests
+  - UserProfile 首次启动自动初始化
+  - TextbookSeeder 字符去重（同字多课文场景）
+  - 104 unit tests 全绿
 - 23:26 [adhoc] 更新 sp-bridge skill：新增文档引用规则（任务→Phase/Task映射、NEXT→设计/实施文档引用、子任务→计划Task引用）；修复技能自动发现问题
 - 23:26 [adhoc] V2 brainstorming + writing-plans 完成，产出设计文档和 23-task 实施计划，转换为 GTD 任务大纲（task 7-11）
 - 11:52 [adhoc] 补齐 AIGenerator、LearningViewModel、TextbookDataProvider 测试，修正 LearningFlow/SessionComplete UI 测试假通过，新增英文-only UITest seed；全量 105 个测试通过

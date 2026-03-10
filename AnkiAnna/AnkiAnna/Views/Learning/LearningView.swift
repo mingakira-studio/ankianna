@@ -47,6 +47,12 @@ struct LearningView: View {
         }
     }
 
+    private func speakCurrentContext(card: Card) {
+        if let ctx = viewModel.currentContext {
+            TTSService.speak(text: ctx.fullText, cardType: card.type)
+        }
+    }
+
     private func learningContentView(card: Card) -> some View {
         HStack(spacing: 0) {
             // Left: prompt + controls
@@ -137,9 +143,37 @@ struct LearningView: View {
                     .buttonStyle(.borderedProminent)
                     .controlSize(.large)
                     .padding(.bottom)
+
+                    #if DEBUG
+                    HStack(spacing: 16) {
+                        Button("模拟写对") {
+                            viewModel.submitAnswer(recognized: card.answer, modelContext: modelContext, profile: profile)
+                        }
+                        .buttonStyle(.bordered)
+                        .tint(.green)
+                        .accessibilityIdentifier("simulateCorrectButton")
+
+                        Button("模拟写错") {
+                            viewModel.submitAnswer(recognized: "", modelContext: modelContext, profile: profile)
+                        }
+                        .buttonStyle(.bordered)
+                        .tint(.red)
+                        .accessibilityIdentifier("simulateWrongButton")
+                    }
+                    .padding(.bottom, 8)
+                    #endif
                 }
             }
             .frame(maxWidth: .infinity)
+        }
+        .onAppear {
+            speakCurrentContext(card: card)
+        }
+        .onChange(of: viewModel.showResult) {
+            // Auto-speak when moving to next card (showResult goes false)
+            if !viewModel.showResult, let newCard = viewModel.currentCard {
+                speakCurrentContext(card: newCard)
+            }
         }
     }
 

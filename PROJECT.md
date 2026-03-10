@@ -24,38 +24,13 @@
 6. [x] V2 设计 — 5 功能模块设计 + 实施计划 (2026-03-09)
 7. [x] 基础重构 — CharacterStats 模型、SM-2 修复、技术债清理、课本预装 (Phase 1, Task 1-6) (2026-03-09)
 8. [x] 字库浏览器 — 添加tab内嵌课本字库浏览(年级→课文→字)，单字/整课加入卡片库；移除首次启动自动填充；卡片库仅显示用户已选卡片 (Phase 2, Task 7-9) (2026-03-10)
-9. [>] 学习流程重设计 — 练习模式、动态队列、三级掌握状态（学习/疑难/熟识） ← NEXT
-10. [ ] 游戏模式 — 快速学习 + 限时挑战 + 生存模式 + 闯关模式 + 连连看 (Phase 3, Task 10-16)
+9. [x] 学习流程重设计 — 练习模式、动态队列、三级掌握状态（学习/疑难/熟识） (2026-03-10)
+10. [>] 游戏模式 — 快速学习 + 限时挑战 + 生存模式 + 闯关模式 + 连连看 (Phase 3, Task 10-16) ← NEXT
 11. [ ] 报告系统 — 今日概览、学习趋势图、掌握进度、易错字排行 (Phase 4, Task 17-20)
 12. [ ] 集成收尾 — 设置页、全量测试修复、文档更新 (Phase 5, Task 21-23)
 
-## NEXT: 学习流程重设计
-> 设计文档: docs/plans/2026-03-10-learning-flow-redesign.md
-
-- [ ] **CharacterStats 模型变更** | 预估: 30min | 类型: code
-  - 所需: Models/CharacterStats.swift
-  - 产出: MasteryLevel 新增 `.difficult`；移除 `isDifficult`/`isManuallyReset`；新增 `markMastered()`/`markDifficult()`；`recordReview()` 不再自动调用 `updateMasteryLevel()`
-  - 验证: 现有 CharacterStatsTests 适配通过
-- [ ] **LearningViewModel 重写** | 预估: 3h | 类型: code
-  - 所需: LearningViewModel.swift, docs/plans/2026-03-10-learning-flow-redesign.md
-  - 产出: 动态队列消费模式；CharacterSessionState 追踪连续对/错；PracticeState 练习模式状态机；主流程 submitMainAnswer（走SM-2）+ 练习 submitPracticeAnswer（不走SM-2）分离；答错插回队列；退出判定逻辑（连续对3次询问熟识/连续错3次标疑难/有错连续对2次退出）
-  - 验证: 单元测试覆盖各状态转移路径
-  - blockedBy: CharacterStats 模型变更
-- [ ] **LearningView 练习模式 UI** | 预估: 1h | 类型: code
-  - 所需: LearningView.swift, LearningViewModel 新接口
-  - 产出: 练习模式 UI（Phase1: 显示正确字+手写区 "对着写 1/2"；Phase2: 隐藏字+手写区 "盲写"）；熟识确认 Alert；疑难标记反馈；练习进度指示
-  - 验证: 构建成功，模拟器手动验证流程
-  - blockedBy: LearningViewModel 重写
-- [ ] **单元测试** | 预估: 1h | 类型: code
-  - 所需: LearningViewModelTests.swift, CharacterStatsTests.swift
-  - 产出: ViewModel 状态机测试（连续对3次→熟识、连续错3次→疑难、答错插回队列、练习不计SM-2、有错连续对2次退出、疑难→学习转移）；CharacterStats 新方法测试
-  - 验证: xcodebuild test 全部通过
-  - blockedBy: LearningView 练习模式 UI
-- [ ] **UI 测试适配** | 预估: 30min | 类型: code
-  - 所需: AnkiAnnaUITests/LearningFlowTests.swift
-  - 产出: 现有 LearningFlow UI 测试适配新流程；新增练习模式 UI 测试
-  - 验证: xcodebuild test 全量通过
-  - blockedBy: 单元测试
+## NEXT: 游戏模式
+> 实施计划: docs/plans/2026-03-09-v2-implementation.md (Phase 3, Task 10-16)
 
 ## Log
 - 12:09 [adhoc] 学习界面: 添加 DEBUG 模拟写对/写错按钮 + 自动朗读（进入+切题）; 学习流程重设计方案 docs/plans/2026-03-10-learning-flow-redesign.md, 插入任务大纲 NEXT=学习流程重设计

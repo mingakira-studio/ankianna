@@ -8,6 +8,7 @@ final class CharacterStatsTests: XCTestCase {
     func testMasteryLevelRawValues() {
         XCTAssertEqual(MasteryLevel.new.rawValue, "new")
         XCTAssertEqual(MasteryLevel.learning.rawValue, "learning")
+        XCTAssertEqual(MasteryLevel.difficult.rawValue, "difficult")
         XCTAssertEqual(MasteryLevel.mastered.rawValue, "mastered")
     }
 
@@ -27,7 +28,6 @@ final class CharacterStatsTests: XCTestCase {
         XCTAssertEqual(stats.correctCount, 0)
         XCTAssertEqual(stats.errorCount, 0)
         XCTAssertNil(stats.lastPracticed)
-        XCTAssertFalse(stats.isManuallyReset)
         XCTAssertEqual(stats.ease, 2.5)
         XCTAssertEqual(stats.interval, 0)
         XCTAssertEqual(stats.repetition, 0)
@@ -52,70 +52,39 @@ final class CharacterStatsTests: XCTestCase {
         XCTAssertEqual(stats.errorRate, 0.3, accuracy: 0.001)
     }
 
-    func testIsDifficultFalseWhenFewPractices() {
-        let stats = CharacterStats(
-            character: "春", grade: 1, semester: "upper",
-            lesson: 1, lessonTitle: "春夏秋冬", words: []
-        )
-        stats.practiceCount = 2
-        stats.errorCount = 2
-        XCTAssertFalse(stats.isDifficult)
-    }
+    // MARK: - Mastery state transitions
 
-    func testIsDifficultTrueWhenHighErrorRate() {
+    func testMarkMastered() {
         let stats = CharacterStats(
             character: "春", grade: 1, semester: "upper",
             lesson: 1, lessonTitle: "春夏秋冬", words: []
         )
-        stats.practiceCount = 5
-        stats.errorCount = 3  // 60% error rate
-        XCTAssertTrue(stats.isDifficult)
-    }
-
-    func testUpdateMasteryLevelNew() {
-        let stats = CharacterStats(
-            character: "春", grade: 1, semester: "upper",
-            lesson: 1, lessonTitle: "春夏秋冬", words: []
-        )
-        stats.updateMasteryLevel()
-        XCTAssertEqual(stats.masteryLevel, .new)
-    }
-
-    func testUpdateMasteryLevelLearning() {
-        let stats = CharacterStats(
-            character: "春", grade: 1, semester: "upper",
-            lesson: 1, lessonTitle: "春夏秋冬", words: []
-        )
-        stats.practiceCount = 2
-        stats.repetition = 2
-        stats.updateMasteryLevel()
-        XCTAssertEqual(stats.masteryLevel, .learning)
-    }
-
-    func testUpdateMasteryLevelMastered() {
-        let stats = CharacterStats(
-            character: "春", grade: 1, semester: "upper",
-            lesson: 1, lessonTitle: "春夏秋冬", words: []
-        )
-        stats.practiceCount = 5
-        stats.repetition = 3
-        stats.interval = 21
-        stats.updateMasteryLevel()
+        stats.masteryLevel = .learning
+        stats.markMastered()
         XCTAssertEqual(stats.masteryLevel, .mastered)
     }
 
-    func testManualResetOverridesMastery() {
+    func testMarkDifficult() {
         let stats = CharacterStats(
             character: "春", grade: 1, semester: "upper",
             lesson: 1, lessonTitle: "春夏秋冬", words: []
         )
-        stats.practiceCount = 5
-        stats.repetition = 3
-        stats.interval = 21
-        stats.isManuallyReset = true
-        stats.updateMasteryLevel()
+        stats.masteryLevel = .learning
+        stats.markDifficult()
+        XCTAssertEqual(stats.masteryLevel, .difficult)
+    }
+
+    func testMarkLearningFromDifficult() {
+        let stats = CharacterStats(
+            character: "春", grade: 1, semester: "upper",
+            lesson: 1, lessonTitle: "春夏秋冬", words: []
+        )
+        stats.masteryLevel = .difficult
+        stats.markLearning()
         XCTAssertEqual(stats.masteryLevel, .learning)
     }
+
+    // MARK: - recordReview
 
     func testRecordReviewCorrect() {
         let stats = CharacterStats(
@@ -133,7 +102,6 @@ final class CharacterStatsTests: XCTestCase {
         XCTAssertNotNil(stats.lastPracticed)
         XCTAssertEqual(stats.repetition, 1)
         XCTAssertEqual(stats.interval, 1)
-        XCTAssertEqual(stats.masteryLevel, .learning)
     }
 
     func testRecordReviewWrong() {
@@ -152,26 +120,40 @@ final class CharacterStatsTests: XCTestCase {
         XCTAssertEqual(stats.repetition, 0)
     }
 
+    func testRecordReviewDoesNotChangeMasteryLevel() {
+        let stats = CharacterStats(
+            character: "春", grade: 1, semester: "upper",
+            lesson: 1, lessonTitle: "春夏秋冬", words: []
+        )
+        // masteryLevel should remain .new after recordReview
+        let output = SM2Engine.calculateNext(
+            quality: 4, previousEase: 2.5, previousInterval: 0, repetition: 0
+        )
+        stats.recordReview(correct: true, reviewOutput: output)
+        XCTAssertEqual(stats.masteryLevel, .new, "recordReview should not auto-update masteryLevel")
+    }
+
+    // MARK: - resetMastery
+
     func testResetMastery() {
         let stats = CharacterStats(
             character: "春", grade: 1, semester: "upper",
             lesson: 1, lessonTitle: "春夏秋冬", words: []
         )
-        stats.practiceCount = 5
-        stats.repetition = 3
-        stats.interval = 21
+        stats.masteryLevel = .mastered
         stats.ease = 3.0
-        stats.updateMasteryLevel()
-        XCTAssertEqual(stats.masteryLevel, .mastered)
+        stats.interval = 21
+        stats.repetition = 3
 
         stats.resetMastery()
-        XCTAssertTrue(stats.isManuallyReset)
         XCTAssertEqual(stats.masteryLevel, .learning)
         XCTAssertEqual(stats.ease, 2.5)
         XCTAssertEqual(stats.interval, 0)
         XCTAssertEqual(stats.repetition, 0)
         XCTAssertNil(stats.nextReviewDate)
     }
+
+    // MARK: - Persistence
 
     func testPersistence() throws {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)

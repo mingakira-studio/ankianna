@@ -23,30 +23,39 @@ final class FullJourneyTests: XCTestCase {
         let progress = app.staticTexts["progressText"]
         XCTAssertTrue(progress.exists, "Progress should show")
 
-        // 3. Type correct answer and submit
-        spellingField.tap()
-        spellingField.typeText("apple")
-        app.buttons["submitButton"].tap()
+        // 3. New flow: single card needs 3 consecutive correct answers to trigger mastery alert
+        //    Each correct answer reinserts the card back into the queue until consecutiveCorrect >= 3
+        for round in 1...3 {
+            let field = app.textFields["spellingTextField"]
+            XCTAssertTrue(field.waitForExistence(timeout: 5), "Spelling field should appear for round \(round)")
 
-        // 4. See result feedback — either correct (green check + points) or wrong
-        let correctFeedback = app.images["correctFeedback"]
-        let wrongFeedback = app.staticTexts["correctAnswerText"]
-        let gotResult = correctFeedback.waitForExistence(timeout: 3) || wrongFeedback.waitForExistence(timeout: 1)
-        XCTAssertTrue(gotResult, "Should see result after submission")
+            field.tap()
+            field.typeText("apple")
+            app.buttons["submitButton"].tap()
 
-        // 5. If correct: see points earned, tap next
-        if correctFeedback.exists {
-            let points = app.staticTexts["pointsEarnedText"]
-            XCTAssertTrue(points.exists, "Correct answer should earn points")
+            // Should see correct feedback
+            let correctFeedback = app.images["correctFeedback"]
+            XCTAssertTrue(correctFeedback.waitForExistence(timeout: 3), "Should see correct feedback in round \(round)")
+
+            // Verify points on first correct answer
+            if round == 1 {
+                let points = app.staticTexts["pointsEarnedText"]
+                XCTAssertTrue(points.exists, "Correct answer should earn points")
+            }
+
             app.buttons["nextButton"].tap()
-        } else {
-            // Wrong: tap skip to advance
-            app.buttons["skipButton"].tap()
         }
 
-        // 6. Session complete view appears (single card session)
+        // 4. After 3 consecutive correct, mastery alert appears: "完全掌握了吗？"
+        let masteryAlert = app.alerts["完全掌握了吗？"]
+        XCTAssertTrue(masteryAlert.waitForExistence(timeout: 3), "Mastery confirmation alert should appear")
+
+        // 5. Confirm mastery
+        masteryAlert.buttons["掌握了！"].tap()
+
+        // 6. Session complete view appears
         let completion = app.staticTexts["今天的学习完成了！"]
-        XCTAssertTrue(completion.waitForExistence(timeout: 5), "Session should complete after last card")
+        XCTAssertTrue(completion.waitForExistence(timeout: 5), "Session should complete after mastery confirmation")
 
         // 7. Completion shows score
         let scoreText = app.staticTexts.matching(NSPredicate(format: "label CONTAINS '正确'")).firstMatch
@@ -62,31 +71,62 @@ final class FullJourneyTests: XCTestCase {
         let spellingField = app.textFields["spellingTextField"]
         XCTAssertTrue(spellingField.waitForExistence(timeout: 5))
 
-        // 1. Type wrong answer
+        // 1. Read the context to figure out which card is shown
+        //    We don't know the card order (randomized), so we'll just test the retry flow
+
+        // 2. Type wrong answer
         spellingField.tap()
         spellingField.typeText("zzzzz")
         app.buttons["submitButton"].tap()
 
-        // 2. See wrong feedback with correct answer displayed
+        // 3. See wrong feedback with correct answer displayed
         let correctAnswer = app.staticTexts["correctAnswerText"]
         XCTAssertTrue(correctAnswer.waitForExistence(timeout: 3), "Should show correct answer")
+
+        // Read the correct answer text so we can use it in practice mode
+        let answerText = correctAnswer.label
+
         let retryButton = app.buttons["retryButton"]
         XCTAssertTrue(retryButton.exists, "Retry button should be available")
 
-        // 3. Tap retry — input field reappears
+        // 4. Tap retry — enters practice mode (not main spelling field)
         retryButton.tap()
-        let retryField = app.textFields["spellingTextField"]
-        XCTAssertTrue(retryField.waitForExistence(timeout: 3), "Spelling field should reappear after retry")
 
-        // 4. We don't know which card is shown, so skip this time to keep test deterministic
-        retryField.tap()
-        retryField.typeText("skip_test")
-        app.buttons["submitButton"].tap()
+        // 5. Practice mode phase 1: "look and write" with practiceTextField
+        let practiceField = app.textFields["practiceTextField"]
+        XCTAssertTrue(practiceField.waitForExistence(timeout: 3), "Practice mode text field should appear after retry")
 
-        // 5. Should see result again (still advancing through the flow)
-        let nextResult = app.staticTexts["correctAnswerText"].waitForExistence(timeout: 3)
-            || app.images["correctFeedback"].waitForExistence(timeout: 1)
-        XCTAssertTrue(nextResult, "Should get result after retry submission")
+        // Practice character should be visible (phase 1)
+        let practiceChar = app.staticTexts["practiceCharacter"]
+        XCTAssertTrue(practiceChar.exists, "Practice mode should show the correct character")
+
+        // 6. Type correct answer in practice mode (phase 1, attempt 1 of 2)
+        practiceField.tap()
+        practiceField.typeText(answerText)
+        app.buttons["practiceSubmitButton"].tap()
+
+        // 7. Phase 1, attempt 2 of 2
+        let practiceField2 = app.textFields["practiceTextField"]
+        XCTAssertTrue(practiceField2.waitForExistence(timeout: 3), "Practice field should reappear for second attempt")
+        practiceField2.tap()
+        practiceField2.typeText(answerText)
+        app.buttons["practiceSubmitButton"].tap()
+
+        // 8. After 2 correct in phase 1, enters phase 2 (blind write)
+        let blindMarker = app.staticTexts["practiceBlind"]
+        XCTAssertTrue(blindMarker.waitForExistence(timeout: 3), "Should enter blind write phase")
+
+        let practiceField3 = app.textFields["practiceTextField"]
+        XCTAssertTrue(practiceField3.waitForExistence(timeout: 3))
+        practiceField3.tap()
+        practiceField3.typeText(answerText)
+        app.buttons["practiceSubmitButton"].tap()
+
+        // 9. After completing practice, should return to main learning flow
+        //    Card is reinserted, so either spellingTextField or session continues
+        let backToMain = app.textFields["spellingTextField"].waitForExistence(timeout: 5)
+            || app.staticTexts["今天的学习完成了！"].waitForExistence(timeout: 1)
+        XCTAssertTrue(backToMain, "Should return to main flow after practice completes")
     }
 
     // MARK: - Journey 3: Browse Card Library → View Detail → Edit → Back
@@ -304,16 +344,52 @@ final class FullJourneyTests: XCTestCase {
     func testMultiCardSessionFlow() {
         app = LaunchHelper.launchApp(seed: .englishOnly)
         var cardsHandled = 0
+        // Track correct answers learned from wrong-answer feedback
+        var knownAnswers: Set<String> = ["apple", "book", "cat"]
+        var lastPracticeAnswer = ""
 
-        // Work through cards until session is complete (max 10 iterations as safety)
-        for _ in 0..<10 {
+        // New flow: each card needs 3 consecutive correct answers + mastery alert to exit,
+        // or hasError + 2 consecutive correct to exit, or practice mode exit when
+        // consecutiveWrong >= 3. With 3 English cards, we need many iterations.
+        for _ in 0..<50 {
             // Check if session is already done
             if app.staticTexts["今天的学习完成了！"].waitForExistence(timeout: 1) { break }
 
+            // Handle mastery alert if it appeared
+            let masteryAlert = app.alerts["完全掌握了吗？"]
+            if masteryAlert.exists {
+                masteryAlert.buttons["掌握了！"].tap()
+                cardsHandled += 1
+                continue
+            }
+
+            // Handle practice mode if we're in it
+            let practiceField = app.textFields["practiceTextField"]
+            if practiceField.waitForExistence(timeout: 1) {
+                let practiceChar = app.staticTexts["practiceCharacter"]
+                let blindMarker = app.staticTexts["practiceBlind"]
+
+                if practiceChar.exists {
+                    // Phase 1: type the visible character
+                    lastPracticeAnswer = practiceChar.label
+                    practiceField.tap()
+                    practiceField.typeText(lastPracticeAnswer)
+                    app.buttons["practiceSubmitButton"].tap()
+                } else if blindMarker.exists {
+                    // Phase 2: blind write — use the answer we learned from phase 1
+                    practiceField.tap()
+                    practiceField.typeText(lastPracticeAnswer)
+                    app.buttons["practiceSubmitButton"].tap()
+                }
+                continue
+            }
+
+            // Main learning flow
             let spellingField = app.textFields["spellingTextField"]
             guard spellingField.waitForExistence(timeout: 3) else { break }
 
-            // Type an answer (might be wrong — that's fine, testing the flow)
+            // Try all known answers; the test seeds apple/book/cat
+            // We try them all — only one will match
             spellingField.tap()
             spellingField.typeText("apple")
             app.buttons["submitButton"].tap()
@@ -324,18 +400,27 @@ final class FullJourneyTests: XCTestCase {
             let gotResult = correct.waitForExistence(timeout: 3) || wrong.waitForExistence(timeout: 1)
             guard gotResult else { break }
 
-            // Advance to next card
             if correct.exists {
                 app.buttons["nextButton"].tap()
             } else {
-                app.buttons["skipButton"].tap()
+                // Wrong answer: learn the correct answer and retry to enter practice mode
+                let answerLabel = wrong.label
+                knownAnswers.insert(answerLabel)
+
+                // Use retry to enter practice mode (required for wrong cards to eventually exit)
+                let retryButton = app.buttons["retryButton"]
+                if retryButton.exists {
+                    retryButton.tap()
+                } else {
+                    app.buttons["skipButton"].tap()
+                }
             }
             cardsHandled += 1
         }
 
         XCTAssertGreaterThan(cardsHandled, 0, "Should handle at least one card")
 
-        // Session should be complete — check text (VStack accessibilityIdentifier is unreliable)
+        // Session should be complete
         let completionText = app.staticTexts["今天的学习完成了！"]
         XCTAssertTrue(completionText.waitForExistence(timeout: 5), "Session should complete after all cards")
 

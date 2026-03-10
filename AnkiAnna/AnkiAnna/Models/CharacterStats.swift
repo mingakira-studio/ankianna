@@ -4,6 +4,7 @@ import SwiftData
 enum MasteryLevel: String, Codable {
     case new
     case learning
+    case difficult
     case mastered
 }
 
@@ -22,7 +23,6 @@ final class CharacterStats {
     var correctCount: Int
     var errorCount: Int
     var lastPracticed: Date?
-    var isManuallyReset: Bool
 
     var ease: Double
     var interval: Int
@@ -31,10 +31,6 @@ final class CharacterStats {
 
     var errorRate: Double {
         practiceCount > 0 ? Double(errorCount) / Double(practiceCount) : 0
-    }
-
-    var isDifficult: Bool {
-        practiceCount >= 3 && errorRate > 0.4
     }
 
     init(character: String, grade: Int, semester: String, lesson: Int,
@@ -51,24 +47,22 @@ final class CharacterStats {
         self.correctCount = 0
         self.errorCount = 0
         self.lastPracticed = nil
-        self.isManuallyReset = false
         self.ease = 2.5
         self.interval = 0
         self.repetition = 0
         self.nextReviewDate = nil
     }
 
-    func updateMasteryLevel() {
-        if practiceCount == 0 {
-            masteryLevel = .new
-        } else if repetition >= 3 && interval >= 21 {
-            masteryLevel = .mastered
-        } else {
-            masteryLevel = .learning
-        }
-        if isManuallyReset {
-            masteryLevel = .learning
-        }
+    func markMastered() {
+        masteryLevel = .mastered
+    }
+
+    func markDifficult() {
+        masteryLevel = .difficult
+    }
+
+    func markLearning() {
+        masteryLevel = .learning
     }
 
     func recordReview(correct: Bool, reviewOutput: SM2Engine.ReviewOutput) {
@@ -83,11 +77,9 @@ final class CharacterStats {
         interval = reviewOutput.interval
         repetition = reviewOutput.repetition
         nextReviewDate = reviewOutput.nextReviewDate
-        updateMasteryLevel()
     }
 
     func resetMastery() {
-        isManuallyReset = true
         masteryLevel = .learning
         ease = 2.5
         interval = 0

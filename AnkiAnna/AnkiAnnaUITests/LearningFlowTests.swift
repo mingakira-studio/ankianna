@@ -62,8 +62,17 @@ final class LearningFlowTests: XCTestCase {
         XCTAssertTrue(retryButton.waitForExistence(timeout: 3))
         retryButton.tap()
 
-        // After retry, text field should reappear
-        XCTAssertTrue(app.textFields["spellingTextField"].waitForExistence(timeout: 3))
+        // After retry, practice mode should appear (not the main spelling field)
+        let practiceField = app.textFields["practiceTextField"]
+        XCTAssertTrue(practiceField.waitForExistence(timeout: 3), "Practice mode text field should appear after retry")
+
+        // Practice mode should show the character to copy
+        let practiceChar = app.staticTexts["practiceCharacter"]
+        XCTAssertTrue(practiceChar.exists, "Practice mode should show the correct character")
+
+        // Practice submit button should exist
+        let practiceSubmit = app.buttons["practiceSubmitButton"]
+        XCTAssertTrue(practiceSubmit.exists, "Practice mode should have submit button")
     }
 
     func testSkipButtonAfterWrongAnswer() {

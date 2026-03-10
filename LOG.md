@@ -1,5 +1,13 @@
 # Anna 记忆卡片 App - 操作日志
 
+## 2026-03-10
+- 15:13 [project-next] 完成「学习流程重设计」, 设置 NEXT=游戏模式
+  - CharacterStats: MasteryLevel 新增 .difficult, 移除 isDifficult/isManuallyReset, 新增显式 markMastered/markDifficult/markLearning, recordReview 不再自动变更 masteryLevel
+  - LearningViewModel 重写: 队列消费模式(removeFirst+reinsert), CharacterSessionState 追踪连续对/错, 练习模式状态机(看字写2次+盲写1次), 主流程/练习分离(仅主流程计 SM-2)
+  - 退出判定: 连续对3次→询问熟识确认, 有错连续对2次→退出, 连续错3次→标疑难
+  - LearningView: 练习模式 UI(对着写/盲写), 熟识确认 Alert, DEBUG 练习模拟按钮
+  - 120 unit tests + 37 UI tests, 全量通过
+
 ## 2026-03-09
 - 23:43 [project-next] 完成「基础重构」(Phase 1, Task 1-6), 设置 NEXT=字库浏览器
   - CharacterStats 模型（mastery tracking + SM-2 state）+ 14 tests

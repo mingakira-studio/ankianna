@@ -15,6 +15,8 @@ final class LearningViewModelTests: XCTestCase {
         )
     }
 
+    // MARK: - Load tests
+
     func testLoadDueCardsResetsStateAndSelectsFirstCard() {
         let viewModel = LearningViewModel()
         let cards = makeCards()
@@ -33,11 +35,99 @@ final class LearningViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.combo, 0)
         XCTAssertFalse(viewModel.sessionComplete)
         XCTAssertFalse(viewModel.showResult)
-        XCTAssertEqual(viewModel.currentCard?.answer, "apple")
-        XCTAssertEqual(viewModel.currentContext?.fullText, "an apple")
+        XCTAssertNotNil(viewModel.currentCard)
+        XCTAssertNotNil(viewModel.currentContext)
     }
 
-    func testSubmitTypedAnswerCorrectUpdatesRecordAndPoints() throws {
+    func testLoadDueCardsWithCharacterStatsUsesSM2() {
+        let viewModel = LearningViewModel()
+        let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        let stats = CharacterStats(
+            character: "大", grade: 1, semester: "upper",
+            lesson: 1, lessonTitle: "天地人", words: ["大人"]
+        )
+        viewModel.loadDueCards(allCards: [card], characterStats: [stats], dailyGoal: 1)
+        XCTAssertEqual(viewModel.totalCount, 1)
+        XCTAssertEqual(viewModel.currentCard?.answer, "大")
+    }
+
+    func testLoadDueCardsFiltersMasteredCards() {
+        let viewModel = LearningViewModel()
+        let card1 = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        let card2 = makeChineseCard(answer: "小", text: "___人", fullText: "小人")
+        let stats1 = CharacterStats(character: "大", grade: 1, semester: "upper", lesson: 1, lessonTitle: "天地人", words: ["大人"])
+        stats1.markMastered()
+        let stats2 = CharacterStats(character: "小", grade: 1, semester: "upper", lesson: 1, lessonTitle: "天地人", words: ["小人"])
+
+        viewModel.loadDueCards(allCards: [card1, card2], characterStats: [stats1, stats2], dailyGoal: 2)
+        XCTAssertEqual(viewModel.totalCount, 1)
+        XCTAssertEqual(viewModel.currentCard?.answer, "小")
+    }
+
+    // MARK: - Queue consumption model
+
+    func testQueueConsumptionRemovesFromFront() {
+        let viewModel = LearningViewModel()
+        let cards = [
+            makeEnglishCard(answer: "apple", text: "an ___", fullText: "an apple"),
+            makeEnglishCard(answer: "cat", text: "a ___", fullText: "a cat")
+        ]
+        viewModel.loadDueCards(from: cards, dailyGoal: 2)
+
+        XCTAssertEqual(viewModel.currentCard?.answer, "apple")
+        XCTAssertEqual(viewModel.queue.count, 1)  // one remaining after dequeue
+    }
+
+    // MARK: - Submit answer + SM-2
+
+    func testSubmitAnswerCorrectUpdatesSM2AndSessionState() throws {
+        let viewModel = LearningViewModel()
+        let context = container.mainContext
+        let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        let stats = CharacterStats(character: "大", grade: 1, semester: "upper", lesson: 1, lessonTitle: "天地人", words: ["大人"])
+        let profile = UserProfile(name: "Anna", dailyGoal: 15)
+        context.insert(card)
+        context.insert(stats)
+        context.insert(profile)
+
+        viewModel.loadDueCards(allCards: [card], characterStats: [stats], dailyGoal: 1)
+        viewModel.submitAnswer(recognized: "大", modelContext: context, profile: profile)
+
+        XCTAssertTrue(viewModel.isCorrect)
+        XCTAssertTrue(viewModel.showResult)
+        XCTAssertEqual(viewModel.combo, 1)
+        XCTAssertEqual(stats.practiceCount, 1)
+        XCTAssertEqual(stats.correctCount, 1)
+        XCTAssertEqual(stats.masteryLevel, .learning)
+
+        let state = viewModel.sessionStates["大"]
+        XCTAssertEqual(state?.consecutiveCorrect, 1)
+        XCTAssertEqual(state?.consecutiveWrong, 0)
+        XCTAssertFalse(state?.hasError ?? true)
+    }
+
+    func testSubmitAnswerWrongUpdatesSessionState() throws {
+        let viewModel = LearningViewModel()
+        let context = container.mainContext
+        let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        let profile = UserProfile(name: "Anna", dailyGoal: 15)
+        context.insert(card)
+        context.insert(profile)
+
+        viewModel.loadDueCards(from: [card], dailyGoal: 1)
+        viewModel.submitAnswer(recognized: "", modelContext: context, profile: profile)
+
+        XCTAssertFalse(viewModel.isCorrect)
+        XCTAssertTrue(viewModel.showResult)
+        XCTAssertEqual(viewModel.combo, 0)
+
+        let state = viewModel.sessionStates["大"]
+        XCTAssertEqual(state?.consecutiveWrong, 1)
+        XCTAssertEqual(state?.consecutiveCorrect, 0)
+        XCTAssertTrue(state?.hasError ?? false)
+    }
+
+    func testSubmitTypedAnswerCorrect() throws {
         let viewModel = LearningViewModel()
         let context = container.mainContext
         let card = makeEnglishCard(answer: "apple", text: "an ___", fullText: "an apple")
@@ -48,144 +138,356 @@ final class LearningViewModelTests: XCTestCase {
         viewModel.loadDueCards(from: [card], dailyGoal: 1)
         viewModel.submitTypedAnswer(typed: "apple", modelContext: context, profile: profile)
 
-        let records = try context.fetch(FetchDescriptor<ReviewRecord>())
         XCTAssertTrue(viewModel.isCorrect)
-        XCTAssertTrue(viewModel.showResult)
-        XCTAssertEqual(viewModel.completedCount, 1)
-        XCTAssertEqual(viewModel.correctCount, 1)
         XCTAssertEqual(viewModel.combo, 1)
         XCTAssertEqual(profile.totalPoints, 11)
+
+        let records = try context.fetch(FetchDescriptor<ReviewRecord>())
         XCTAssertEqual(records.count, 1)
         XCTAssertEqual(records.first?.result, .correct)
     }
 
-    func testSubmitTypedAnswerWrongResetsComboAndStoresWrongRecord() throws {
-        let viewModel = LearningViewModel()
-        let context = container.mainContext
-        let card = makeEnglishCard(answer: "apple", text: "an ___", fullText: "an apple")
-        let profile = UserProfile(name: "Anna", dailyGoal: 15)
-        context.insert(card)
-        context.insert(profile)
+    // MARK: - Exit conditions
 
-        viewModel.combo = 3
-        viewModel.loadDueCards(from: [card], dailyGoal: 1)
-        viewModel.submitTypedAnswer(typed: "pear", modelContext: context, profile: profile)
-
-        let records = try context.fetch(FetchDescriptor<ReviewRecord>())
-        XCTAssertFalse(viewModel.isCorrect)
-        XCTAssertTrue(viewModel.showResult)
-        XCTAssertEqual(viewModel.completedCount, 1)
-        XCTAssertEqual(viewModel.correctCount, 0)
-        XCTAssertEqual(viewModel.combo, 0)
-        XCTAssertEqual(profile.totalPoints, 0)
-        XCTAssertEqual(records.count, 1)
-        XCTAssertEqual(records.first?.result, .wrong)
-    }
-
-    func testSubmitHandwritingAnswerUsesParallelPath() throws {
+    func testThreeConsecutiveCorrectShowsMasteryPrompt() {
         let viewModel = LearningViewModel()
         let context = container.mainContext
         let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
-        let profile = UserProfile(name: "Anna", dailyGoal: 15)
+        let stats = CharacterStats(character: "大", grade: 1, semester: "upper", lesson: 1, lessonTitle: "天地人", words: ["大人"])
+        stats.masteryLevel = .learning
         context.insert(card)
-        context.insert(profile)
+        context.insert(stats)
 
-        viewModel.loadDueCards(from: [card], dailyGoal: 1)
-        viewModel.submitAnswer(recognized: "大", modelContext: context, profile: profile)
+        viewModel.loadDueCards(allCards: [card], characterStats: [stats], dailyGoal: 1)
 
-        let records = try context.fetch(FetchDescriptor<ReviewRecord>())
-        XCTAssertTrue(viewModel.isCorrect)
-        XCTAssertEqual(viewModel.correctCount, 1)
-        XCTAssertEqual(profile.totalPoints, 11)
-        XCTAssertEqual(records.first?.result, .correct)
+        // Answer correctly 3 times
+        for _ in 0..<3 {
+            viewModel.submitAnswer(recognized: "大", modelContext: context, profile: nil)
+            if viewModel.showMasteryConfirmation { break }
+            viewModel.next()  // reinserts card, advances to it
+        }
+
+        // On 3rd correct, next() should show mastery prompt
+        viewModel.next()
+        XCTAssertTrue(viewModel.showMasteryConfirmation)
     }
 
-    func testRetryClearsResultAndRevertsCompletedCount() {
+    func testConfirmMasteredMarksMasteredAndExitsCard() {
         let viewModel = LearningViewModel()
         let context = container.mainContext
-        let card = makeEnglishCard(answer: "apple", text: "an ___", fullText: "an apple")
+        let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        let stats = CharacterStats(character: "大", grade: 1, semester: "upper", lesson: 1, lessonTitle: "天地人", words: ["大人"])
+        stats.masteryLevel = .learning
+        context.insert(card)
+        context.insert(stats)
 
-        viewModel.loadDueCards(from: [card], dailyGoal: 1)
-        viewModel.submitTypedAnswer(typed: "pear", modelContext: context, profile: nil)
+        viewModel.loadDueCards(allCards: [card], characterStats: [stats], dailyGoal: 1)
+
+        // Get to mastery prompt
+        for _ in 0..<3 {
+            viewModel.submitAnswer(recognized: "大", modelContext: context, profile: nil)
+            viewModel.next()
+        }
+
+        viewModel.confirmMastered()
+        XCTAssertEqual(stats.masteryLevel, .mastered)
+        XCTAssertFalse(viewModel.showMasteryConfirmation)
         XCTAssertEqual(viewModel.completedCount, 1)
-        XCTAssertFalse(viewModel.charResults.isEmpty)
-
-        viewModel.retry()
-
-        XCTAssertFalse(viewModel.showResult)
-        XCTAssertTrue(viewModel.charResults.isEmpty)
-        XCTAssertEqual(viewModel.completedCount, 0)
-    }
-
-    func testNextMarksSessionCompleteAfterLastCard() {
-        let viewModel = LearningViewModel()
-        let card = makeEnglishCard(answer: "apple", text: "an ___", fullText: "an apple")
-
-        viewModel.loadDueCards(from: [card], dailyGoal: 1)
-        viewModel.next()
-
         XCTAssertTrue(viewModel.sessionComplete)
     }
 
-    // MARK: - SM-2 Integration Tests
-
-    func testLoadDueCardsWithCharacterStatsUsesSM2() {
-        let viewModel = LearningViewModel()
-        let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
-        let stats = CharacterStats(
-            character: "大", grade: 1, semester: "upper",
-            lesson: 1, lessonTitle: "天地人", words: ["大人"]
-        )
-        // Stats with no nextReviewDate = due (new card)
-        viewModel.loadDueCards(allCards: [card], characterStats: [stats], dailyGoal: 1)
-        XCTAssertEqual(viewModel.totalCount, 1)
-        XCTAssertEqual(viewModel.currentCard?.answer, "大")
-    }
-
-    func testSubmitAnswerUpdatesCharacterStats() throws {
+    func testDeclineMasteredExitsWithoutMarkingMastered() {
         let viewModel = LearningViewModel()
         let context = container.mainContext
         let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
-        let stats = CharacterStats(
-            character: "大", grade: 1, semester: "upper",
-            lesson: 1, lessonTitle: "天地人", words: ["大人"]
-        )
-        let profile = UserProfile(name: "Anna", dailyGoal: 15)
+        let stats = CharacterStats(character: "大", grade: 1, semester: "upper", lesson: 1, lessonTitle: "天地人", words: ["大人"])
+        stats.masteryLevel = .learning
         context.insert(card)
         context.insert(stats)
-        context.insert(profile)
 
         viewModel.loadDueCards(allCards: [card], characterStats: [stats], dailyGoal: 1)
-        viewModel.submitAnswer(recognized: "大", modelContext: context, profile: profile)
 
-        // CharacterStats should be updated
-        XCTAssertEqual(stats.practiceCount, 1)
-        XCTAssertEqual(stats.correctCount, 1)
-        XCTAssertEqual(stats.repetition, 1)
+        for _ in 0..<3 {
+            viewModel.submitAnswer(recognized: "大", modelContext: context, profile: nil)
+            viewModel.next()
+        }
+
+        viewModel.declineMastered()
         XCTAssertEqual(stats.masteryLevel, .learning)
-        XCTAssertNotNil(stats.nextReviewDate)
+        XCTAssertEqual(viewModel.completedCount, 1)
+        XCTAssertTrue(viewModel.sessionComplete)
     }
 
-    func testSubmitTypedAnswerUpdatesCharacterStats() throws {
+    func testThreeConsecutiveCorrectOnDifficultTransitionsToLearning() {
+        let viewModel = LearningViewModel()
+        let context = container.mainContext
+        let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        let stats = CharacterStats(character: "大", grade: 1, semester: "upper", lesson: 1, lessonTitle: "天地人", words: ["大人"])
+        stats.masteryLevel = .difficult
+        context.insert(card)
+        context.insert(stats)
+
+        viewModel.loadDueCards(allCards: [card], characterStats: [stats], dailyGoal: 1)
+
+        for _ in 0..<3 {
+            viewModel.submitAnswer(recognized: "大", modelContext: context, profile: nil)
+            viewModel.next()
+        }
+
+        // Should transition to learning and exit (no mastery prompt)
+        XCTAssertFalse(viewModel.showMasteryConfirmation)
+        XCTAssertEqual(stats.masteryLevel, .learning)
+        XCTAssertEqual(viewModel.completedCount, 1)
+        XCTAssertTrue(viewModel.sessionComplete)
+    }
+
+    func testHasErrorAndTwoConsecutiveCorrectExits() {
+        let viewModel = LearningViewModel()
+        let context = container.mainContext
+        let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        context.insert(card)
+
+        viewModel.loadDueCards(from: [card], dailyGoal: 1)
+
+        // Wrong answer first
+        viewModel.submitAnswer(recognized: "", modelContext: context, profile: nil)
+        // Skip practice (tap "跳过")
+        viewModel.next()
+
+        // Now answer correctly 2 times
+        viewModel.submitAnswer(recognized: "大", modelContext: context, profile: nil)
+        viewModel.next()  // reinserts (only 1 consecutive correct + hasError, need 2)
+
+        viewModel.submitAnswer(recognized: "大", modelContext: context, profile: nil)
+        viewModel.next()  // 2 consecutive correct + hasError → exit
+
+        XCTAssertEqual(viewModel.completedCount, 1)
+        XCTAssertTrue(viewModel.sessionComplete)
+    }
+
+    // MARK: - Practice mode
+
+    func testWrongAnswerAndRetryEntersPracticeMode() {
+        let viewModel = LearningViewModel()
+        let context = container.mainContext
+        let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        context.insert(card)
+
+        viewModel.loadDueCards(from: [card], dailyGoal: 1)
+        viewModel.submitAnswer(recognized: "", modelContext: context, profile: nil)
+        viewModel.retry()
+
+        XCTAssertTrue(viewModel.isInPracticeMode)
+        XCTAssertEqual(viewModel.practicePhase, 1)
+        XCTAssertEqual(viewModel.practicePhase1Count, 0)
+        XCTAssertEqual(viewModel.practiceCorrectAnswer, "大")
+    }
+
+    func testPracticePhase1CorrectTwiceAdvancesToPhase2() {
+        let viewModel = LearningViewModel()
+        let context = container.mainContext
+        let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        context.insert(card)
+
+        viewModel.loadDueCards(from: [card], dailyGoal: 1)
+        viewModel.submitAnswer(recognized: "", modelContext: context, profile: nil)
+        viewModel.retry()
+
+        // Phase 1: write correctly twice
+        viewModel.submitPracticeAnswer(recognized: "大")
+        XCTAssertEqual(viewModel.practicePhase1Count, 1)
+        XCTAssertEqual(viewModel.practicePhase, 1)
+
+        viewModel.submitPracticeAnswer(recognized: "大")
+        XCTAssertEqual(viewModel.practicePhase1Count, 2)
+        XCTAssertEqual(viewModel.practicePhase, 2)
+    }
+
+    func testPracticePhase1WrongDoesNotCount() {
+        let viewModel = LearningViewModel()
+        let context = container.mainContext
+        let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        context.insert(card)
+
+        viewModel.loadDueCards(from: [card], dailyGoal: 1)
+        viewModel.submitAnswer(recognized: "", modelContext: context, profile: nil)
+        viewModel.retry()
+
+        viewModel.submitPracticeAnswer(recognized: "")  // wrong
+        XCTAssertEqual(viewModel.practicePhase1Count, 0)
+        XCTAssertEqual(viewModel.practiceIsCorrect, false)  // shows feedback
+    }
+
+    func testPracticePhase2CorrectCompletesPractice() {
+        let viewModel = LearningViewModel()
+        let context = container.mainContext
+        let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        context.insert(card)
+
+        viewModel.loadDueCards(from: [card], dailyGoal: 1)
+        viewModel.submitAnswer(recognized: "", modelContext: context, profile: nil)
+        viewModel.retry()
+
+        // Phase 1: 2 correct
+        viewModel.submitPracticeAnswer(recognized: "大")
+        viewModel.submitPracticeAnswer(recognized: "大")
+
+        // Phase 2: blind write correct
+        viewModel.submitPracticeAnswer(recognized: "大")
+
+        XCTAssertFalse(viewModel.isInPracticeMode)
+        // Card reinserted then immediately dequeued as currentCard (single card scenario)
+        XCTAssertEqual(viewModel.currentCard?.answer, "大", "Card should be reinserted and become current again")
+    }
+
+    func testPracticePhase2WrongResetsToPhase1() {
+        let viewModel = LearningViewModel()
+        let context = container.mainContext
+        let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        context.insert(card)
+
+        viewModel.loadDueCards(from: [card], dailyGoal: 1)
+        viewModel.submitAnswer(recognized: "", modelContext: context, profile: nil)
+        viewModel.retry()
+
+        // Phase 1: 2 correct
+        viewModel.submitPracticeAnswer(recognized: "大")
+        viewModel.submitPracticeAnswer(recognized: "大")
+        XCTAssertEqual(viewModel.practicePhase, 2)
+
+        // Phase 2: wrong → back to phase 1
+        viewModel.submitPracticeAnswer(recognized: "")
+        XCTAssertEqual(viewModel.practicePhase, 1)
+        XCTAssertEqual(viewModel.practicePhase1Count, 0)
+    }
+
+    func testPracticeDoesNotAffectSM2() throws {
+        let viewModel = LearningViewModel()
+        let context = container.mainContext
+        let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        let stats = CharacterStats(character: "大", grade: 1, semester: "upper", lesson: 1, lessonTitle: "天地人", words: ["大人"])
+        context.insert(card)
+        context.insert(stats)
+
+        viewModel.loadDueCards(allCards: [card], characterStats: [stats], dailyGoal: 1)
+
+        // Main answer (wrong) → creates 1 ReviewRecord
+        viewModel.submitAnswer(recognized: "", modelContext: context, profile: nil)
+        let recordsBefore = try context.fetch(FetchDescriptor<ReviewRecord>())
+        XCTAssertEqual(recordsBefore.count, 1)
+        let statsBefore = stats.practiceCount
+
+        // Practice (should NOT create ReviewRecords or update stats)
+        viewModel.retry()
+        viewModel.submitPracticeAnswer(recognized: "大")
+        viewModel.submitPracticeAnswer(recognized: "大")
+        viewModel.submitPracticeAnswer(recognized: "大")
+
+        let recordsAfter = try context.fetch(FetchDescriptor<ReviewRecord>())
+        XCTAssertEqual(recordsAfter.count, 1, "Practice should not create ReviewRecords")
+        XCTAssertEqual(stats.practiceCount, statsBefore, "Practice should not update CharacterStats")
+    }
+
+    // MARK: - Three consecutive wrong → difficult
+
+    func testThreeConsecutiveWrongMarksDifficult() {
+        let viewModel = LearningViewModel()
+        let context = container.mainContext
+        let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        let stats = CharacterStats(character: "大", grade: 1, semester: "upper", lesson: 1, lessonTitle: "天地人", words: ["大人"])
+        stats.masteryLevel = .learning
+        context.insert(card)
+        context.insert(stats)
+
+        viewModel.loadDueCards(allCards: [card], characterStats: [stats], dailyGoal: 1)
+
+        // Wrong 3 times
+        for i in 0..<3 {
+            viewModel.submitAnswer(recognized: "", modelContext: context, profile: nil)
+            if i < 2 {
+                viewModel.next()  // skip practice, reinsert
+            }
+        }
+
+        // 3rd wrong → retry → practice → complete → mark difficult
+        viewModel.retry()
+        viewModel.submitPracticeAnswer(recognized: "大")
+        viewModel.submitPracticeAnswer(recognized: "大")
+        viewModel.submitPracticeAnswer(recognized: "大")
+
+        XCTAssertEqual(stats.masteryLevel, .difficult)
+        XCTAssertEqual(viewModel.completedCount, 1)
+        XCTAssertTrue(viewModel.sessionComplete)
+    }
+
+    // MARK: - Reinsert after wrong
+
+    func testWrongAnswerReinsertsCardAfterPractice() {
+        let viewModel = LearningViewModel()
+        let context = container.mainContext
+        let card1 = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        let card2 = makeChineseCard(answer: "小", text: "___人", fullText: "小人")
+        context.insert(card1)
+        context.insert(card2)
+
+        viewModel.loadDueCards(from: [card1, card2], dailyGoal: 2)
+        let firstAnswer = viewModel.currentCard?.answer
+
+        // Wrong answer on first card
+        viewModel.submitAnswer(recognized: "", modelContext: context, profile: nil)
+        viewModel.retry()
+
+        // Complete practice
+        viewModel.submitPracticeAnswer(recognized: firstAnswer!)
+        viewModel.submitPracticeAnswer(recognized: firstAnswer!)
+        viewModel.submitPracticeAnswer(recognized: firstAnswer!)
+
+        // Practice complete → card reinserted, moved to next
+        XCTAssertFalse(viewModel.isInPracticeMode)
+        // Queue should have the reinserted card
+        XCTAssertGreaterThanOrEqual(viewModel.queue.count, 1, "Wrong card should be reinserted")
+    }
+
+    // MARK: - Session complete
+
+    func testSessionCompleteAfterAllCardsExit() {
         let viewModel = LearningViewModel()
         let context = container.mainContext
         let card = makeEnglishCard(answer: "cat", text: "a ___", fullText: "a cat")
-        let stats = CharacterStats(
-            character: "cat", grade: 1, semester: "upper",
-            lesson: 1, lessonTitle: "Animals", words: ["cat"]
-        )
-        let profile = UserProfile(name: "Anna", dailyGoal: 15)
         context.insert(card)
-        context.insert(stats)
-        context.insert(profile)
 
-        viewModel.loadDueCards(allCards: [card], characterStats: [stats], dailyGoal: 1)
-        viewModel.submitTypedAnswer(typed: "cat", modelContext: context, profile: profile)
+        viewModel.loadDueCards(from: [card], dailyGoal: 1)
 
-        XCTAssertEqual(stats.practiceCount, 1)
-        XCTAssertEqual(stats.correctCount, 1)
-        XCTAssertEqual(stats.repetition, 1)
+        // Answer correctly 3 times to trigger mastery → exit
+        for _ in 0..<3 {
+            viewModel.submitTypedAnswer(typed: "cat", modelContext: context, profile: nil)
+            viewModel.next()
+        }
+        viewModel.declineMastered()
+
+        XCTAssertTrue(viewModel.sessionComplete)
+        XCTAssertEqual(viewModel.completedCount, 1)
+        XCTAssertEqual(viewModel.correctCount, 1)
     }
+
+    // MARK: - Combo
+
+    func testComboResetsOnWrongAnswer() {
+        let viewModel = LearningViewModel()
+        let context = container.mainContext
+        let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        context.insert(card)
+
+        viewModel.loadDueCards(from: [card], dailyGoal: 1)
+        viewModel.submitAnswer(recognized: "大", modelContext: context, profile: nil)
+        XCTAssertEqual(viewModel.combo, 1)
+
+        viewModel.next()  // reinsert
+        viewModel.submitAnswer(recognized: "", modelContext: context, profile: nil)
+        XCTAssertEqual(viewModel.combo, 0)
+    }
+
+    // MARK: - ReviewRecord creation
 
     func testReviewRecordHasRepetitionField() throws {
         let viewModel = LearningViewModel()
@@ -199,6 +501,8 @@ final class LearningViewModelTests: XCTestCase {
         let records = try context.fetch(FetchDescriptor<ReviewRecord>())
         XCTAssertEqual(records.first?.repetition, 1)
     }
+
+    // MARK: - Helpers
 
     private func makeCards() -> [Card] {
         [

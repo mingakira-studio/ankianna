@@ -24,16 +24,41 @@
 6. [x] V2 设计 — 5 功能模块设计 + 实施计划 (2026-03-09)
 7. [x] 基础重构 — CharacterStats 模型、SM-2 修复、技术债清理、课本预装 (Phase 1, Task 1-6) (2026-03-09)
 8. [x] 字库浏览器 — 添加tab内嵌课本字库浏览(年级→课文→字)，单字/整课加入卡片库；移除首次启动自动填充；卡片库仅显示用户已选卡片 (Phase 2, Task 7-9) (2026-03-10)
-9. [>] 游戏模式 — 快速学习 + 限时挑战 + 生存模式 + 闯关模式 + 连连看 (Phase 3, Task 10-16) ← NEXT
-10. [ ] 报告系统 — 今日概览、学习趋势图、掌握进度、易错字排行 (Phase 4, Task 17-20)
-11. [ ] 集成收尾 — 设置页、全量测试修复、文档更新 (Phase 5, Task 21-23)
+9. [>] 学习流程重设计 — 练习模式、动态队列、三级掌握状态（学习/疑难/熟识） ← NEXT
+10. [ ] 游戏模式 — 快速学习 + 限时挑战 + 生存模式 + 闯关模式 + 连连看 (Phase 3, Task 10-16)
+11. [ ] 报告系统 — 今日概览、学习趋势图、掌握进度、易错字排行 (Phase 4, Task 17-20)
+12. [ ] 集成收尾 — 设置页、全量测试修复、文档更新 (Phase 5, Task 21-23)
 
-## NEXT: 游戏模式
-> 设计文档: docs/plans/2026-03-09-v2-features-design.md
-> 实施计划: docs/plans/2026-03-09-v2-implementation.md（Phase 3, Task 10-16）
+## NEXT: 学习流程重设计
+> 设计文档: docs/plans/2026-03-10-learning-flow-redesign.md
+
+- [ ] **CharacterStats 模型变更** | 预估: 30min | 类型: code
+  - 所需: Models/CharacterStats.swift
+  - 产出: MasteryLevel 新增 `.difficult`；移除 `isDifficult`/`isManuallyReset`；新增 `markMastered()`/`markDifficult()`；`recordReview()` 不再自动调用 `updateMasteryLevel()`
+  - 验证: 现有 CharacterStatsTests 适配通过
+- [ ] **LearningViewModel 重写** | 预估: 3h | 类型: code
+  - 所需: LearningViewModel.swift, docs/plans/2026-03-10-learning-flow-redesign.md
+  - 产出: 动态队列消费模式；CharacterSessionState 追踪连续对/错；PracticeState 练习模式状态机；主流程 submitMainAnswer（走SM-2）+ 练习 submitPracticeAnswer（不走SM-2）分离；答错插回队列；退出判定逻辑（连续对3次询问熟识/连续错3次标疑难/有错连续对2次退出）
+  - 验证: 单元测试覆盖各状态转移路径
+  - blockedBy: CharacterStats 模型变更
+- [ ] **LearningView 练习模式 UI** | 预估: 1h | 类型: code
+  - 所需: LearningView.swift, LearningViewModel 新接口
+  - 产出: 练习模式 UI（Phase1: 显示正确字+手写区 "对着写 1/2"；Phase2: 隐藏字+手写区 "盲写"）；熟识确认 Alert；疑难标记反馈；练习进度指示
+  - 验证: 构建成功，模拟器手动验证流程
+  - blockedBy: LearningViewModel 重写
+- [ ] **单元测试** | 预估: 1h | 类型: code
+  - 所需: LearningViewModelTests.swift, CharacterStatsTests.swift
+  - 产出: ViewModel 状态机测试（连续对3次→熟识、连续错3次→疑难、答错插回队列、练习不计SM-2、有错连续对2次退出、疑难→学习转移）；CharacterStats 新方法测试
+  - 验证: xcodebuild test 全部通过
+  - blockedBy: LearningView 练习模式 UI
+- [ ] **UI 测试适配** | 预估: 30min | 类型: code
+  - 所需: AnkiAnnaUITests/LearningFlowTests.swift
+  - 产出: 现有 LearningFlow UI 测试适配新流程；新增练习模式 UI 测试
+  - 验证: xcodebuild test 全量通过
+  - blockedBy: 单元测试
 
 ## Log
-- 12:09 [adhoc] 学习界面: 添加 DEBUG 模拟写对/写错按钮 + 自动朗读（进入+切题）
+- 12:09 [adhoc] 学习界面: 添加 DEBUG 模拟写对/写错按钮 + 自动朗读（进入+切题）; 学习流程重设计方案 docs/plans/2026-03-10-learning-flow-redesign.md, 插入任务大纲 NEXT=学习流程重设计
 - 10:43 [project-next] 完成「字库浏览器」— TextbookSeeder.seedDefaultLesson(仅预装二年级上册第一课)、TextbookBrowserView(三级导航:年级→课文→字符+单字/整课加入卡片库)、AddCardView新增课本字库入口; 5 UI tests + 9 unit tests passed, 全量回归通过; NEXT=游戏模式
 - 2026-03-09: [project-next] 完成 V2 设计，设置 NEXT=基础重构；设计文档 docs/plans/2026-03-09-v2-features-design.md，实施计划 docs/plans/2026-03-09-v2-implementation.md（23 tasks / 5 phases）
 - 2026-03-07: [project-next] 完成「界面游戏化」— BadgeService(5徽章+解锁逻辑), LevelService(等级/XP进度条), combo计数器+积分弹出动画, confetti/火焰庆祝特效, 恐龙吉祥物表情状态; 68 unit tests + 23 UI tests passed
@@ -66,5 +91,6 @@
 - V2 技术债: SM-2 未实际选卡、DailySession 未创建、BadgeService 未接入、UserProfile 未初始化
 - LearningView DEBUG 模式新增「模拟写对/写错」按钮（#if DEBUG），绕过手写识别直接调用 submitAnswer，方便模拟器测试正确率和学习曲线
 - LearningView 进入学习界面自动朗读当前语境，切题时也自动朗读（onChange of showResult），喇叭按钮保留手动重听
+- 学习流程重设计方案: docs/plans/2026-03-10-learning-flow-redesign.md — 练习模式(看字写2次+盲写1次)、动态队列(错字随机插回)、三级状态(学习/疑难/熟识)、退出判定(连续对3次/有错对2次/连续错3次)
 - 更新 sp-bridge skill（~/.claude/skills/sp-bridge/SKILL.md）：新增文档引用规则，要求任务大纲带 Phase/Task 映射、NEXT 带设计/实施文档引用、子任务带计划 Task 引用
 - [决策] 2026-03-10: 字库与卡片库分离 — 原方案: TextbookSeeder 首次启动自动填充 1000+ 字到卡片库 → 新方案: 字库作为「添加」tab 的课本浏览器，用户按年级/课文浏览后手动选择加入卡片库（原因: 卡片库是用户学习清单，不应被预制数据填满）

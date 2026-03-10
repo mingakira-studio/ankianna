@@ -20,8 +20,9 @@
   - `Services/` — 业务逻辑 (SM2Engine, TTSService, HandwritingRecognizer, AIGenerator, PointsService, BadgeService, LevelService, TextbookSeeder)
   - `Views/` — SwiftUI 视图 (Learning/, AddCard/, CardLibrary/, Stats/)
     - `Learning/` — MascotView, CelebrationEffects (confetti/fire/encouragement), ResultFeedbackView (combo/points animations)
-- `AnkiAnna/AnkiAnnaTests/` — 单元测试 (104 tests)
-- `AnkiAnna/AnkiAnnaUITests/` — E2E 测试 (23 tests)
+    - `AddCard/` — AddCardView (入口), ManualAddCardView, AIGenerateView, TextbookBrowserView (课本字库三级导航)
+- `AnkiAnna/AnkiAnnaTests/` — 单元测试
+- `AnkiAnna/AnkiAnnaUITests/` — E2E 测试
 - `docs/plans/` — 设计文档和实施计划
 
 ## 开发约定

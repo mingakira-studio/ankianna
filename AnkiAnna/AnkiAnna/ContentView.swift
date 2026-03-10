@@ -27,20 +27,24 @@ struct ContentView: View {
         .onAppear {
             #if DEBUG
             if CommandLine.arguments.contains("-UITestMode") {
-                // UI test mode: use UITestSeeder, skip textbook seeding
                 if CommandLine.arguments.contains("-SeedEnglishCards") {
                     UITestSeeder.seedEnglishCards(context: modelContext)
                 } else if CommandLine.arguments.contains("-SeedTestData") {
                     UITestSeeder.seedTestData(context: modelContext)
                 } else if CommandLine.arguments.contains("-SeedSingleCard") {
                     UITestSeeder.seedSingleCard(context: modelContext)
+                } else if CommandLine.arguments.contains("-SeedWithStats") {
+                    UITestSeeder.seedWithCharacterStats(context: modelContext)
+                } else if CommandLine.arguments.contains("-SeedTextbook") {
+                    // Real TextbookSeeder path — tests actual first-launch seeding
+                    TextbookSeeder.seedAllTextbooks(modelContext: modelContext)
                 }
                 return
             }
             #endif
-            // Seed textbook data on first launch
+            // Seed default lesson (grade 2 upper lesson 1) on first launch
             if !hasSeeded {
-                TextbookSeeder.seedAllTextbooks(modelContext: modelContext)
+                TextbookSeeder.seedDefaultLesson(modelContext: modelContext)
                 hasSeeded = true
             }
         }

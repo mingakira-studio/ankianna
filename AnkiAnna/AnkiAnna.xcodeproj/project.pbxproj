@@ -23,6 +23,7 @@
 		2D3C64CE9370FA4B17FDBAA3 /* LaunchHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0777EA2DB6ABAEF2754EDE55 /* LaunchHelper.swift */; };
 		2FB2FFA63DF8A9DB497DDA2A /* MascotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FA6C5CB871576E090B6D24 /* MascotView.swift */; };
 		321EC5267967E2B0058ACAB9 /* LearningViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95BD5751D2748459F459680 /* LearningViewModelTests.swift */; };
+		3433C7BDF2ED1F72154E77AD /* FullJourneyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E9BF4AA0484F4A30507781 /* FullJourneyTests.swift */; };
 		42407C847F116E5EDD97AD77 /* WritingCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC81E7894202A55B306F9BB6 /* WritingCanvasView.swift */; };
 		4647C8C774A95333EEAD46BA /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2600A0B9CABFD508C1F0055A /* ModelTests.swift */; };
 		4724F55BA0D57A4B8412CF5C /* EmptyStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93D933ECB8A3C85780CF188 /* EmptyStateTests.swift */; };
@@ -30,8 +31,10 @@
 		4D04F19EA1600064BE2433EA /* textbook_grade4_upper.json in Resources */ = {isa = PBXBuildFile; fileRef = F8FFE296C2090B810C21CBF9 /* textbook_grade4_upper.json */; };
 		55C35DC1141C8B2DB785B2BA /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846717C9766B879CB908CFB2 /* Card.swift */; };
 		59C1A6717F8482B1E2E676B7 /* StatsViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF518E62533FE77BDFCAAF7 /* StatsViewTests.swift */; };
+		5DB52F7F6467D1783C55D1AD /* TextbookBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F526265F0FE69093471472A6 /* TextbookBrowserView.swift */; };
 		5E66FEE695E81A59F160C9D4 /* AnkiAnnaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A225EB7005EEB2DE0653A5 /* AnkiAnnaApp.swift */; };
 		6408417B60EA440DDCF89365 /* textbook_grade3_upper.json in Resources */ = {isa = PBXBuildFile; fileRef = A9789ADBDCB5A84715862967 /* textbook_grade3_upper.json */; };
+		67E837E6E28A6A6820D94DFF /* TextbookBrowserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FB7529B8D21EF38D587DFCB /* TextbookBrowserTests.swift */; };
 		68F445460B3F6AD67A810209 /* TextbookSeederTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC952E6603595C868BEE1F80 /* TextbookSeederTests.swift */; };
 		713CCE2BCA70CC7C9152BE42 /* DailySession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664E74B17927FF6135856C91 /* DailySession.swift */; };
 		796CEBFA78BB7E05CCFF59B5 /* LevelServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3901FCCD8F76ABAD0A946D3F /* LevelServiceTests.swift */; };
@@ -125,6 +128,7 @@
 		78CE539EA26B80CC88550A77 /* AnkiAnnaUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = AnkiAnnaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C8C8F624B0D67EAA9B114C7 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		7D58E6FEB619B9BE59B8D2FC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		7FB7529B8D21EF38D587DFCB /* TextbookBrowserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextbookBrowserTests.swift; sourceTree = "<group>"; };
 		8007726F88F19791B909DB8F /* AnkiAnna.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = AnkiAnna.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		846717C9766B879CB908CFB2 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		84C1C8E4BA66B2F2F6BA61A0 /* HandwritingRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandwritingRecognizer.swift; sourceTree = "<group>"; };
@@ -134,6 +138,7 @@
 		894905687DC7EBE0A8EA3F81 /* StreakCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCalendarView.swift; sourceTree = "<group>"; };
 		94438DFDD81EEB8AE6732939 /* UITestSeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestSeeder.swift; sourceTree = "<group>"; };
 		988881E3DABB97C441CAFDAC /* CelebrationEffects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelebrationEffects.swift; sourceTree = "<group>"; };
+		98E9BF4AA0484F4A30507781 /* FullJourneyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullJourneyTests.swift; sourceTree = "<group>"; };
 		9C3675974735D72044D27836 /* CardPromptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPromptView.swift; sourceTree = "<group>"; };
 		9ED0EB7040C345DD0694E265 /* CardEditTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardEditTests.swift; sourceTree = "<group>"; };
 		A0F194E15DE332D4E4AAF4C6 /* textbook_grade4_lower.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = textbook_grade4_lower.json; sourceTree = "<group>"; };
@@ -157,6 +162,7 @@
 		E93D933ECB8A3C85780CF188 /* EmptyStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateTests.swift; sourceTree = "<group>"; };
 		E9460DD91D6007DBC2F6B1CB /* TextbookDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextbookDataProvider.swift; sourceTree = "<group>"; };
 		F3790D4420D472B6E79FFBE4 /* TextbookDataProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextbookDataProviderTests.swift; sourceTree = "<group>"; };
+		F526265F0FE69093471472A6 /* TextbookBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextbookBrowserView.swift; sourceTree = "<group>"; };
 		F7A504A99F3A410B8068D5C2 /* CardContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardContext.swift; sourceTree = "<group>"; };
 		F8FFE296C2090B810C21CBF9 /* textbook_grade4_upper.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = textbook_grade4_upper.json; sourceTree = "<group>"; };
 		F9D8DB76F431F78CD7FFF91B /* SessionCompleteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCompleteTests.swift; sourceTree = "<group>"; };
@@ -243,6 +249,7 @@
 				DC7BAEAC75ED454053EBEF60 /* AddCardView.swift */,
 				15EFDDB132A3E952B9C465F1 /* AIGenerateView.swift */,
 				2103AB8F71425C88801BEE6B /* ManualAddCardView.swift */,
+				F526265F0FE69093471472A6 /* TextbookBrowserView.swift */,
 			);
 			path = AddCard;
 			sourceTree = "<group>";
@@ -253,10 +260,12 @@
 				9ED0EB7040C345DD0694E265 /* CardEditTests.swift */,
 				C0C549A8485569ABAB0BFF62 /* CardLibraryTests.swift */,
 				E93D933ECB8A3C85780CF188 /* EmptyStateTests.swift */,
+				98E9BF4AA0484F4A30507781 /* FullJourneyTests.swift */,
 				851C00104F444E3D3A060CDC /* LearningFlowTests.swift */,
 				F9D8DB76F431F78CD7FFF91B /* SessionCompleteTests.swift */,
 				BCF518E62533FE77BDFCAAF7 /* StatsViewTests.swift */,
 				07D377E3C210703363C0C7F7 /* TabNavigationTests.swift */,
+				7FB7529B8D21EF38D587DFCB /* TextbookBrowserTests.swift */,
 				566CBB3F3DB1F8F3D9B7C5C4 /* Helpers */,
 			);
 			path = AnkiAnnaUITests;
@@ -421,6 +430,10 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
+					ACA4A9B01E0DAD3027A1CA31 = {
+						DevelopmentTeam = SSG79B289M;
+						ProvisioningStyle = Automatic;
+					};
 					D6A3874FBCE37F6A0770C596 = {
 						TestTargetID = ACA4A9B01E0DAD3027A1CA31;
 					};
@@ -475,11 +488,13 @@
 				858D6C7AB48867A77F87AA39 /* CardEditTests.swift in Sources */,
 				EA2116699E23712EE63C6962 /* CardLibraryTests.swift in Sources */,
 				4724F55BA0D57A4B8412CF5C /* EmptyStateTests.swift in Sources */,
+				3433C7BDF2ED1F72154E77AD /* FullJourneyTests.swift in Sources */,
 				2D3C64CE9370FA4B17FDBAA3 /* LaunchHelper.swift in Sources */,
 				2CCE423069110BB5189C6B4B /* LearningFlowTests.swift in Sources */,
 				D384AAEC6106B2FA432EA7B8 /* SessionCompleteTests.swift in Sources */,
 				59C1A6717F8482B1E2E676B7 /* StatsViewTests.swift in Sources */,
 				FB08D4E4D9FF9206F98191F3 /* TabNavigationTests.swift in Sources */,
+				67E837E6E28A6A6820D94DFF /* TextbookBrowserTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -538,6 +553,7 @@
 				BBD2D824E18421C3C1B9F443 /* StatsView.swift in Sources */,
 				1C6255B5D89BBBA5B422FC1A /* StreakCalendarView.swift in Sources */,
 				9E528379A55871B7112556E0 /* TTSService.swift in Sources */,
+				5DB52F7F6467D1783C55D1AD /* TextbookBrowserView.swift in Sources */,
 				2672235C05FC96A31A413077 /* TextbookDataProvider.swift in Sources */,
 				4B2B70B9BF20602EE590EAA2 /* TextbookSeeder.swift in Sources */,
 				8AF6B8B33A76AC883193FF09 /* UITestSeeder.swift in Sources */,
@@ -567,6 +583,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SSG79B289M;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -651,6 +669,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SSG79B289M;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

@@ -15,6 +15,12 @@ struct AddCardView: View {
                 } label: {
                     Label("AI 自动生成", systemImage: "sparkles")
                 }
+
+                NavigationLink {
+                    TextbookBrowserView()
+                } label: {
+                    Label("课本字库", systemImage: "character.book.closed")
+                }
             }
             .navigationTitle("添加卡片")
         }

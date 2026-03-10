@@ -23,16 +23,17 @@
 5. [x] 界面游戏化 — 吉祥物动画、combo 特效、徽章系统、进度可视化 (2026-03-07)
 6. [x] V2 设计 — 5 功能模块设计 + 实施计划 (2026-03-09)
 7. [x] 基础重构 — CharacterStats 模型、SM-2 修复、技术债清理、课本预装 (Phase 1, Task 1-6) (2026-03-09)
-8. [>] 字库浏览器 — 替代卡片库，按年级/课文/掌握状态浏览筛选搜索 (Phase 2, Task 7-9) ← NEXT
-9. [ ] 游戏模式 — 快速学习 + 限时挑战 + 生存模式 + 闯关模式 + 连连看 (Phase 3, Task 10-16)
+8. [x] 字库浏览器 — 添加tab内嵌课本字库浏览(年级→课文→字)，单字/整课加入卡片库；移除首次启动自动填充；卡片库仅显示用户已选卡片 (Phase 2, Task 7-9) (2026-03-10)
+9. [>] 游戏模式 — 快速学习 + 限时挑战 + 生存模式 + 闯关模式 + 连连看 (Phase 3, Task 10-16) ← NEXT
 10. [ ] 报告系统 — 今日概览、学习趋势图、掌握进度、易错字排行 (Phase 4, Task 17-20)
 11. [ ] 集成收尾 — 设置页、全量测试修复、文档更新 (Phase 5, Task 21-23)
 
-## NEXT: 字库浏览器
+## NEXT: 游戏模式
 > 设计文档: docs/plans/2026-03-09-v2-features-design.md
-> 实施计划: docs/plans/2026-03-09-v2-implementation.md（Phase 2, Task 7-9）
+> 实施计划: docs/plans/2026-03-09-v2-implementation.md（Phase 3, Task 10-16）
 
 ## Log
+- 10:43 [project-next] 完成「字库浏览器」— TextbookSeeder.seedDefaultLesson(仅预装二年级上册第一课)、TextbookBrowserView(三级导航:年级→课文→字符+单字/整课加入卡片库)、AddCardView新增课本字库入口; 5 UI tests + 9 unit tests passed, 全量回归通过; NEXT=游戏模式
 - 2026-03-09: [project-next] 完成 V2 设计，设置 NEXT=基础重构；设计文档 docs/plans/2026-03-09-v2-features-design.md，实施计划 docs/plans/2026-03-09-v2-implementation.md（23 tasks / 5 phases）
 - 2026-03-07: [project-next] 完成「界面游戏化」— BadgeService(5徽章+解锁逻辑), LevelService(等级/XP进度条), combo计数器+积分弹出动画, confetti/火焰庆祝特效, 恐龙吉祥物表情状态; 68 unit tests + 23 UI tests passed
 - 2026-03-06: 课本选课功能（TextbookDataProvider + 并发AI生成）、模型换 qwen-plus、Canvas 改 anyInput、手写识别优化
@@ -63,3 +64,4 @@
 - V2 实施计划: docs/plans/2026-03-09-v2-implementation.md（23 tasks / 5 phases）
 - V2 技术债: SM-2 未实际选卡、DailySession 未创建、BadgeService 未接入、UserProfile 未初始化
 - 更新 sp-bridge skill（~/.claude/skills/sp-bridge/SKILL.md）：新增文档引用规则，要求任务大纲带 Phase/Task 映射、NEXT 带设计/实施文档引用、子任务带计划 Task 引用
+- [决策] 2026-03-10: 字库与卡片库分离 — 原方案: TextbookSeeder 首次启动自动填充 1000+ 字到卡片库 → 新方案: 字库作为「添加」tab 的课本浏览器，用户按年级/课文浏览后手动选择加入卡片库（原因: 卡片库是用户学习清单，不应被预制数据填满）

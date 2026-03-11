@@ -84,17 +84,16 @@ struct ResultFeedbackView: View {
                     .accessibilityIdentifier("correctAnswerText")
             }
 
-            HStack(spacing: 20) {
-                if !isCorrect {
-                    Button("再试一次", action: onRetry)
-                        .buttonStyle(.bordered)
-                        .controlSize(.large)
-                        .accessibilityIdentifier("retryButton")
-                }
-                Button(isCorrect ? "下一个" : "跳过", action: onNext)
+            if isCorrect {
+                Button("下一个", action: onNext)
                     .buttonStyle(.borderedProminent)
                     .controlSize(.large)
-                    .accessibilityIdentifier(isCorrect ? "nextButton" : "skipButton")
+                    .accessibilityIdentifier("nextButton")
+            } else {
+                Button("再试一次", action: onRetry)
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.large)
+                    .accessibilityIdentifier("retryButton")
             }
 
             if !isCorrect {

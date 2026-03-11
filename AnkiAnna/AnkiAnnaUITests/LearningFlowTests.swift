@@ -61,6 +61,8 @@ final class LearningFlowTests: XCTestCase {
 
         let retryButton = app.buttons["retryButton"]
         XCTAssertTrue(retryButton.waitForExistence(timeout: 3))
+        // No skip button should exist
+        XCTAssertFalse(app.buttons["skipButton"].exists, "Skip button should not exist")
         retryButton.tap()
 
         // After retry, practice mode should appear (not the main spelling field)
@@ -74,27 +76,6 @@ final class LearningFlowTests: XCTestCase {
         // Practice submit button should exist
         let practiceSubmit = app.buttons["practiceSubmitButton"]
         XCTAssertTrue(practiceSubmit.exists, "Practice mode should have submit button")
-    }
-
-    func testSkipButtonAfterWrongAnswer() {
-        let textField = requireSpellingField()
-        textField.tap()
-        textField.typeText("wronganswer")
-        app.buttons["submitButton"].tap()
-
-        let skipButton = app.buttons["skipButton"]
-        XCTAssertTrue(skipButton.waitForExistence(timeout: 3))
-        skipButton.tap()
-
-        // After skipping, the next card may be English, Chinese, or the session may complete.
-        let englishSubmit = app.buttons["submitButton"]
-        let chineseSubmit = app.buttons["提交"]
-        let sessionComplete = app.otherElements["sessionCompleteView"]
-        let advanced = englishSubmit.waitForExistence(timeout: 3)
-            || chineseSubmit.waitForExistence(timeout: 3)
-            || sessionComplete.waitForExistence(timeout: 3)
-        XCTAssertTrue(advanced, "Should advance after skip")
-        XCTAssertFalse(skipButton.exists, "Skip button should disappear after advancing")
     }
 
     func testProgressTextUpdates() {

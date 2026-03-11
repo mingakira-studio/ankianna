@@ -251,10 +251,12 @@ final class LearningViewModelTests: XCTestCase {
 
         viewModel.loadDueCards(from: [card], dailyGoal: 1)
 
-        // Wrong answer first
+        // Wrong answer first → retry + practice
         viewModel.submitAnswer(recognized: "", modelContext: context, profile: nil)
-        // Skip practice (tap "跳过")
-        viewModel.next()
+        viewModel.retry()
+        viewModel.submitPracticeAnswer(recognized: "大")
+        viewModel.submitPracticeAnswer(recognized: "大")
+        viewModel.submitPracticeAnswer(recognized: "大")
 
         // Now answer correctly 2 times
         viewModel.submitAnswer(recognized: "大", modelContext: context, profile: nil)
@@ -392,9 +394,9 @@ final class LearningViewModelTests: XCTestCase {
         XCTAssertEqual(stats.practiceCount, statsBefore, "Practice should not update CharacterStats")
     }
 
-    // MARK: - Three consecutive wrong → difficult
+    // MARK: - Three wrong → difficult
 
-    func testThreeConsecutiveWrongMarksDifficult() {
+    func testThreeWrongsWithRetryMarksDifficult() {
         let viewModel = LearningViewModel()
         let context = container.mainContext
         let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
@@ -405,25 +407,66 @@ final class LearningViewModelTests: XCTestCase {
 
         viewModel.loadDueCards(allCards: [card], characterStats: [stats], dailyGoal: 1)
 
-        // Wrong 3 times
-        for i in 0..<3 {
+        // Helper: wrong → retry → complete practice
+        func wrongAndPractice() {
             viewModel.submitAnswer(recognized: "", modelContext: context, profile: nil)
-            if i < 2 {
-                viewModel.next()  // skip practice, reinsert
-            }
+            viewModel.retry()
+            viewModel.submitPracticeAnswer(recognized: "大")  // phase1 correct 1
+            viewModel.submitPracticeAnswer(recognized: "大")  // phase1 correct 2 → phase2
+            viewModel.submitPracticeAnswer(recognized: "大")  // phase2 correct → completePractice
         }
 
-        // 3rd wrong → retry → practice → complete → mark difficult
-        viewModel.retry()
-        viewModel.submitPracticeAnswer(recognized: "大")
-        viewModel.submitPracticeAnswer(recognized: "大")
-        viewModel.submitPracticeAnswer(recognized: "大")
+        // 1st wrong + practice (totalWrong=1) → reinsert
+        wrongAndPractice()
+        XCTAssertEqual(stats.masteryLevel, .learning)
 
+        // 2nd wrong + practice (totalWrong=2) → reinsert
+        wrongAndPractice()
+        XCTAssertEqual(stats.masteryLevel, .learning)
+
+        // 3rd wrong + practice (totalWrong=3) → mark difficult
+        wrongAndPractice()
         XCTAssertEqual(stats.masteryLevel, .difficult)
         XCTAssertTrue(viewModel.showDifficultyFeedback)
         viewModel.dismissDifficultyFeedback()
-        XCTAssertEqual(viewModel.completedCount, 1)
         XCTAssertTrue(viewModel.sessionComplete)
+    }
+
+    func testAccumulatedNonConsecutiveWrongsMarksDifficult() {
+        let viewModel = LearningViewModel()
+        let context = container.mainContext
+        let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        let stats = CharacterStats(character: "大", grade: 1, semester: "upper", lesson: 1, lessonTitle: "天地人", words: ["大人"])
+        stats.masteryLevel = .learning
+        context.insert(card)
+        context.insert(stats)
+
+        viewModel.loadDueCards(allCards: [card], characterStats: [stats], dailyGoal: 1)
+
+        // Helper: wrong → retry → complete practice
+        func wrongAndPractice() {
+            viewModel.submitAnswer(recognized: "", modelContext: context, profile: nil)
+            viewModel.retry()
+            viewModel.submitPracticeAnswer(recognized: "大")
+            viewModel.submitPracticeAnswer(recognized: "大")
+            viewModel.submitPracticeAnswer(recognized: "大")
+        }
+
+        // Wrong (totalWrong=1) → practice → reinsert
+        wrongAndPractice()
+
+        // Correct (totalWrong stays 1)
+        viewModel.submitAnswer(recognized: "大", modelContext: context, profile: nil)
+        viewModel.next()  // consecutiveCorrect=1, not enough to exit → reinsert
+
+        // Wrong (totalWrong=2) → practice → reinsert
+        wrongAndPractice()
+
+        // Wrong (totalWrong=3) → practice → mark difficult
+        wrongAndPractice()
+
+        XCTAssertEqual(stats.masteryLevel, .difficult)
+        XCTAssertTrue(viewModel.showDifficultyFeedback)
     }
 
     // MARK: - Reinsert after wrong
@@ -598,16 +641,14 @@ final class LearningViewModelTests: XCTestCase {
 
         viewModel.loadDueCards(allCards: [card], characterStats: [stats], dailyGoal: 1)
 
-        // Wrong 3 times
-        for i in 0..<3 {
+        // Wrong 3 times via retry → practice
+        for _ in 0..<3 {
             viewModel.submitAnswer(recognized: "", modelContext: context, profile: nil)
-            if i < 2 { viewModel.next() }
+            viewModel.retry()
+            viewModel.submitPracticeAnswer(recognized: "大")
+            viewModel.submitPracticeAnswer(recognized: "大")
+            viewModel.submitPracticeAnswer(recognized: "大")
         }
-
-        viewModel.retry()
-        viewModel.submitPracticeAnswer(recognized: "大")
-        viewModel.submitPracticeAnswer(recognized: "大")
-        viewModel.submitPracticeAnswer(recognized: "大")
 
         viewModel.dismissDifficultyFeedback()
         XCTAssertEqual(viewModel.characterSummaries["大"]?.exitReason, .difficult)
@@ -642,9 +683,13 @@ final class LearningViewModelTests: XCTestCase {
 
         viewModel.loadDueCards(from: [card], dailyGoal: 1)
 
-        // 1 wrong, then 1 correct → 50%
+        // 1 wrong → retry + practice → 1 correct in main flow → 50%
         viewModel.submitAnswer(recognized: "", modelContext: context, profile: nil)
-        viewModel.next()
+        viewModel.retry()
+        viewModel.submitPracticeAnswer(recognized: "大")
+        viewModel.submitPracticeAnswer(recognized: "大")
+        viewModel.submitPracticeAnswer(recognized: "大")
+        // Card reinserted, now answer correctly
         viewModel.submitAnswer(recognized: "大", modelContext: context, profile: nil)
 
         XCTAssertEqual(viewModel.sessionAccuracyRate, 0.5, accuracy: 0.01)

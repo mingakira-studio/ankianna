@@ -65,6 +65,7 @@ final class LearningViewModel {
     struct CharacterSessionState {
         var consecutiveCorrect: Int = 0
         var consecutiveWrong: Int = 0
+        var totalWrong: Int = 0
         var hasError: Bool = false
     }
 
@@ -172,6 +173,7 @@ final class LearningViewModel {
             combo += 1
         } else {
             state.consecutiveWrong += 1
+            state.totalWrong += 1
             state.consecutiveCorrect = 0
             state.hasError = true
             combo = 0
@@ -215,7 +217,7 @@ final class LearningViewModel {
 
     // MARK: - After result actions
 
-    /// Called when user taps "下一个" after correct, or "跳过" after wrong
+    /// Called when user taps "下一个" after correct
     func next() {
         guard let card = currentCard else { return }
 
@@ -241,10 +243,6 @@ final class LearningViewModel {
                 reinsertCard(card)
                 advanceToNextCard()
             }
-        } else {
-            // Skip practice, just reinsert
-            reinsertCard(card)
-            advanceToNextCard()
         }
     }
 
@@ -327,7 +325,7 @@ final class LearningViewModel {
         isInPracticeMode = false
         practiceIsCorrect = nil
 
-        if state.consecutiveWrong >= 3 {
+        if state.totalWrong >= 3 {
             characterStatsMap[card.answer]?.markDifficult()
             showDifficultyFeedback = true
             // Don't advance yet — View will call dismissDifficultyFeedback() after showing

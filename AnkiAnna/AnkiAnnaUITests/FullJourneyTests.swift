@@ -448,10 +448,8 @@ final class FullJourneyTests: XCTestCase {
 
                 // Use retry to enter practice mode (required for wrong cards to eventually exit)
                 let retryButton = app.buttons["retryButton"]
-                if retryButton.exists {
+                if retryButton.waitForExistence(timeout: 2) {
                     retryButton.tap()
-                } else {
-                    app.buttons["skipButton"].tap()
                 }
             }
             cardsHandled += 1

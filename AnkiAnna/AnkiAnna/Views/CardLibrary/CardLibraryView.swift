@@ -57,43 +57,59 @@ struct CardLibraryView: View {
     @ViewBuilder
     private func cardRow(_ card: Card) -> some View {
         let stats = statsFor(card)
-        VStack(alignment: .leading, spacing: 4) {
-            HStack {
-                Text(card.answer)
-                    .font(.title2)
+        HStack(spacing: 12) {
+            Text(card.answer)
+                .font(.system(size: 36, weight: .medium))
+                .frame(width: 50)
+
+            VStack(alignment: .leading, spacing: 4) {
                 masteryBadge(stats?.masteryLevel ?? .new)
-                Spacer()
+
                 if let stats, stats.practiceCount > 0 {
-                    let rate = Int(Double(stats.correctCount) / Double(stats.practiceCount) * 100)
-                    Text("正确率 \(rate)%")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                    Text("\(stats.correctCount)✓")
-                        .font(.caption)
-                        .foregroundStyle(.green)
-                    Text("\(stats.errorCount)✗")
-                        .font(.caption)
-                        .foregroundStyle(.red)
+                    HStack(spacing: 12) {
+                        Label("\(Int(Double(stats.correctCount) / Double(stats.practiceCount) * 100))%", systemImage: "chart.bar.fill")
+                            .foregroundStyle(accuracyColor(correct: stats.correctCount, total: stats.practiceCount))
+                        Label("\(stats.practiceCount)次", systemImage: "pencil.line")
+                            .foregroundStyle(.secondary)
+                        if let last = stats.lastPracticed {
+                            Label(relativeDate(last), systemImage: "clock")
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    .font(.subheadline)
+                } else {
+                    Text("未学习")
+                        .font(.subheadline)
+                        .foregroundStyle(.tertiary)
                 }
-                Button {
-                    cardToDelete = card
-                } label: {
-                    Image(systemName: "trash")
-                        .foregroundStyle(.red)
-                        .font(.caption)
-                }
-                .buttonStyle(.plain)
             }
-            HStack(spacing: 8) {
-                Text(card.type == .chineseWriting ? "中文" : "英文")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                Text("\(card.contexts.count) 个语境")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+
+            Spacer()
+
+            Button {
+                cardToDelete = card
+            } label: {
+                Image(systemName: "trash")
+                    .foregroundStyle(.red.opacity(0.6))
             }
+            .buttonStyle(.plain)
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, 4)
+    }
+
+    private func accuracyColor(correct: Int, total: Int) -> Color {
+        let rate = Double(correct) / Double(total)
+        if rate >= 0.8 { return .green }
+        if rate >= 0.5 { return .orange }
+        return .red
+    }
+
+    private func relativeDate(_ date: Date) -> String {
+        let calendar = Calendar.current
+        if calendar.isDateInToday(date) { return "今天" }
+        if calendar.isDateInYesterday(date) { return "昨天" }
+        let days = calendar.dateComponents([.day], from: date, to: Date()).day ?? 0
+        return "\(days)天前"
     }
 
     private func masteryBadge(_ level: MasteryLevel) -> some View {

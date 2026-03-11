@@ -1,6 +1,12 @@
 # Anna 记忆卡片 App - 操作日志
 
 ## 2026-03-11
+- 21:59 [adhoc] 疑难字 bug 修复 + 跳过功能删除 + 卡片库 UI 重设计
+  - 疑难字判定从连续错3次改为累计错3次（新增 totalWrong 字段），修复跳过路径不触发疑难标记的 bug
+  - 删除"跳过"按钮，答错后只能"再试一次"进入练习模式（ResultFeedbackView + LearningViewModel.next()）
+  - 卡片库 UI 重设计：大字(36pt)+badge 左侧，正确率/练习次数/上次学习时间居中，去掉类型和语境数；正确率按高中低变色(绿/橙/红)，相对时间(今天/昨天/N天前)
+  - 更新 LearningFlowTests(合并重复+去 skipButton)、FullJourneyTests(去 skipButton fallback)
+  - 156 unit tests 回归通过
 - 14:58 [adhoc] 卡片库列表增强: CardLibraryView 每行显示掌握状态 badge + 正确率 + 正确✓/错误✗ 计数 + 红色删除按钮（带确认 alert）; @Query CharacterStats 获取学习数据; 保留原有 swipe-to-delete; 155 unit + 3 CardLibrary UI tests 回归通过
 
 ## 2026-03-10

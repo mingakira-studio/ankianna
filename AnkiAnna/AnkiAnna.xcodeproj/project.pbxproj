@@ -85,6 +85,7 @@
 		DE2DB3A9C61E17686AB98848 /* ManualAddCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2103AB8F71425C88801BEE6B /* ManualAddCardView.swift */; };
 		E2582D8F56F4C79FDCA243EF /* SM2Engine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29A2961958B3248AF15AC72 /* SM2Engine.swift */; };
 		E65E4C8620D68C8231CB1AB0 /* CardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452F373EE47DDF0314FDFAE0 /* CardDetailView.swift */; };
+		E6B7FE6D31DC5DF7D04A450D /* GameModeRegressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB1376DFB07B7122734CDAE /* GameModeRegressionTests.swift */; };
 		E891FC17EDE145B303781B57 /* LevelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494AE74582602E6464E9AE5B /* LevelService.swift */; };
 		EA2116699E23712EE63C6962 /* CardLibraryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C549A8485569ABAB0BFF62 /* CardLibraryTests.swift */; };
 		EE7D73F6B76C24F55CF46970 /* AIGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F7C0B6E96E330280FCBC9D /* AIGeneratorTests.swift */; };
@@ -179,6 +180,7 @@
 		C0C549A8485569ABAB0BFF62 /* CardLibraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardLibraryTests.swift; sourceTree = "<group>"; };
 		C53C552E743CA3D84CCE3B6C /* MatchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchViewModel.swift; sourceTree = "<group>"; };
 		C9CA1B8DF24616F047B40977 /* SurvivalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurvivalViewModel.swift; sourceTree = "<group>"; };
+		CCB1376DFB07B7122734CDAE /* GameModeRegressionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModeRegressionTests.swift; sourceTree = "<group>"; };
 		CD92A8F017F901D58CBE0C07 /* TimeAttackViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeAttackViewModelTests.swift; sourceTree = "<group>"; };
 		D25B4CD7699D5EA008AF3C8B /* LearningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningViewModel.swift; sourceTree = "<group>"; };
 		D293F4EB00F0CDFE150E44B9 /* GameModeSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModeSelectionView.swift; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 				C0C549A8485569ABAB0BFF62 /* CardLibraryTests.swift */,
 				E93D933ECB8A3C85780CF188 /* EmptyStateTests.swift */,
 				98E9BF4AA0484F4A30507781 /* FullJourneyTests.swift */,
+				CCB1376DFB07B7122734CDAE /* GameModeRegressionTests.swift */,
 				1084D8C9785DAFCC535AA797 /* GameModeTests.swift */,
 				851C00104F444E3D3A060CDC /* LearningFlowTests.swift */,
 				F9D8DB76F431F78CD7FFF91B /* SessionCompleteTests.swift */,
@@ -566,6 +569,7 @@
 				EA2116699E23712EE63C6962 /* CardLibraryTests.swift in Sources */,
 				4724F55BA0D57A4B8412CF5C /* EmptyStateTests.swift in Sources */,
 				3433C7BDF2ED1F72154E77AD /* FullJourneyTests.swift in Sources */,
+				E6B7FE6D31DC5DF7D04A450D /* GameModeRegressionTests.swift in Sources */,
 				B60F6427CD728A46C2A8C60C /* GameModeTests.swift in Sources */,
 				2D3C64CE9370FA4B17FDBAA3 /* LaunchHelper.swift in Sources */,
 				2CCE423069110BB5189C6B4B /* LearningFlowTests.swift in Sources */,

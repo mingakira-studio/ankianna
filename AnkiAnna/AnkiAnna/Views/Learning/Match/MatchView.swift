@@ -68,6 +68,7 @@ struct MatchView: View {
                 ForEach(viewModel.tiles.indices, id: \.self) { index in
                     let tile = viewModel.tiles[index]
                     Button {
+                        TTSService.speak(text: tile.speakText, cardType: .chineseWriting)
                         viewModel.selectTile(at: index)
                     } label: {
                         Text(tile.text)
@@ -148,9 +149,10 @@ struct MatchView: View {
     }
 
     private func setupGame() {
-        let pairs = cards.prefix(6).map { card -> (char: String, word: String) in
+        let pairs = cards.prefix(6).map { card -> (char: String, word: String, speakText: String) in
             let word = card.contexts.first?.text ?? card.audioText
-            return (char: card.answer, word: word)
+            let speakText = card.contexts.first?.fullText ?? card.audioText
+            return (char: card.answer, word: word, speakText: speakText)
         }
         viewModel.setup(characters: Array(pairs))
         hasStarted = true

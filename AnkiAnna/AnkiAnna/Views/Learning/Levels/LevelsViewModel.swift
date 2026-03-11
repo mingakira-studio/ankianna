@@ -77,8 +77,7 @@ class LevelsViewModel {
         currentLevel = level
         // Filter cards for this lesson
         currentCards = cards.filter { card in
-            card.tags.contains("grade:\(level.grade)") ||
-            card.tags.contains("lesson:\(level.lesson)")
+            card.tags.contains(level.title)
         }
         if currentCards.isEmpty {
             currentCards = Array(cards.prefix(5))

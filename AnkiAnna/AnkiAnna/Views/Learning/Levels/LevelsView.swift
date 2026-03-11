@@ -111,10 +111,13 @@ struct LevelsView: View {
         VStack(spacing: 20) {
             Spacer()
 
-            Text(context.fullText)
+            Text(context.text)
                 .font(.title)
                 .multilineTextAlignment(.center)
                 .padding()
+                .onAppear {
+                    TTSService.speak(text: context.fullText, cardType: card.type)
+                }
 
             if card.type == .chineseWriting {
                 WritingCanvasView(drawing: $drawing)

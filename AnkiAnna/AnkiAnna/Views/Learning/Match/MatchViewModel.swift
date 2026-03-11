@@ -5,14 +5,16 @@ class MatchViewModel {
     struct Tile: Identifiable {
         let id: UUID
         let text: String
+        let speakText: String
         let pairId: UUID
         let isCharacter: Bool
         var isMatched = false
         var isSelected = false
 
-        init(text: String, pairId: UUID, isCharacter: Bool) {
+        init(text: String, speakText: String? = nil, pairId: UUID, isCharacter: Bool) {
             self.id = UUID()
             self.text = text
+            self.speakText = speakText ?? text
             self.pairId = pairId
             self.isCharacter = isCharacter
         }
@@ -30,12 +32,12 @@ class MatchViewModel {
         totalPairs = pairs
     }
 
-    func setup(characters: [(char: String, word: String)]) {
+    func setup(characters: [(char: String, word: String, speakText: String)]) {
         tiles = []
         for pair in characters.prefix(totalPairs) {
             let pairId = UUID()
             tiles.append(Tile(text: pair.char, pairId: pairId, isCharacter: true))
-            tiles.append(Tile(text: pair.word, pairId: pairId, isCharacter: false))
+            tiles.append(Tile(text: pair.word, speakText: pair.speakText, pairId: pairId, isCharacter: false))
         }
         tiles.shuffle()
     }

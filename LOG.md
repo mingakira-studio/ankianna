@@ -1,5 +1,8 @@
 # Anna 记忆卡片 App - 操作日志
 
+## 2026-03-11
+- 14:58 [adhoc] 卡片库列表增强: CardLibraryView 每行显示掌握状态 badge + 正确率 + 正确✓/错误✗ 计数 + 红色删除按钮（带确认 alert）; @Query CharacterStats 获取学习数据; 保留原有 swipe-to-delete; 155 unit + 3 CardLibrary UI tests 回归通过
+
 ## 2026-03-10
 - 15:13 [project-next] 完成「学习流程重设计」, 设置 NEXT=游戏模式
   - CharacterStats: MasteryLevel 新增 .difficult, 移除 isDifficult/isManuallyReset, 新增显式 markMastered/markDifficult/markLearning, recordReview 不再自动变更 masteryLevel

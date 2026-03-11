@@ -66,7 +66,7 @@ enum UITestSeeder {
 
         for (char, text, fullText, words) in chineseData {
             let card = Card(type: .chineseWriting, answer: char, audioText: char,
-                            hint: words.joined(separator: "、"), tags: ["一年级上册"], source: .textbook)
+                            hint: words.joined(separator: "、"), tags: ["一年级上册", "天地人"], source: .textbook)
             card.contexts.append(CardContext(type: .phrase, text: text, fullText: fullText, source: .textbook))
             context.insert(card)
 

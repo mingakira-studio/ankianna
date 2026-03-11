@@ -14,10 +14,11 @@ final class FullJourneyTests: XCTestCase {
 
     func testCompleteEnglishLearningSession() {
         app = LaunchHelper.launchApp(seed: .singleCard)
+        LaunchHelper.enterQuickLearn(in: app)
 
-        // 1. App opens on 学习 tab with a card ready
+        // 1. App opens on 学习 tab, navigate to quick learn → card ready
         let spellingField = app.textFields["spellingTextField"]
-        XCTAssertTrue(spellingField.waitForExistence(timeout: 5), "Should see spelling input on launch")
+        XCTAssertTrue(spellingField.waitForExistence(timeout: 5), "Should see spelling input after entering quick learn")
 
         // 2. Progress indicator visible
         let progress = app.staticTexts["progressText"]
@@ -57,9 +58,9 @@ final class FullJourneyTests: XCTestCase {
         let completion = app.staticTexts["今天的学习完成了！"]
         XCTAssertTrue(completion.waitForExistence(timeout: 5), "Session should complete after mastery confirmation")
 
-        // 7. Completion shows score
-        let scoreText = app.staticTexts.matching(NSPredicate(format: "label CONTAINS '正确'")).firstMatch
-        XCTAssertTrue(scoreText.exists, "Completion should show correct count")
+        // 7. Completion shows per-character summary with exit reason badge
+        let masteredBadge = app.staticTexts["已掌握"]
+        XCTAssertTrue(masteredBadge.waitForExistence(timeout: 3), "Completion should show mastered badge")
     }
 
     // MARK: - Journey 2: Wrong Answer → Retry → Correct → Next
@@ -67,6 +68,7 @@ final class FullJourneyTests: XCTestCase {
 
     func testWrongAnswerRetryThenCorrect() {
         app = LaunchHelper.launchApp(seed: .englishOnly)
+        LaunchHelper.enterQuickLearn(in: app)
 
         let spellingField = app.textFields["spellingTextField"]
         XCTAssertTrue(spellingField.waitForExistence(timeout: 5))
@@ -174,11 +176,16 @@ final class FullJourneyTests: XCTestCase {
     func testCrossTabNavigationJourney() {
         app = LaunchHelper.launchApp(seed: .testData)
 
-        // 1. Start on 学习 tab — cards loaded
-        let spellingField = app.textFields["spellingTextField"]
-        let chineseSubmit = app.buttons["提交"]
-        let hasCard = spellingField.waitForExistence(timeout: 5) || chineseSubmit.waitForExistence(timeout: 1)
-        XCTAssertTrue(hasCard, "Learning tab should show a card")
+        // 1. Start on 学习 tab — now shows game mode selection
+        let quickLearn = app.staticTexts["快速学习"]
+        XCTAssertTrue(quickLearn.waitForExistence(timeout: 5), "Learning tab should show game modes")
+        LaunchHelper.enterQuickLearn(in: app)
+
+        // testData seeds English + Chinese cards; look for any learning UI element
+        let hasCard = app.textFields["spellingTextField"].waitForExistence(timeout: 5)
+            || app.buttons["提交"].waitForExistence(timeout: 1)
+            || app.staticTexts["progressText"].waitForExistence(timeout: 1)
+        XCTAssertTrue(hasCard, "Quick learn should show a card")
 
         // 2. Switch to 统计 tab
         LaunchHelper.tapTab("统计", in: app)
@@ -202,13 +209,12 @@ final class FullJourneyTests: XCTestCase {
         LaunchHelper.tapTab("添加", in: app)
         XCTAssertTrue(app.navigationBars["添加卡片"].waitForExistence(timeout: 3))
 
-        // 7. Return to 学习 tab — still functional
+        // 7. Return to 学习 tab — shows game mode selection or learning content
         LaunchHelper.tapTab("学习", in: app)
-        let stillHasCard = app.textFields["spellingTextField"].waitForExistence(timeout: 3)
+        let stillFunctional = app.staticTexts["快速学习"].waitForExistence(timeout: 3)
+            || app.textFields["spellingTextField"].waitForExistence(timeout: 1)
             || app.buttons["提交"].waitForExistence(timeout: 1)
-            || app.staticTexts["今天的学习完成了！"].waitForExistence(timeout: 1)
-            || app.staticTexts["还没有卡片"].waitForExistence(timeout: 1)
-        XCTAssertTrue(stillHasCard, "Learning tab should still be functional")
+        XCTAssertTrue(stillFunctional, "Learning tab should still be functional")
     }
 
     // MARK: - Journey 5: Empty State → Add Tab Prompt
@@ -217,9 +223,14 @@ final class FullJourneyTests: XCTestCase {
     func testEmptyStateJourney() {
         app = LaunchHelper.launchApp(seed: .none)
 
-        // 1. Learning tab shows empty state
+        // 1. Learning tab shows game mode selection (even with no cards)
+        let quickLearn = app.staticTexts["快速学习"]
+        XCTAssertTrue(quickLearn.waitForExistence(timeout: 5), "Game mode selection should show even with no cards")
+
+        // Enter quick learn to see empty state
+        LaunchHelper.enterQuickLearn(in: app)
         let noCards = app.staticTexts["还没有卡片"]
-        XCTAssertTrue(noCards.waitForExistence(timeout: 5), "Empty state text should appear")
+        XCTAssertTrue(noCards.waitForExistence(timeout: 5), "Empty state should show when no cards exist")
         let hint = app.staticTexts["去「添加」页面创建一些卡片吧"]
         XCTAssertTrue(hint.exists, "Hint to add cards should appear")
 
@@ -245,11 +256,13 @@ final class FullJourneyTests: XCTestCase {
 
     func testSM2SchedulingPathWithCharacterStats() {
         app = LaunchHelper.launchApp(seed: .withStats)
+        LaunchHelper.enterQuickLearn(in: app)
 
-        // 1. App loads — should have cards (3 Chinese + 1 English from withStats seed)
+        // 1. App loads — navigate to quick learn with cards (3 Chinese + 1 English from withStats seed)
         //    LearningView detects CharacterStats exist → uses SM-2 loadDueCards
         let hasLearningContent = app.textFields["spellingTextField"].waitForExistence(timeout: 5)
             || app.buttons["提交"].waitForExistence(timeout: 1)
+            || app.staticTexts["progressText"].waitForExistence(timeout: 1)
         XCTAssertTrue(hasLearningContent, "SM-2 path should load cards from CharacterStats")
 
         // 2. Progress shows card count
@@ -262,6 +275,7 @@ final class FullJourneyTests: XCTestCase {
 
         // 4. Go back to learning and complete a card
         LaunchHelper.tapTab("学习", in: app)
+        LaunchHelper.enterQuickLearn(in: app)
 
         // If English card is shown, type answer; if Chinese, we can only verify UI shows
         let spellingField = app.textFields["spellingTextField"]
@@ -274,9 +288,10 @@ final class FullJourneyTests: XCTestCase {
                 || app.staticTexts["correctAnswerText"].waitForExistence(timeout: 1)
             XCTAssertTrue(gotResult, "Should see result after submitting")
         } else {
-            // Chinese card — verify submit button exists (can't simulate handwriting)
-            let submitBtn = app.buttons["提交"]
-            XCTAssertTrue(submitBtn.waitForExistence(timeout: 3), "Chinese card should have submit button")
+            // Chinese card on simulator — verify learning UI exists (canvas + simulate buttons)
+            let hasChineseUI = app.buttons["simulateCorrectButton"].waitForExistence(timeout: 3)
+                || app.staticTexts["progressText"].exists
+            XCTAssertTrue(hasChineseUI, "Chinese card should show learning interface")
         }
     }
 
@@ -307,9 +322,13 @@ final class FullJourneyTests: XCTestCase {
 
     func testFirstLaunchTextbookSeeding() {
         app = LaunchHelper.launchApp(seed: .textbook)
+        LaunchHelper.enterQuickLearn(in: app)
 
-        // 1. Learning tab should have cards loaded from textbook data
-        let hasCard = app.buttons["提交"].waitForExistence(timeout: 5)
+        // 1. Learning tab → quick learn should have cards loaded from textbook data
+        // Textbook cards are Chinese writing type: look for progress text or simulate buttons
+        let hasCard = app.staticTexts["progressText"].waitForExistence(timeout: 10)
+            || app.buttons["simulateCorrectButton"].waitForExistence(timeout: 3)
+            || app.buttons["提交"].waitForExistence(timeout: 1)
             || app.textFields["spellingTextField"].waitForExistence(timeout: 1)
         XCTAssertTrue(hasCard, "Textbook seeding should produce cards for learning")
 
@@ -331,11 +350,14 @@ final class FullJourneyTests: XCTestCase {
         let detailLoaded = app.staticTexts["目标字词"].waitForExistence(timeout: 3)
         XCTAssertTrue(detailLoaded, "Card detail should load")
 
-        // 5. Go back, switch to learning — Chinese card shows writing canvas
+        // 5. Go back, switch to learning — enter quick learn again
         app.navigationBars.buttons.firstMatch.tap()
         LaunchHelper.tapTab("学习", in: app)
-        let submitBtn = app.buttons["提交"]
-        XCTAssertTrue(submitBtn.waitForExistence(timeout: 5), "Chinese textbook card should show submit button")
+        LaunchHelper.enterQuickLearn(in: app)
+        // Chinese writing card on simulator shows simulate buttons instead of "提交"
+        let hasLearningCard = app.staticTexts["progressText"].waitForExistence(timeout: 5)
+            || app.buttons["simulateCorrectButton"].waitForExistence(timeout: 3)
+        XCTAssertTrue(hasLearningCard, "Chinese textbook card should show learning interface")
     }
 
     // MARK: - Journey 9: Answer Multiple Cards Until Session Complete
@@ -343,6 +365,7 @@ final class FullJourneyTests: XCTestCase {
 
     func testMultiCardSessionFlow() {
         app = LaunchHelper.launchApp(seed: .englishOnly)
+        LaunchHelper.enterQuickLearn(in: app)
         var cardsHandled = 0
         // Track correct answers learned from wrong-answer feedback
         var knownAnswers: Set<String> = ["apple", "book", "cat"]
@@ -359,6 +382,22 @@ final class FullJourneyTests: XCTestCase {
             let masteryAlert = app.alerts["完全掌握了吗？"]
             if masteryAlert.exists {
                 masteryAlert.buttons["掌握了！"].tap()
+                cardsHandled += 1
+                continue
+            }
+
+            // Handle difficulty feedback (appears when consecutiveWrong >= 3 after practice)
+            if app.staticTexts["标记为疑难字"].waitForExistence(timeout: 0.5) {
+                app.buttons["继续"].firstMatch.tap()
+                cardsHandled += 1
+                continue
+            }
+
+            // Handle card exit feedback (auto-dismisses after 1.5s)
+            let exitPred = NSPredicate(format: "label CONTAINS '练习完成' OR label CONTAINS '不再是疑难字'")
+            if app.staticTexts.matching(exitPred).firstMatch.waitForExistence(timeout: 0.5) {
+                _ = app.textFields["spellingTextField"].waitForExistence(timeout: 3)
+                    || app.staticTexts["今天的学习完成了！"].waitForExistence(timeout: 1)
                 cardsHandled += 1
                 continue
             }
@@ -424,8 +463,154 @@ final class FullJourneyTests: XCTestCase {
         let completionText = app.staticTexts["今天的学习完成了！"]
         XCTAssertTrue(completionText.waitForExistence(timeout: 5), "Session should complete after all cards")
 
-        // Verify score is shown
-        let score = app.staticTexts.matching(NSPredicate(format: "label CONTAINS '正确'")).firstMatch
-        XCTAssertTrue(score.exists, "Completion should show score")
+        // Verify per-character summary with exit reason badges
+        let exitBadge = app.staticTexts.matching(
+            NSPredicate(format: "label == '已掌握' OR label == '已完成' OR label == '疑难字'")
+        ).firstMatch
+        XCTAssertTrue(exitBadge.waitForExistence(timeout: 3), "Completion should show exit reason badges")
+    }
+
+    // MARK: - Helpers
+
+    private func enterPracticeModeFromWrong() {
+        let field = app.textFields["spellingTextField"]
+        XCTAssertTrue(field.waitForExistence(timeout: 5), "Spelling field should appear")
+        field.tap()
+        field.typeText("zzzzwrong")
+        app.buttons["submitButton"].tap()
+        XCTAssertTrue(app.staticTexts["correctAnswerText"].waitForExistence(timeout: 3), "Wrong feedback should appear")
+        app.buttons["retryButton"].tap()
+    }
+
+    private func completePracticePhase(answer: String) {
+        // Phase 1, attempt 1
+        var pf = app.textFields["practiceTextField"]
+        XCTAssertTrue(pf.waitForExistence(timeout: 3), "Practice field should appear")
+        pf.tap()
+        pf.typeText(answer)
+        app.buttons["practiceSubmitButton"].tap()
+
+        // Wait for correct flash animation (0.8s) + SwiftUI re-render
+        Thread.sleep(forTimeInterval: 1.5)
+
+        // Phase 1, attempt 2
+        pf = app.textFields["practiceTextField"]
+        XCTAssertTrue(pf.waitForExistence(timeout: 3), "Practice field should reappear")
+        pf.tap()
+        pf.typeText(answer)
+        app.buttons["practiceSubmitButton"].tap()
+
+        // Wait for transition to phase 2
+        Thread.sleep(forTimeInterval: 1.5)
+
+        // Phase 2: blind write
+        XCTAssertTrue(app.staticTexts["practiceBlind"].waitForExistence(timeout: 3), "Should enter blind write")
+        pf = app.textFields["practiceTextField"]
+        XCTAssertTrue(pf.waitForExistence(timeout: 3))
+        pf.tap()
+        pf.typeText(answer)
+        app.buttons["practiceSubmitButton"].tap()
+    }
+
+    // MARK: - Journey 10: Difficulty Feedback After Consecutive Wrong Answers
+
+    func testDifficultyFeedbackAfterConsecutiveWrongs() {
+        app = LaunchHelper.launchApp(seed: .singleCard)
+        LaunchHelper.enterQuickLearn(in: app)
+        let answer = "apple"
+
+        // 3 cycles of: wrong in main flow → practice succeeds → card reinserted
+        // After 3rd cycle, consecutiveWrong >= 3 → difficulty feedback
+        for cycle in 1...3 {
+            enterPracticeModeFromWrong()
+            completePracticePhase(answer: answer)
+
+            if cycle < 3 {
+                // Card reinserted → back to main flow
+                XCTAssertTrue(
+                    app.textFields["spellingTextField"].waitForExistence(timeout: 5),
+                    "Should return to main flow after practice cycle \(cycle)"
+                )
+            }
+        }
+
+        // Difficulty feedback should appear (use text-based detection; VStack identifiers not accessible in XCUITest)
+        let difficultyText = app.staticTexts["标记为疑难字"]
+        XCTAssertTrue(difficultyText.waitForExistence(timeout: 5), "Difficulty feedback should appear")
+        XCTAssertTrue(app.staticTexts["下次会优先复习这个字"].exists)
+
+        // Dismiss
+        app.buttons["继续"].firstMatch.tap()
+
+        // Session should complete
+        XCTAssertTrue(
+            app.staticTexts["今天的学习完成了！"].waitForExistence(timeout: 5),
+            "Session should complete after difficulty dismiss"
+        )
+    }
+
+    // MARK: - Journey 11: Card Exit Feedback After Error Then Correct
+
+    func testCardExitFeedbackAfterErrorThenCorrect() {
+        app = LaunchHelper.launchApp(seed: .singleCard)
+        LaunchHelper.enterQuickLearn(in: app)
+        let answer = "apple"
+
+        // Step 1: Wrong answer → practice → back (sets hasError=true)
+        enterPracticeModeFromWrong()
+        completePracticePhase(answer: answer)
+
+        // Step 2: First correct answer (consecutiveCorrect=1, hasError=true)
+        var field = app.textFields["spellingTextField"]
+        XCTAssertTrue(field.waitForExistence(timeout: 5))
+        field.tap()
+        field.typeText(answer)
+        app.buttons["submitButton"].tap()
+        XCTAssertTrue(app.images["correctFeedback"].waitForExistence(timeout: 3), "Should show correct feedback")
+        app.buttons["nextButton"].tap()
+
+        // Step 3: Second correct answer (consecutiveCorrect=2 → exit feedback)
+        field = app.textFields["spellingTextField"]
+        XCTAssertTrue(field.waitForExistence(timeout: 5))
+        field.tap()
+        field.typeText(answer)
+        app.buttons["submitButton"].tap()
+        XCTAssertTrue(app.images["correctFeedback"].waitForExistence(timeout: 3))
+        app.buttons["nextButton"].tap()
+
+        // Card exit feedback should appear (use text-based detection; VStack identifiers not accessible in XCUITest)
+        let exitMsg = app.staticTexts.matching(
+            NSPredicate(format: "label CONTAINS '今日练习完成'")
+        ).firstMatch
+        XCTAssertTrue(exitMsg.waitForExistence(timeout: 3), "Card exit feedback should appear with '今日练习完成' message")
+
+        // Wait for auto-dismiss → session complete
+        XCTAssertTrue(
+            app.staticTexts["今天的学习完成了！"].waitForExistence(timeout: 5),
+            "Session should complete after card exit feedback"
+        )
+    }
+
+    // MARK: - Journey 12: Practice Mode Correct Icon Appears
+
+    func testPracticeCorrectIconAppears() {
+        app = LaunchHelper.launchApp(seed: .singleCard)
+        LaunchHelper.enterQuickLearn(in: app)
+
+        // Enter practice mode via wrong answer
+        enterPracticeModeFromWrong()
+
+        // Type correct answer in practice
+        let pf = app.textFields["practiceTextField"]
+        XCTAssertTrue(pf.waitForExistence(timeout: 3))
+        pf.tap()
+        pf.typeText("apple")
+        app.buttons["practiceSubmitButton"].tap()
+
+        // After correct practice answer, progress updates (practicePhase1Count increments)
+        // The label shows "(practicePhase1Count + 1)/2", so after 1st correct: "2/2"
+        let progressText = app.staticTexts["practiceProgress"]
+        XCTAssertTrue(progressText.waitForExistence(timeout: 3), "Practice progress should be visible after correct answer")
+        XCTAssertEqual(progressText.label, "2/2", "Practice progress should show 2/2 after first correct")
     }
 }

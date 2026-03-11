@@ -7,6 +7,7 @@ final class EmptyStateTests: XCTestCase {
         continueAfterFailure = false
         // Launch without seeding data
         app = LaunchHelper.launchApp(seedData: false)
+        LaunchHelper.enterQuickLearn(in: app)
     }
 
     func testEmptyStateShowsWhenNoCards() {

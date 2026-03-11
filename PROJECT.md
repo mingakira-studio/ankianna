@@ -5,7 +5,7 @@
 - Status: active
 - Path: ~/Projects/ankianna
 - Created: 2025-05-01
-- Last Updated: 2026-03-10
+- Last Updated: 2026-03-11
 
 ## 目标
 为 Anna 打造个性化的记忆卡片应用，基于间隔重复算法帮助高效记忆学习内容。
@@ -25,14 +25,15 @@
 7. [x] 基础重构 — CharacterStats 模型、SM-2 修复、技术债清理、课本预装 (Phase 1, Task 1-6) (2026-03-09)
 8. [x] 字库浏览器 — 添加tab内嵌课本字库浏览(年级→课文→字)，单字/整课加入卡片库；移除首次启动自动填充；卡片库仅显示用户已选卡片 (Phase 2, Task 7-9) (2026-03-10)
 9. [x] 学习流程重设计 — 练习模式、动态队列、三级掌握状态（学习/疑难/熟识） (2026-03-10)
-10. [>] 游戏模式 — 快速学习 + 限时挑战 + 生存模式 + 闯关模式 + 连连看 (Phase 3, Task 10-16) ← NEXT
-11. [ ] 报告系统 — 今日概览、学习趋势图、掌握进度、易错字排行 (Phase 4, Task 17-20)
+10. [x] 游戏模式 — 快速学习 + 限时挑战 + 生存模式 + 闯关模式 + 连连看 (Phase 3, Task 10-16) (2026-03-11)
+11. [>] 报告系统 — 今日概览、学习趋势图、掌握进度、易错字排行 (Phase 4, Task 17-20) ← NEXT
 12. [ ] 集成收尾 — 设置页、全量测试修复、文档更新 (Phase 5, Task 21-23)
 
-## NEXT: 游戏模式
-> 实施计划: docs/plans/2026-03-09-v2-implementation.md (Phase 3, Task 10-16)
+## NEXT: 报告系统
+> 实施计划: docs/plans/2026-03-09-v2-implementation.md (Phase 4, Task 17-20)
 
 ## Log
+- 14:06 [project-next] 完成「游戏模式」— GameModeSelectionView(5模式入口)、TimeAttack(限时挑战+加时+combo)、Survival(3命生存+难度递增)、Levels(课文闯关+星级+解锁)、Match(字词连连看); LevelProgress SwiftData模型; 25 unit tests + 7 GameModeTests passed, 全量155单元+UITests回归通过; NEXT=报告系统
 - 12:09 [adhoc] 学习界面: 添加 DEBUG 模拟写对/写错按钮 + 自动朗读（进入+切题）; 学习流程重设计方案 docs/plans/2026-03-10-learning-flow-redesign.md, 插入任务大纲 NEXT=学习流程重设计
 - 10:43 [project-next] 完成「字库浏览器」— TextbookSeeder.seedDefaultLesson(仅预装二年级上册第一课)、TextbookBrowserView(三级导航:年级→课文→字符+单字/整课加入卡片库)、AddCardView新增课本字库入口; 5 UI tests + 9 unit tests passed, 全量回归通过; NEXT=游戏模式
 - 2026-03-09: [project-next] 完成 V2 设计，设置 NEXT=基础重构；设计文档 docs/plans/2026-03-09-v2-features-design.md，实施计划 docs/plans/2026-03-09-v2-implementation.md（23 tasks / 5 phases）

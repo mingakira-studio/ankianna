@@ -59,4 +59,13 @@ enum LaunchHelper {
     static func tabExists(_ label: String, in app: XCUIApplication) -> Bool {
         app.tabBars.buttons[label].exists || app.buttons[label].firstMatch.exists
     }
+
+    /// Navigate to Quick Learn mode from the game mode selection screen.
+    /// Call after launching the app (which lands on the 学习 tab with GameModeSelectionView).
+    static func enterQuickLearn(in app: XCUIApplication) {
+        let quickLearn = app.staticTexts["快速学习"].firstMatch
+        if quickLearn.waitForExistence(timeout: 3) {
+            quickLearn.tap()
+        }
+    }
 }

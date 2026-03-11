@@ -2,6 +2,19 @@ import SwiftUI
 import SwiftData
 import PencilKit
 
+enum CharacterExitReason: String {
+    case mastered    // confirmed mastered
+    case completed   // normal completion
+    case difficult   // marked as difficult
+}
+
+struct CharacterSummary {
+    let character: String
+    var answerSequence: [Bool] = []   // main flow answers only, not practice
+    var accumulatedDuration: TimeInterval = 0  // actual time spent on this character
+    var exitReason: CharacterExitReason?
+}
+
 @Observable
 final class LearningViewModel {
     // MARK: - Public state
@@ -17,6 +30,13 @@ final class LearningViewModel {
     var totalCount: Int = 0       // initial unique character count
     var combo: Int = 0
 
+    // Session summary tracking
+    private(set) var characterSummaries: [String: CharacterSummary] = [:]
+    private(set) var summaryOrder: [String] = []
+    private(set) var sessionTotalPoints: Int = 0
+    private(set) var sessionStartTime: Date = Date()
+    private var activeCharacterStartTime: Date?
+
     // Practice mode
     var isInPracticeMode: Bool = false
     var practicePhase: Int = 0          // 1 = look-and-write, 2 = blind-write
@@ -27,8 +47,13 @@ final class LearningViewModel {
     // Mastery confirmation
     var showMasteryConfirmation: Bool = false
 
-    // Difficulty feedback
+    // Card exit feedback
     var showDifficultyFeedback: Bool = false
+    var showCardExitFeedback: Bool = false
+    var cardExitMessage: String = ""
+
+    // Practice feedback
+    var showPracticeCorrectFlash: Bool = false
 
     // MARK: - Internal state (private(set) for testing)
 
@@ -107,9 +132,17 @@ final class LearningViewModel {
         isInPracticeMode = false
         showMasteryConfirmation = false
         showDifficultyFeedback = false
+        showCardExitFeedback = false
+        cardExitMessage = ""
+        showPracticeCorrectFlash = false
         showResult = false
         isCorrect = false
         charResults = []
+        characterSummaries = [:]
+        summaryOrder = []
+        sessionTotalPoints = 0
+        sessionStartTime = Date()
+        activeCharacterStartTime = nil
     }
 
     // MARK: - Main flow answer submission
@@ -170,10 +203,14 @@ final class LearningViewModel {
         }
 
         // Points
+        let points = PointsService.pointsForAnswer(correct: isCorrect, combo: combo)
+        sessionTotalPoints += points
         if let profile {
-            let points = PointsService.pointsForAnswer(correct: isCorrect, combo: combo)
             profile.totalPoints += points
         }
+
+        // Track answer sequence
+        characterSummaries[card.answer]?.answerSequence.append(isCorrect)
     }
 
     // MARK: - After result actions
@@ -189,12 +226,16 @@ final class LearningViewModel {
             if state.consecutiveCorrect >= 3 {
                 if masteryLevel == .difficult {
                     characterStatsMap[card.answer]?.markLearning()
-                    exitCard(asCorrect: true)
+                    showCardExitFeedback = true
+                    cardExitMessage = "「\(card.answer)」不再是疑难字了"
+                    // View will call dismissCardExitFeedback() after delay
                 } else {
                     showMasteryConfirmation = true
                 }
             } else if state.hasError && state.consecutiveCorrect >= 2 {
-                exitCard(asCorrect: true)
+                showCardExitFeedback = true
+                cardExitMessage = "「\(card.answer)」今日练习完成"
+                // View will call dismissCardExitFeedback() after delay
             } else {
                 // Not ready to exit, keep practicing
                 reinsertCard(card)
@@ -218,12 +259,12 @@ final class LearningViewModel {
     func confirmMastered() {
         characterStatsMap[currentCard?.answer ?? ""]?.markMastered()
         showMasteryConfirmation = false
-        exitCard(asCorrect: true)
+        exitCard(asCorrect: true, reason: .mastered)
     }
 
     func declineMastered() {
         showMasteryConfirmation = false
-        exitCard(asCorrect: true)
+        exitCard(asCorrect: true, reason: .completed)
     }
 
     // MARK: - Practice mode
@@ -257,16 +298,18 @@ final class LearningViewModel {
 
         if practicePhase == 1 {
             if correct {
+                showPracticeCorrectFlash = true
                 practicePhase1Count += 1
                 if practicePhase1Count >= 2 {
                     practicePhase = 2
                 }
-                practiceIsCorrect = nil  // ready for next attempt
+                // Don't clear practiceIsCorrect here — View will clear after flash animation
             }
             // Wrong in phase 1: stay, UI shows feedback via practiceIsCorrect == false
         } else {
             // Phase 2: blind write
             if correct {
+                showPracticeCorrectFlash = true
                 completePractice()
             } else {
                 // Failed blind write → back to phase 1
@@ -287,16 +330,30 @@ final class LearningViewModel {
         if state.consecutiveWrong >= 3 {
             characterStatsMap[card.answer]?.markDifficult()
             showDifficultyFeedback = true
-            exitCard(asCorrect: false)
+            // Don't advance yet — View will call dismissDifficultyFeedback() after showing
         } else {
             reinsertCard(card)
             advanceToNextCard()
         }
     }
 
+    func dismissDifficultyFeedback() {
+        showDifficultyFeedback = false
+        exitCard(asCorrect: false, reason: .difficult)
+    }
+
+    func dismissCardExitFeedback() {
+        showCardExitFeedback = false
+        cardExitMessage = ""
+        exitCard(asCorrect: true, reason: .completed)
+    }
+
     // MARK: - Queue management
 
     private func advanceToNextCard() {
+        // Accumulate active time for outgoing character
+        accumulateActiveTime()
+
         showResult = false
         isCorrect = false
         charResults = []
@@ -306,6 +363,7 @@ final class LearningViewModel {
         if queue.isEmpty {
             currentCard = nil
             currentContext = nil
+            activeCharacterStartTime = nil
             if totalCount > 0 {
                 sessionComplete = true
             }
@@ -314,14 +372,32 @@ final class LearningViewModel {
 
         currentCard = queue.removeFirst()
         currentContext = selectRandomContext(for: currentCard!)
+
+        // Track first appearance
+        if let char = currentCard?.answer, characterSummaries[char] == nil {
+            characterSummaries[char] = CharacterSummary(character: char)
+            summaryOrder.append(char)
+        }
+        activeCharacterStartTime = Date()
     }
 
-    private func exitCard(asCorrect: Bool) {
+    private func accumulateActiveTime() {
+        guard let char = currentCard?.answer, let start = activeCharacterStartTime else { return }
+        characterSummaries[char]?.accumulatedDuration += Date().timeIntervalSince(start)
+        activeCharacterStartTime = nil
+    }
+
+    func exitCard(asCorrect: Bool, reason: CharacterExitReason = .completed) {
+        // Record exit reason
+        if let char = currentCard?.answer {
+            characterSummaries[char]?.exitReason = reason
+        }
+
         completedCount += 1
         if asCorrect {
             correctCount += 1
         }
-        advanceToNextCard()
+        advanceToNextCard()  // this accumulates active time before switching
     }
 
     private func reinsertCard(_ card: Card) {
@@ -338,5 +414,33 @@ final class LearningViewModel {
         let selected = (available.isEmpty ? card.contexts : available).randomElement()
         if let selected { usedContextIds.insert(selected.id) }
         return selected
+    }
+
+    // MARK: - Session summary computed properties
+
+    var sessionAccuracyRate: Double {
+        let allAnswers = characterSummaries.values.flatMap { $0.answerSequence }
+        guard !allAnswers.isEmpty else { return 0 }
+        return Double(allAnswers.filter { $0 }.count) / Double(allAnswers.count)
+    }
+
+    var sessionDurationFormatted: String {
+        let elapsed = Date().timeIntervalSince(sessionStartTime)
+        return Self.formatDuration(elapsed)
+    }
+
+    var orderedSummaries: [CharacterSummary] {
+        summaryOrder.compactMap { characterSummaries[$0] }
+    }
+
+    static func formatDuration(_ interval: TimeInterval) -> String {
+        let totalSeconds = Int(interval)
+        let minutes = totalSeconds / 60
+        let seconds = totalSeconds % 60
+        return String(format: "%d:%02d", minutes, seconds)
+    }
+
+    func characterDuration(for summary: CharacterSummary) -> String {
+        Self.formatDuration(summary.accumulatedDuration)
     }
 }

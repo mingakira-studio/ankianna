@@ -234,9 +234,11 @@ final class LearningViewModelTests: XCTestCase {
             viewModel.next()
         }
 
-        // Should transition to learning and exit (no mastery prompt)
+        // Should transition to learning and show exit feedback (no mastery prompt)
         XCTAssertFalse(viewModel.showMasteryConfirmation)
         XCTAssertEqual(stats.masteryLevel, .learning)
+        XCTAssertTrue(viewModel.showCardExitFeedback)
+        viewModel.dismissCardExitFeedback()
         XCTAssertEqual(viewModel.completedCount, 1)
         XCTAssertTrue(viewModel.sessionComplete)
     }
@@ -259,8 +261,10 @@ final class LearningViewModelTests: XCTestCase {
         viewModel.next()  // reinserts (only 1 consecutive correct + hasError, need 2)
 
         viewModel.submitAnswer(recognized: "大", modelContext: context, profile: nil)
-        viewModel.next()  // 2 consecutive correct + hasError → exit
+        viewModel.next()  // 2 consecutive correct + hasError → shows exit feedback
 
+        XCTAssertTrue(viewModel.showCardExitFeedback)
+        viewModel.dismissCardExitFeedback()
         XCTAssertEqual(viewModel.completedCount, 1)
         XCTAssertTrue(viewModel.sessionComplete)
     }
@@ -416,6 +420,8 @@ final class LearningViewModelTests: XCTestCase {
         viewModel.submitPracticeAnswer(recognized: "大")
 
         XCTAssertEqual(stats.masteryLevel, .difficult)
+        XCTAssertTrue(viewModel.showDifficultyFeedback)
+        viewModel.dismissDifficultyFeedback()
         XCTAssertEqual(viewModel.completedCount, 1)
         XCTAssertTrue(viewModel.sessionComplete)
     }
@@ -500,6 +506,183 @@ final class LearningViewModelTests: XCTestCase {
 
         let records = try context.fetch(FetchDescriptor<ReviewRecord>())
         XCTAssertEqual(records.first?.repetition, 1)
+    }
+
+    // MARK: - Session summary tracking
+
+    func testCharacterSummaryRecordsFirstSeen() {
+        let viewModel = LearningViewModel()
+        let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        viewModel.loadDueCards(from: [card], dailyGoal: 1)
+
+        XCTAssertEqual(viewModel.characterSummaries.count, 1)
+        XCTAssertNotNil(viewModel.characterSummaries["大"])
+        XCTAssertEqual(viewModel.summaryOrder, ["大"])
+    }
+
+    func testAnswerSequenceTracksMainFlowOnly() {
+        let viewModel = LearningViewModel()
+        let context = container.mainContext
+        let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        context.insert(card)
+
+        viewModel.loadDueCards(from: [card], dailyGoal: 1)
+
+        // Wrong answer
+        viewModel.submitAnswer(recognized: "", modelContext: context, profile: nil)
+        XCTAssertEqual(viewModel.characterSummaries["大"]?.answerSequence, [false])
+
+        // Practice (should NOT affect answer sequence)
+        viewModel.retry()
+        viewModel.submitPracticeAnswer(recognized: "大")
+        viewModel.submitPracticeAnswer(recognized: "大")
+        viewModel.submitPracticeAnswer(recognized: "大")
+
+        XCTAssertEqual(viewModel.characterSummaries["大"]?.answerSequence, [false],
+                       "Practice answers should not be tracked in answerSequence")
+
+        // Correct main answer
+        viewModel.submitAnswer(recognized: "大", modelContext: context, profile: nil)
+        XCTAssertEqual(viewModel.characterSummaries["大"]?.answerSequence, [false, true])
+    }
+
+    func testExitReasonMastered() {
+        let viewModel = LearningViewModel()
+        let context = container.mainContext
+        let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        let stats = CharacterStats(character: "大", grade: 1, semester: "upper", lesson: 1, lessonTitle: "天地人", words: ["大人"])
+        stats.masteryLevel = .learning
+        context.insert(card)
+        context.insert(stats)
+
+        viewModel.loadDueCards(allCards: [card], characterStats: [stats], dailyGoal: 1)
+
+        for _ in 0..<3 {
+            viewModel.submitAnswer(recognized: "大", modelContext: context, profile: nil)
+            viewModel.next()
+        }
+
+        viewModel.confirmMastered()
+        XCTAssertEqual(viewModel.characterSummaries["大"]?.exitReason, .mastered)
+        XCTAssertGreaterThan(viewModel.characterSummaries["大"]?.accumulatedDuration ?? 0, 0)
+    }
+
+    func testExitReasonCompleted() {
+        let viewModel = LearningViewModel()
+        let context = container.mainContext
+        let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        let stats = CharacterStats(character: "大", grade: 1, semester: "upper", lesson: 1, lessonTitle: "天地人", words: ["大人"])
+        stats.masteryLevel = .learning
+        context.insert(card)
+        context.insert(stats)
+
+        viewModel.loadDueCards(allCards: [card], characterStats: [stats], dailyGoal: 1)
+
+        for _ in 0..<3 {
+            viewModel.submitAnswer(recognized: "大", modelContext: context, profile: nil)
+            viewModel.next()
+        }
+
+        viewModel.declineMastered()
+        XCTAssertEqual(viewModel.characterSummaries["大"]?.exitReason, .completed)
+    }
+
+    func testExitReasonDifficult() {
+        let viewModel = LearningViewModel()
+        let context = container.mainContext
+        let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        let stats = CharacterStats(character: "大", grade: 1, semester: "upper", lesson: 1, lessonTitle: "天地人", words: ["大人"])
+        stats.masteryLevel = .learning
+        context.insert(card)
+        context.insert(stats)
+
+        viewModel.loadDueCards(allCards: [card], characterStats: [stats], dailyGoal: 1)
+
+        // Wrong 3 times
+        for i in 0..<3 {
+            viewModel.submitAnswer(recognized: "", modelContext: context, profile: nil)
+            if i < 2 { viewModel.next() }
+        }
+
+        viewModel.retry()
+        viewModel.submitPracticeAnswer(recognized: "大")
+        viewModel.submitPracticeAnswer(recognized: "大")
+        viewModel.submitPracticeAnswer(recognized: "大")
+
+        viewModel.dismissDifficultyFeedback()
+        XCTAssertEqual(viewModel.characterSummaries["大"]?.exitReason, .difficult)
+        XCTAssertGreaterThan(viewModel.characterSummaries["大"]?.accumulatedDuration ?? 0, 0)
+    }
+
+    func testSessionTotalPointsAccumulates() {
+        let viewModel = LearningViewModel()
+        let context = container.mainContext
+        let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        let profile = UserProfile(name: "Anna", dailyGoal: 15)
+        context.insert(card)
+        context.insert(profile)
+
+        viewModel.loadDueCards(from: [card], dailyGoal: 1)
+
+        // Correct answer with combo=1 → 10+1=11 points
+        viewModel.submitAnswer(recognized: "大", modelContext: context, profile: profile)
+        XCTAssertEqual(viewModel.sessionTotalPoints, 11)
+
+        viewModel.next()
+        // Correct again with combo=2 → 10+2=12 points
+        viewModel.submitAnswer(recognized: "大", modelContext: context, profile: profile)
+        XCTAssertEqual(viewModel.sessionTotalPoints, 23)
+    }
+
+    func testSessionAccuracyRate() {
+        let viewModel = LearningViewModel()
+        let context = container.mainContext
+        let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        context.insert(card)
+
+        viewModel.loadDueCards(from: [card], dailyGoal: 1)
+
+        // 1 wrong, then 1 correct → 50%
+        viewModel.submitAnswer(recognized: "", modelContext: context, profile: nil)
+        viewModel.next()
+        viewModel.submitAnswer(recognized: "大", modelContext: context, profile: nil)
+
+        XCTAssertEqual(viewModel.sessionAccuracyRate, 0.5, accuracy: 0.01)
+    }
+
+    func testOrderedSummariesPreservesOrder() {
+        let viewModel = LearningViewModel()
+        let context = container.mainContext
+        let card1 = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+        let card2 = makeChineseCard(answer: "小", text: "___人", fullText: "小人")
+        context.insert(card1)
+        context.insert(card2)
+
+        viewModel.loadDueCards(from: [card1, card2], dailyGoal: 2)
+
+        let firstChar = viewModel.currentCard?.answer ?? ""
+        XCTAssertEqual(viewModel.orderedSummaries.first?.character, firstChar)
+        XCTAssertEqual(viewModel.orderedSummaries.count, 1, "Only first card seen so far")
+    }
+
+    func testResetSessionClearsSummaries() {
+        let viewModel = LearningViewModel()
+        let card = makeChineseCard(answer: "大", text: "___人", fullText: "大人")
+
+        viewModel.loadDueCards(from: [card], dailyGoal: 1)
+        XCTAssertEqual(viewModel.characterSummaries.count, 1)
+
+        // Load again to trigger reset
+        viewModel.loadDueCards(from: [card], dailyGoal: 1)
+        // Should have fresh summary (count still 1, but reset happened)
+        XCTAssertEqual(viewModel.sessionTotalPoints, 0)
+        XCTAssertEqual(viewModel.characterSummaries.count, 1)
+    }
+
+    func testFormatDuration() {
+        XCTAssertEqual(LearningViewModel.formatDuration(0), "0:00")
+        XCTAssertEqual(LearningViewModel.formatDuration(65), "1:05")
+        XCTAssertEqual(LearningViewModel.formatDuration(630), "10:30")
     }
 
     // MARK: - Helpers

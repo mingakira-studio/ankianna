@@ -4,7 +4,12 @@ import SwiftData
 struct CardDetailView: View {
     @Bindable var card: Card
     @Environment(\.modelContext) private var modelContext
+    @Query private var allCharacterStats: [CharacterStats]
     @State private var isEditing = false
+
+    private var characterStats: CharacterStats? {
+        allCharacterStats.first(where: { $0.character == card.answer })
+    }
 
     var body: some View {
         List {
@@ -60,6 +65,30 @@ struct CardDetailView: View {
                     }
                 }
             }
+
+            Section("学习数据") {
+                if let stats = characterStats {
+                    LabeledContent("掌握状态") {
+                        masteryBadge(stats.masteryLevel)
+                    }
+                    LabeledContent("练习次数", value: "\(stats.practiceCount)")
+                    LabeledContent("正确/错误") {
+                        let rate = stats.practiceCount > 0
+                            ? Int(Double(stats.correctCount) / Double(stats.practiceCount) * 100)
+                            : 0
+                        Text("\(stats.correctCount)/\(stats.errorCount) (正确率 \(rate)%)")
+                    }
+                    if let lastPracticed = stats.lastPracticed {
+                        LabeledContent("上次练习", value: Self.formatDate(lastPracticed))
+                    }
+                    if let nextReview = stats.nextReviewDate {
+                        LabeledContent("下次复习", value: Self.formatDate(nextReview))
+                    }
+                } else {
+                    Text("尚未练习")
+                        .foregroundStyle(.secondary)
+                }
+            }
         }
         .navigationTitle(card.answer)
         .toolbar {
@@ -84,6 +113,28 @@ struct CardDetailView: View {
                 .background(.blue.opacity(0.1))
                 .clipShape(Capsule())
         }
+    }
+
+    private func masteryBadge(_ level: MasteryLevel) -> some View {
+        let (text, color): (String, Color) = switch level {
+        case .mastered: ("已掌握", .green)
+        case .learning: ("学习中", .blue)
+        case .difficult: ("疑难字", .orange)
+        case .new: ("新字", .gray)
+        }
+        return Text(text)
+            .font(.caption)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 2)
+            .background(color.opacity(0.15))
+            .foregroundStyle(color)
+            .clipShape(Capsule())
+    }
+
+    private static func formatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "M月d日"
+        return formatter.string(from: date)
     }
 
     @ViewBuilder

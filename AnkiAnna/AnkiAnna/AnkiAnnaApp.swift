@@ -10,7 +10,7 @@ struct AnkiAnnaApp: App {
         if CommandLine.arguments.contains("-UITestMode") {
             let config = ModelConfiguration(isStoredInMemoryOnly: true)
             modelContainer = try! ModelContainer(
-                for: Card.self, ReviewRecord.self, DailySession.self, UserProfile.self, CharacterStats.self,
+                for: Card.self, ReviewRecord.self, DailySession.self, UserProfile.self, CharacterStats.self, LevelProgress.self,
                 configurations: config
             )
         } else {

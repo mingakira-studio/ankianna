@@ -14,7 +14,13 @@ struct WritingCanvasView: UIViewRepresentable {
         return canvas
     }
 
-    func updateUIView(_ uiView: PKCanvasView, context: Context) {}
+    func updateUIView(_ uiView: PKCanvasView, context: Context) {
+        // Only sync when programmatically clearing (binding is empty but canvas is not)
+        if drawing.strokes.isEmpty && !uiView.drawing.strokes.isEmpty {
+            context.coordinator.ignoreNextChange = true
+            uiView.drawing = PKDrawing()
+        }
+    }
 
     func makeCoordinator() -> Coordinator {
         Coordinator(drawing: $drawing)
@@ -22,12 +28,17 @@ struct WritingCanvasView: UIViewRepresentable {
 
     class Coordinator: NSObject, PKCanvasViewDelegate {
         @Binding var drawing: PKDrawing
+        var ignoreNextChange = false
 
         init(drawing: Binding<PKDrawing>) {
             _drawing = drawing
         }
 
         func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
+            if ignoreNextChange {
+                ignoreNextChange = false
+                return
+            }
             drawing = canvasView.drawing
         }
     }

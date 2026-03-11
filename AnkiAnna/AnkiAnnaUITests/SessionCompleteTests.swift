@@ -7,6 +7,7 @@ final class SessionCompleteTests: XCTestCase {
         continueAfterFailure = false
         // Use single card so we can complete the session quickly
         app = LaunchHelper.launchApp(seedData: false, singleCard: true)
+        LaunchHelper.enterQuickLearn(in: app)
     }
 
     private func requireSpellingField() -> XCUIElement {
@@ -56,7 +57,9 @@ final class SessionCompleteTests: XCTestCase {
         let completionText = app.staticTexts["今天的学习完成了！"]
         XCTAssertTrue(completionText.waitForExistence(timeout: 5))
 
-        let score = app.staticTexts.matching(NSPredicate(format: "label CONTAINS '正确'")).firstMatch
-        XCTAssertTrue(score.exists, "Completion should show score")
+        // Session complete shows accuracy %, duration, and points as Labels
+        // All answers are correct so accuracy is 100%
+        let accuracy = app.staticTexts["100%"]
+        XCTAssertTrue(accuracy.waitForExistence(timeout: 3), "Completion should show accuracy stats")
     }
 }

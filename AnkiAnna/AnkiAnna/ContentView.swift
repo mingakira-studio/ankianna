@@ -7,7 +7,7 @@ struct ContentView: View {
 
     var body: some View {
         TabView {
-            LearningView()
+            GameModeSelectionView()
                 .tabItem {
                     Label("学习", systemImage: "pencil.line")
                 }

@@ -57,31 +57,34 @@ struct CardLibraryView: View {
     @ViewBuilder
     private func cardRow(_ card: Card) -> some View {
         let stats = statsFor(card)
-        HStack(spacing: 12) {
+        HStack(spacing: 16) {
+            // Character — visual anchor
             Text(card.answer)
-                .font(.system(size: 36, weight: .medium))
-                .frame(width: 50)
+                .font(.system(size: 44, weight: .semibold))
+                .frame(width: 56, alignment: .center)
 
-            VStack(alignment: .leading, spacing: 4) {
-                masteryBadge(stats?.masteryLevel ?? .new)
+            // Mastery badge
+            masteryBadge(stats?.masteryLevel ?? .new)
 
-                if let stats, stats.practiceCount > 0 {
-                    HStack(spacing: 12) {
-                        Label("\(Int(Double(stats.correctCount) / Double(stats.practiceCount) * 100))%", systemImage: "chart.bar.fill")
-                            .foregroundStyle(accuracyColor(correct: stats.correctCount, total: stats.practiceCount))
-                        Label("\(stats.practiceCount)次", systemImage: "pencil.line")
-                            .foregroundStyle(.secondary)
-                        if let last = stats.lastPracticed {
-                            Label(relativeDate(last), systemImage: "clock")
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                    .font(.subheadline)
-                } else {
-                    Text("未学习")
-                        .font(.subheadline)
-                        .foregroundStyle(.tertiary)
+            if let stats, stats.practiceCount > 0 {
+                // Accuracy — color-coded
+                Text("\(Int(Double(stats.correctCount) / Double(stats.practiceCount) * 100))%")
+                    .font(.system(size: 17, weight: .semibold))
+                    .foregroundStyle(accuracyColor(correct: stats.correctCount, total: stats.practiceCount))
+
+                Text("\(stats.practiceCount)次")
+                    .font(.system(size: 15))
+                    .foregroundStyle(.secondary)
+
+                if let last = stats.lastPracticed {
+                    Text(relativeDate(last))
+                        .font(.system(size: 15))
+                        .foregroundStyle(.secondary)
                 }
+            } else {
+                Text("未学习")
+                    .font(.system(size: 15))
+                    .foregroundStyle(.quaternary)
             }
 
             Spacer()
@@ -90,11 +93,12 @@ struct CardLibraryView: View {
                 cardToDelete = card
             } label: {
                 Image(systemName: "trash")
-                    .foregroundStyle(.red.opacity(0.6))
+                    .font(.system(size: 15))
+                    .foregroundStyle(.red.opacity(0.4))
             }
             .buttonStyle(.plain)
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, 6)
     }
 
     private func accuracyColor(correct: Int, total: Int) -> Color {
@@ -120,10 +124,10 @@ struct CardLibraryView: View {
         case .new: ("新字", .gray)
         }
         return Text(text)
-            .font(.caption2)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 2)
-            .background(color.opacity(0.15))
+            .font(.system(size: 13, weight: .medium))
+            .padding(.horizontal, 8)
+            .padding(.vertical, 3)
+            .background(color.opacity(0.12))
             .foregroundStyle(color)
             .clipShape(Capsule())
     }

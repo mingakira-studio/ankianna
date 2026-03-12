@@ -5,7 +5,7 @@
 - Status: active
 - Path: ~/Projects/ankianna
 - Created: 2025-05-01
-- Last Updated: 2026-03-11
+- Last Updated: 2026-03-12
 
 ## 目标
 为 Anna 打造个性化的记忆卡片应用，基于间隔重复算法帮助高效记忆学习内容。
@@ -33,6 +33,7 @@
 > 实施计划: docs/plans/2026-03-09-v2-implementation.md (Phase 4, Task 17-20)
 
 ## Log
+- 19:20 [adhoc] UI/UX Pro Max 全局审查: 28个视图文件审查，评分C+，产出24项优化清单(P0-P4)，保存到 docs/plans/2026-03-12-ui-ux-review.md
 - 21:59 [adhoc] 疑难字 bug 修复(累计错3次标疑难+删除跳过功能) + 卡片库 UI 重设计(大字+正确率/练习次数/上次学习时间); 156 unit tests 回归通过
 - 14:58 [adhoc] 卡片库列表增强: 显示掌握状态/正确率/正确错误数 + 删除按钮; CardLibraryView.swift 单文件修改, 155 unit + 3 UI tests 回归通过
 - 14:06 [project-next] 完成「游戏模式」— GameModeSelectionView(5模式入口)、TimeAttack(限时挑战+加时+combo)、Survival(3命生存+难度递增)、Levels(课文闯关+星级+解锁)、Match(字词连连看); LevelProgress SwiftData模型; 25 unit tests + 7 GameModeTests passed, 全量155单元+UITests回归通过; NEXT=报告系统
@@ -74,3 +75,4 @@
 - [决策] 2026-03-10: 字库与卡片库分离 — 原方案: TextbookSeeder 首次启动自动填充 1000+ 字到卡片库 → 新方案: 字库作为「添加」tab 的课本浏览器，用户按年级/课文浏览后手动选择加入卡片库（原因: 卡片库是用户学习清单，不应被预制数据填满）
 - CardLibraryView 列表行增强：大字+badge左侧，正确率/练习次数/上次学习时间居中，删除按钮右侧；去掉类型和语境数；正确率按高中低变色
 - [bug修复] 疑难字判定：改为累计错3次即标疑难（非连续错），新增 totalWrong 字段；删除"跳过"功能，答错后只能"再试一次"进入练习模式
+- UI/UX Pro Max 全局审查报告: docs/plans/2026-03-12-ui-ux-review.md — 审查全部 28 个视图文件，评分 C+，产出 24 项优化清单(P0-P4)，推荐 Claymorphism 风格 + SF Rounded 字体

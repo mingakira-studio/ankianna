@@ -1,5 +1,8 @@
 # Anna 记忆卡片 App - 操作日志
 
+## 2026-03-12
+- 19:20 [adhoc] UI/UX Pro Max 全局审查: 审查全部 28 个 SwiftUI 视图文件，基于 10 大 UX 规则类别(Accessibility/Touch/Style/Layout/Typography/Animation/Forms/Navigation/Charts/Performance)逐项评估，总评 C+（功能完整、设计粗糙），产出 24 项分级优化清单(P0可访问性+触控6项/P1设计系统4项/P2交互5项/P3布局4项/P4进阶5项)，推荐 Claymorphism 风格 + SF Rounded 字体。报告保存到 docs/plans/2026-03-12-ui-ux-review.md
+
 ## 2026-03-11
 - 21:59 [adhoc] 疑难字 bug 修复 + 跳过功能删除 + 卡片库 UI 重设计
   - 疑难字判定从连续错3次改为累计错3次（新增 totalWrong 字段），修复跳过路径不触发疑难标记的 bug

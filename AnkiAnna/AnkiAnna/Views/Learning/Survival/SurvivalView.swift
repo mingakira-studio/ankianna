@@ -3,6 +3,7 @@ import SwiftData
 import PencilKit
 
 struct SurvivalView: View {
+    @Environment(\.dismiss) private var dismiss
     @Query var cards: [Card]
     @State private var viewModel = SurvivalViewModel()
     @State private var hasStarted = false
@@ -10,13 +11,19 @@ struct SurvivalView: View {
     @State private var typedAnswer = ""
 
     var body: some View {
-        if viewModel.isGameOver {
-            gameOverView
-        } else if hasStarted {
-            gameplayView
-        } else {
-            startView
+        Group {
+            if viewModel.isGameOver {
+                gameOverView
+                    .transition(.opacity.combined(with: .scale(scale: 0.95)))
+            } else if hasStarted {
+                gameplayView
+                    .transition(.opacity)
+            } else {
+                startView
+            }
         }
+        .animation(DesignTokens.Animation.quick, value: viewModel.isGameOver)
+        .animation(DesignTokens.Animation.quick, value: hasStarted)
     }
 
     private var startView: some View {
@@ -189,13 +196,21 @@ struct SurvivalView: View {
             .cornerRadius(DesignTokens.Radius.md)
             .padding(.horizontal)
 
-            Button("再来一次") {
-                viewModel = SurvivalViewModel()
-                hasStarted = false
+            HStack(spacing: DesignTokens.Spacing.lg) {
+                Button("返回首页") {
+                    dismiss()
+                }
+                .buttonStyle(.bordered)
+                .font(DesignTokens.Font.title3)
+
+                Button("再来一次") {
+                    viewModel = SurvivalViewModel()
+                    hasStarted = false
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(DesignTokens.Colors.survival)
+                .font(DesignTokens.Font.title3)
             }
-            .buttonStyle(.borderedProminent)
-            .tint(DesignTokens.Colors.survival)
-            .font(DesignTokens.Font.title3)
 
             Spacer()
         }

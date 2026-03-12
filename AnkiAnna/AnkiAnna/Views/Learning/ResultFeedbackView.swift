@@ -69,6 +69,10 @@ struct ResultFeedbackView: View {
                 Text("太棒了！")
                     .font(DesignTokens.Font.feedbackTitle)
 
+                Text("「\(correctAnswer)」写对了")
+                    .font(DesignTokens.Font.title2)
+                    .foregroundStyle(DesignTokens.Colors.success)
+
                 if combo >= 3 {
                     ComboFireView(combo: combo)
                 }

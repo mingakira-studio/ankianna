@@ -3,6 +3,7 @@ import SwiftData
 import PencilKit
 
 struct LevelsView: View {
+    @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     @Query var cards: [Card]
     @Query var characterStats: [CharacterStats]
@@ -12,13 +13,19 @@ struct LevelsView: View {
     @State private var typedAnswer = ""
 
     var body: some View {
-        if viewModel.isLevelComplete {
-            levelCompleteView
-        } else if viewModel.isPlaying {
-            gameplayView
-        } else {
-            levelSelectionView
+        Group {
+            if viewModel.isLevelComplete {
+                levelCompleteView
+                    .transition(.opacity.combined(with: .scale(scale: 0.95)))
+            } else if viewModel.isPlaying {
+                gameplayView
+                    .transition(.opacity)
+            } else {
+                levelSelectionView
+            }
         }
+        .animation(DesignTokens.Animation.quick, value: viewModel.isLevelComplete)
+        .animation(DesignTokens.Animation.quick, value: viewModel.isPlaying)
     }
 
     private var levelSelectionView: some View {
@@ -209,13 +216,22 @@ struct LevelsView: View {
                 .font(DesignTokens.Font.title2)
                 .foregroundColor(DesignTokens.Colors.onSurfaceSecondary)
 
-            Button("返回关卡列表") {
-                saveLevelProgress(stars: stars)
-                viewModel = LevelsViewModel()
-                viewModel.loadLevels(stats: characterStats, progress: levelProgress)
+            HStack(spacing: DesignTokens.Spacing.lg) {
+                Button("返回首页") {
+                    saveLevelProgress(stars: stars)
+                    dismiss()
+                }
+                .buttonStyle(.bordered)
+                .font(DesignTokens.Font.title3)
+
+                Button("返回关卡列表") {
+                    saveLevelProgress(stars: stars)
+                    viewModel = LevelsViewModel()
+                    viewModel.loadLevels(stats: characterStats, progress: levelProgress)
+                }
+                .buttonStyle(.borderedProminent)
+                .font(DesignTokens.Font.title3)
             }
-            .buttonStyle(.borderedProminent)
-            .font(DesignTokens.Font.title3)
 
             Spacer()
         }

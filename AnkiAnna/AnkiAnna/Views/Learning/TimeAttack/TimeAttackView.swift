@@ -3,6 +3,7 @@ import SwiftData
 import PencilKit
 
 struct TimeAttackView: View {
+    @Environment(\.dismiss) private var dismiss
     @Query var cards: [Card]
     @State private var viewModel: TimeAttackViewModel?
     @State private var selectedDuration: Int? = nil
@@ -11,17 +12,23 @@ struct TimeAttackView: View {
     @State private var typedAnswer = ""
 
     var body: some View {
-        if let vm = viewModel {
-            if vm.isGameOver {
-                gameOverView(vm)
-            } else if vm.isRunning {
-                gameplayView(vm)
+        Group {
+            if let vm = viewModel {
+                if vm.isGameOver {
+                    gameOverView(vm)
+                        .transition(.opacity.combined(with: .scale(scale: 0.95)))
+                } else if vm.isRunning {
+                    gameplayView(vm)
+                        .transition(.opacity)
+                } else {
+                    durationPicker
+                }
             } else {
                 durationPicker
             }
-        } else {
-            durationPicker
         }
+        .animation(DesignTokens.Animation.quick, value: viewModel?.isGameOver)
+        .animation(DesignTokens.Animation.quick, value: viewModel?.isRunning)
     }
 
     private var durationPicker: some View {
@@ -203,11 +210,19 @@ struct TimeAttackView: View {
             .cornerRadius(DesignTokens.Radius.md)
             .padding(.horizontal)
 
-            Button("再来一次") {
-                viewModel = nil
+            HStack(spacing: DesignTokens.Spacing.lg) {
+                Button("返回首页") {
+                    dismiss()
+                }
+                .buttonStyle(.bordered)
+                .font(DesignTokens.Font.title3)
+
+                Button("再来一次") {
+                    viewModel = nil
+                }
+                .buttonStyle(.borderedProminent)
+                .font(DesignTokens.Font.title3)
             }
-            .buttonStyle(.borderedProminent)
-            .font(DesignTokens.Font.title3)
 
             Spacer()
         }

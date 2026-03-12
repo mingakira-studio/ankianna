@@ -4,6 +4,15 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @AppStorage("hasSeededTextbook") private var hasSeeded = false
+    @Query private var allCharacterStats: [CharacterStats]
+
+    private var dueCount: Int {
+        let now = Date()
+        return allCharacterStats.filter { stats in
+            guard let nextReview = stats.nextReviewDate else { return false }
+            return nextReview <= now
+        }.count
+    }
 
     var body: some View {
         TabView {
@@ -11,6 +20,7 @@ struct ContentView: View {
                 .tabItem {
                     Label("学习", systemImage: "pencil.line")
                 }
+                .badge(dueCount > 0 ? dueCount : 0)
             CardLibraryView()
                 .tabItem {
                     Label("卡片库", systemImage: "rectangle.stack")

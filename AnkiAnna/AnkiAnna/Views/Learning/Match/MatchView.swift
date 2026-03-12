@@ -2,19 +2,26 @@ import SwiftUI
 import SwiftData
 
 struct MatchView: View {
+    @Environment(\.dismiss) private var dismiss
     @Query var cards: [Card]
     @State private var viewModel = MatchViewModel(pairs: 6)
     @State private var hasStarted = false
     @State private var timer: Timer?
 
     var body: some View {
-        if viewModel.isComplete {
-            completeView
-        } else if hasStarted {
-            gameplayView
-        } else {
-            startView
+        Group {
+            if viewModel.isComplete {
+                completeView
+                    .transition(.opacity.combined(with: .scale(scale: 0.95)))
+            } else if hasStarted {
+                gameplayView
+                    .transition(.opacity)
+            } else {
+                startView
+            }
         }
+        .animation(DesignTokens.Animation.quick, value: viewModel.isComplete)
+        .animation(DesignTokens.Animation.quick, value: hasStarted)
     }
 
     private var startView: some View {
@@ -118,15 +125,25 @@ struct MatchView: View {
             .cornerRadius(DesignTokens.Radius.md)
             .padding(.horizontal)
 
-            Button("再来一次") {
-                viewModel = MatchViewModel(pairs: 6)
-                hasStarted = false
-                timer?.invalidate()
-                timer = nil
+            HStack(spacing: DesignTokens.Spacing.lg) {
+                Button("返回首页") {
+                    timer?.invalidate()
+                    timer = nil
+                    dismiss()
+                }
+                .buttonStyle(.bordered)
+                .font(DesignTokens.Font.title3)
+
+                Button("再来一次") {
+                    viewModel = MatchViewModel(pairs: 6)
+                    hasStarted = false
+                    timer?.invalidate()
+                    timer = nil
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(DesignTokens.Colors.match)
+                .font(DesignTokens.Font.title3)
             }
-            .buttonStyle(.borderedProminent)
-            .tint(DesignTokens.Colors.match)
-            .font(DesignTokens.Font.title3)
 
             Spacer()
         }

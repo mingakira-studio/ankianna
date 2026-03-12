@@ -67,10 +67,15 @@ struct CardLibraryView: View {
             masteryBadge(stats?.masteryLevel ?? .new)
 
             if let stats, stats.practiceCount > 0 {
-                // Accuracy — color-coded
-                Text("\(Int(Double(stats.correctCount) / Double(stats.practiceCount) * 100))%")
-                    .font(DesignTokens.Font.headline)
-                    .foregroundStyle(accuracyColor(correct: stats.correctCount, total: stats.practiceCount))
+                // Accuracy — color-coded with icon
+                HStack(spacing: 2) {
+                    Image(systemName: accuracyIcon(correct: stats.correctCount, total: stats.practiceCount))
+                        .font(DesignTokens.Font.caption)
+                        .foregroundStyle(accuracyColor(correct: stats.correctCount, total: stats.practiceCount))
+                    Text("\(Int(Double(stats.correctCount) / Double(stats.practiceCount) * 100))%")
+                        .font(DesignTokens.Font.headline)
+                        .foregroundStyle(accuracyColor(correct: stats.correctCount, total: stats.practiceCount))
+                }
 
                 Text("\(stats.practiceCount)次")
                     .font(DesignTokens.Font.subheadline)
@@ -108,6 +113,13 @@ struct CardLibraryView: View {
         if rate >= 0.8 { return DesignTokens.Colors.success }
         if rate >= 0.5 { return DesignTokens.Colors.warning }
         return DesignTokens.Colors.error
+    }
+
+    private func accuracyIcon(correct: Int, total: Int) -> String {
+        let rate = Double(correct) / Double(total)
+        if rate >= 0.8 { return "arrow.up.right" }
+        if rate >= 0.5 { return "arrow.right" }
+        return "arrow.down.right"
     }
 
     private func relativeDate(_ date: Date) -> String {

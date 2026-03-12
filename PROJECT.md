@@ -28,17 +28,18 @@
 10. [x] 游戏模式 — 快速学习 + 限时挑战 + 生存模式 + 闯关模式 + 连连看 (Phase 3, Task 10-16) (2026-03-11)
 11. [x] UI优化 P0: 可访问性与触控安全 — 触控目标≥44pt、accessibilityLabel、reducedMotion、按压反馈、Haptic、exitFeedback可跳过 (SwiftUI Expert) (2026-03-12)
 12. [x] UI优化 P1: 设计系统基础 — DesignTokens.swift(颜色/字号/间距/圆角)、SF Rounded字体、emoji吉祥物替换、游戏模式视觉统一 (SwiftUI Expert) (2026-03-12)
-13. [>] UI优化 P2: 交互体验 — 游戏结束返回首页、过渡动画、颜色辅助指示、学习tab badge、答对显示对应字 (ui-ux-pro-max + SwiftUI Expert)
-14. [ ] UI优化 P3: 布局与内容 — iPad横屏适配、GameModeCard adaptive布局、Session分享功能、MascotView bug修复 (ui-ux-pro-max + SwiftUI Expert)
+13. [x] UI优化 P2: 交互体验 — 游戏结束返回首页、过渡动画、颜色辅助指示、学习tab badge、答对显示对应字 (ui-ux-pro-max + SwiftUI Expert) (2026-03-12)
+14. [>] UI优化 P3: 布局与内容 — iPad横屏适配、GameModeCard adaptive布局、Session分享功能、MascotView bug修复 (ui-ux-pro-max + SwiftUI Expert)
 15. [ ] UI优化 P4: 进阶优化 — Claymorphism风格、SpriteKit粒子替换confetti、暗色模式调优、Dynamic Type、onboarding动画 (ui-ux-pro-max + SwiftUI Expert)
 16. [ ] 报告系统 — 今日概览、学习趋势图、掌握进度、易错字排行 (Phase 4, Task 17-20)
 17. [ ] 集成收尾 — 设置页、全量测试修复、文档更新 (Phase 5, Task 21-23)
 
-## NEXT: UI优化 P2 — 交互体验
-> 审查报告: docs/plans/2026-03-12-ui-ux-review.md (P2 章节)
+## NEXT: UI优化 P3 — 布局与内容
+> 审查报告: docs/plans/2026-03-12-ui-ux-review.md (P3 章节)
 > Skill: ui-ux-pro-max + SwiftUI Expert
 
 ## Log
+- 23:25 [project-next] 完成「UI优化 P2: 交互体验」— 4游戏模式结束画面+返回首页按钮(dismiss), ResultFeedbackView答对显示「X」写对了, 学习tab待复习badge(.badge(dueCount)), CardLibraryView正确率旁趋势图标+StreakCalendar打卡checkmark, 4游戏模式过渡动画(.transition+withAnimation); 161 unit tests 回归通过; NEXT=UI优化 P3: 布局与内容
 - 20:28 [project-next] 完成「UI优化 P1: 设计系统基础」— DesignTokens.swift(语义颜色/SF Rounded字体/4pt间距/圆角/阴影/动画), MascotView emoji→SwiftUI绘制恐龙(5表情+弹跳), CelebrationEffects emoji→SF Symbols, 16个视图迁移到DesignTokens; 161 unit tests 回归通过; NEXT=UI优化 P2: 交互体验
 - 20:01 [project-next] 完成「UI优化 P0: 可访问性与触控安全」— trash按钮/日历圆点触控≥44pt, speaker/trash accessibilityLabel, 4文件reducedMotion支持, PressableCardStyle按压反馈, HapticService(success/error/selection/impact)+5个ViewModel接入, exitFeedback点击可跳过; 156 unit tests 回归通过; NEXT=UI优化 P1: 设计系统基础
 - 19:20 [adhoc] UI/UX Pro Max 全局审查: 28个视图文件审查，评分C+，产出24项优化清单(P0-P4)，保存到 docs/plans/2026-03-12-ui-ux-review.md

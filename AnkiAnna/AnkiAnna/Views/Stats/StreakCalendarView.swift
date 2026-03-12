@@ -28,9 +28,16 @@ struct StreakCalendarView: View {
                 VStack(spacing: 2) {
                     Text("\(Calendar.current.component(.day, from: day))")
                         .font(.caption2)
-                    Circle()
-                        .fill(completed ? .green : .gray.opacity(0.2))
-                        .frame(width: 28, height: 28)
+                    ZStack {
+                        Circle()
+                            .fill(completed ? DesignTokens.Colors.success : .gray.opacity(0.2))
+                            .frame(width: 28, height: 28)
+                        if completed {
+                            Image(systemName: "checkmark")
+                                .font(.system(size: 12, weight: .bold))
+                                .foregroundStyle(.white)
+                        }
+                    }
                 }
             }
         }

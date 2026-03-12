@@ -103,28 +103,28 @@ struct CardDetailView: View {
 
     @ViewBuilder
     private func readOnlyContextRow(_ ctx: CardContext) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(ctx.text).font(.headline)
-            Text(ctx.fullText).font(.subheadline).foregroundStyle(.secondary)
+        VStack(alignment: .leading, spacing: DesignTokens.Spacing.xs) {
+            Text(ctx.text).font(DesignTokens.Font.headline)
+            Text(ctx.fullText).font(DesignTokens.Font.subheadline).foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
             Text(ctx.type == .phrase ? "组词" : "造句")
-                .font(.caption2)
-                .padding(.horizontal, 8)
+                .font(DesignTokens.Font.caption2)
+                .padding(.horizontal, DesignTokens.Spacing.sm)
                 .padding(.vertical, 2)
-                .background(.blue.opacity(0.1))
+                .background(DesignTokens.Colors.primary.opacity(0.1))
                 .clipShape(Capsule())
         }
     }
 
     private func masteryBadge(_ level: MasteryLevel) -> some View {
         let (text, color): (String, Color) = switch level {
-        case .mastered: ("已掌握", .green)
-        case .learning: ("学习中", .blue)
-        case .difficult: ("疑难字", .orange)
+        case .mastered: ("已掌握", DesignTokens.Colors.success)
+        case .learning: ("学习中", DesignTokens.Colors.primary)
+        case .difficult: ("疑难字", DesignTokens.Colors.warning)
         case .new: ("新字", .gray)
         }
         return Text(text)
-            .font(.caption)
-            .padding(.horizontal, 8)
+            .font(DesignTokens.Font.caption)
+            .padding(.horizontal, DesignTokens.Spacing.sm)
             .padding(.vertical, 2)
             .background(color.opacity(0.15))
             .foregroundStyle(color)

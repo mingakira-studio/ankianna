@@ -97,17 +97,17 @@ struct LearningView: View {
 
                 // Combo counter
                 if viewModel.combo >= 2 {
-                    Text("🔥 x\(viewModel.combo)")
-                        .font(.system(size: 22, weight: .bold))
-                        .foregroundStyle(.orange)
+                    Label("x\(viewModel.combo)", systemImage: "flame.fill")
+                        .font(DesignTokens.Font.comboText)
+                        .foregroundStyle(DesignTokens.Colors.accent)
                         .accessibilityIdentifier("comboCounter")
                         .transition(reduceMotion ? .opacity : .scale.combined(with: .opacity))
                 }
 
                 // Progress
                 Text("\(viewModel.completedCount)/\(viewModel.totalCount)")
-                    .font(.headline)
-                    .foregroundStyle(.secondary)
+                    .font(DesignTokens.Font.headline)
+                    .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
                     .padding(.bottom)
                     .accessibilityIdentifier("progressText")
             }
@@ -137,7 +137,7 @@ struct LearningView: View {
                     // Keyboard input for English spelling
                     TextField("输入拼写...", text: $typedAnswer)
                         .textFieldStyle(.roundedBorder)
-                        .font(.system(size: 32))
+                        .font(DesignTokens.Font.inputField)
                         .autocorrectionDisabled()
                         .textInputAutocapitalization(.never)
                         .padding()
@@ -154,21 +154,21 @@ struct LearningView: View {
                     // Handwriting input for Chinese cards
                     WritingCanvasView(drawing: $drawing)
                         .background(
-                            RoundedRectangle(cornerRadius: 16)
-                                .fill(.white)
-                                .shadow(radius: 2)
+                            RoundedRectangle(cornerRadius: DesignTokens.Radius.lg)
+                                .fill(DesignTokens.Colors.canvas)
+                                .shadow(radius: DesignTokens.Shadow.radius)
                         )
                         .padding()
 
                     #if targetEnvironment(simulator)
                     Text("模拟器不支持手写识别，请用下方模拟按钮")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .font(DesignTokens.Font.caption)
+                        .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
                     #else
                     if !modelReady {
                         Text("正在下载识别模型...")
-                            .font(.caption)
-                            .foregroundStyle(.orange)
+                            .font(DesignTokens.Font.caption)
+                            .foregroundStyle(DesignTokens.Colors.warning)
                     }
 
                     Button("提交") {
@@ -224,7 +224,7 @@ struct LearningView: View {
     private var practiceView: some View {
         HStack(spacing: 0) {
             // Left: instructions
-            VStack(spacing: 16) {
+            VStack(spacing: DesignTokens.Spacing.lg) {
                 MascotView(state: .encourage)
                     .padding(.top, 8)
 
@@ -232,39 +232,39 @@ struct LearningView: View {
 
                 if viewModel.practicePhase == 1 {
                     Text("对着写")
-                        .font(.system(size: 28, weight: .bold))
+                        .font(DesignTokens.Font.sectionTitle)
                     Text(viewModel.practiceCorrectAnswer)
-                        .font(.system(size: 72, weight: .bold))
-                        .foregroundStyle(.primary)
+                        .font(DesignTokens.Font.rounded(size: DesignTokens.CharSize.practice, weight: .bold))
+                        .foregroundStyle(DesignTokens.Colors.onSurface)
                         .accessibilityIdentifier("practiceCharacter")
                     Text("\(viewModel.practicePhase1Count + 1)/2")
-                        .font(.title2)
-                        .foregroundStyle(.secondary)
+                        .font(DesignTokens.Font.title2)
+                        .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
                         .accessibilityIdentifier("practiceProgress")
                 } else {
                     Text("盲写")
-                        .font(.system(size: 28, weight: .bold))
+                        .font(DesignTokens.Font.sectionTitle)
                     Text("?")
-                        .font(.system(size: 72, weight: .bold))
-                        .foregroundStyle(.secondary)
+                        .font(DesignTokens.Font.rounded(size: DesignTokens.CharSize.practice, weight: .bold))
+                        .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
                         .accessibilityIdentifier("practiceBlind")
                 }
 
                 if let result = viewModel.practiceIsCorrect {
                     if result {
                         Image(systemName: "checkmark.circle.fill")
-                            .font(.system(size: 48))
-                            .foregroundStyle(.green)
+                            .font(.system(size: DesignTokens.CharSize.answer))
+                            .foregroundStyle(DesignTokens.Colors.success)
                             .transition(reduceMotion ? .opacity : .scale.combined(with: .opacity))
                             .accessibilityIdentifier("practiceCorrectIcon")
                     } else {
-                        VStack(spacing: 4) {
+                        VStack(spacing: DesignTokens.Spacing.xs) {
                             Image(systemName: "xmark.circle.fill")
-                                .font(.system(size: 48))
-                                .foregroundStyle(.red)
+                                .font(.system(size: DesignTokens.CharSize.answer))
+                                .foregroundStyle(DesignTokens.Colors.error)
                             Text("再试一次")
-                                .font(.headline)
-                                .foregroundStyle(.red)
+                                .font(DesignTokens.Font.headline)
+                                .foregroundStyle(DesignTokens.Colors.error)
                         }
                         .transition(reduceMotion ? .opacity : .scale.combined(with: .opacity))
                         .accessibilityIdentifier("practiceWrongFeedback")
@@ -274,8 +274,8 @@ struct LearningView: View {
                 Spacer()
 
                 Text("\(viewModel.completedCount)/\(viewModel.totalCount)")
-                    .font(.headline)
-                    .foregroundStyle(.secondary)
+                    .font(DesignTokens.Font.headline)
+                    .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
                     .padding(.bottom)
                     .accessibilityIdentifier("progressText")
             }
@@ -286,7 +286,7 @@ struct LearningView: View {
                 if viewModel.currentCard?.type == .englishSpelling {
                     TextField("输入拼写...", text: $typedAnswer)
                         .textFieldStyle(.roundedBorder)
-                        .font(.system(size: 32))
+                        .font(DesignTokens.Font.inputField)
                         .autocorrectionDisabled()
                         .textInputAutocapitalization(.never)
                         .padding()
@@ -303,9 +303,9 @@ struct LearningView: View {
                 } else {
                     WritingCanvasView(drawing: $drawing)
                         .background(
-                            RoundedRectangle(cornerRadius: 16)
-                                .fill(.white)
-                                .shadow(radius: 2)
+                            RoundedRectangle(cornerRadius: DesignTokens.Radius.lg)
+                                .fill(DesignTokens.Colors.canvas)
+                                .shadow(radius: DesignTokens.Shadow.radius)
                         )
                         .padding()
                         .onChange(of: viewModel.practicePhase1Count) {
@@ -366,25 +366,25 @@ struct LearningView: View {
     // MARK: - Difficulty feedback view
 
     private var difficultyFeedbackView: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: DesignTokens.Spacing.xl) {
             MascotView(state: .encourage)
 
             Image(systemName: "exclamationmark.triangle.fill")
-                .font(.system(size: 60))
-                .foregroundStyle(.orange)
+                .font(.system(size: DesignTokens.IconSize.xl))
+                .foregroundStyle(DesignTokens.Colors.warning)
 
             Text("标记为疑难字")
-                .font(.system(size: 28, weight: .bold))
+                .font(DesignTokens.Font.sectionTitle)
 
             if let card = viewModel.currentCard {
                 Text(card.answer)
-                    .font(.system(size: 72, weight: .bold))
-                    .foregroundStyle(.orange)
+                    .font(DesignTokens.Font.rounded(size: DesignTokens.CharSize.practice, weight: .bold))
+                    .foregroundStyle(DesignTokens.Colors.warning)
             }
 
             Text("下次会优先复习这个字")
-                .font(.title3)
-                .foregroundStyle(.secondary)
+                .font(DesignTokens.Font.title3)
+                .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
 
             Button("继续") {
                 viewModel.dismissDifficultyFeedback()
@@ -400,18 +400,18 @@ struct LearningView: View {
     // MARK: - Card exit feedback view
 
     private var cardExitFeedbackView: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: DesignTokens.Spacing.xl) {
             Image(systemName: "checkmark.seal.fill")
-                .font(.system(size: 60))
-                .foregroundStyle(.blue)
+                .font(.system(size: DesignTokens.IconSize.xl))
+                .foregroundStyle(DesignTokens.Colors.primary)
 
             Text(viewModel.cardExitMessage)
-                .font(.system(size: 24, weight: .bold))
+                .font(DesignTokens.Font.encouragement)
                 .multilineTextAlignment(.center)
 
             Text("\(viewModel.completedCount)/\(viewModel.totalCount)")
-                .font(.title2)
-                .foregroundStyle(.secondary)
+                .font(DesignTokens.Font.title2)
+                .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
         }
         .accessibilityIdentifier("cardExitFeedbackView")
         .onTapGesture {
@@ -425,12 +425,12 @@ struct LearningView: View {
     }
 
     private var sessionCompleteView: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: DesignTokens.Spacing.lg) {
             MascotView(state: .celebrate)
                 .padding(.top, 8)
 
             Text("今天的学习完成了！")
-                .font(.system(size: 28, weight: .bold))
+                .font(DesignTokens.Font.sectionTitle)
 
             ScrollView {
                 VStack(spacing: 0) {
@@ -447,13 +447,13 @@ struct LearningView: View {
                 .padding(.horizontal, 32)
 
             // Summary stats
-            HStack(spacing: 24) {
+            HStack(spacing: DesignTokens.Spacing.xl) {
                 Label(viewModel.sessionDurationFormatted, systemImage: "clock")
                 Label("\(Int(viewModel.sessionAccuracyRate * 100))%", systemImage: "target")
                 Label("\(viewModel.sessionTotalPoints)", systemImage: "star.fill")
             }
-            .font(.headline)
-            .foregroundStyle(.secondary)
+            .font(DesignTokens.Font.headline)
+            .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
             .padding(.bottom)
             .accessibilityIdentifier("sessionSummaryStats")
         }
@@ -461,17 +461,17 @@ struct LearningView: View {
     }
 
     private func sessionSummaryRow(_ summary: CharacterSummary) -> some View {
-        HStack(spacing: 12) {
+        HStack(spacing: DesignTokens.Spacing.md) {
             Text(summary.character)
-                .font(.system(size: 24, weight: .bold))
+                .font(DesignTokens.Font.encouragement)
                 .frame(width: 40)
 
             // Answer sequence
             HStack(spacing: 2) {
                 ForEach(Array(summary.answerSequence.enumerated()), id: \.offset) { _, correct in
                     Image(systemName: correct ? "checkmark.circle.fill" : "xmark.circle.fill")
-                        .font(.system(size: 16))
-                        .foregroundStyle(correct ? .green : .red)
+                        .font(.system(size: DesignTokens.IconSize.sm))
+                        .foregroundStyle(correct ? DesignTokens.Colors.success : DesignTokens.Colors.error)
                 }
             }
             .frame(minWidth: 60, alignment: .leading)
@@ -485,8 +485,8 @@ struct LearningView: View {
 
             // Duration
             Text(viewModel.characterDuration(for: summary))
-                .font(.caption)
-                .foregroundStyle(.secondary)
+                .font(DesignTokens.Font.caption)
+                .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
                 .frame(width: 40, alignment: .trailing)
         }
         .padding(.vertical, 8)
@@ -494,13 +494,13 @@ struct LearningView: View {
 
     private func exitReasonBadge(_ reason: CharacterExitReason) -> some View {
         let (text, color): (String, Color) = switch reason {
-        case .mastered: ("已掌握", .green)
-        case .completed: ("已完成", .blue)
-        case .difficult: ("疑难字", .orange)
+        case .mastered: ("已掌握", DesignTokens.Colors.success)
+        case .completed: ("已完成", DesignTokens.Colors.primary)
+        case .difficult: ("疑难字", DesignTokens.Colors.warning)
         }
         return Text(text)
-            .font(.caption)
-            .padding(.horizontal, 8)
+            .font(DesignTokens.Font.caption)
+            .padding(.horizontal, DesignTokens.Spacing.sm)
             .padding(.vertical, 2)
             .background(color.opacity(0.15))
             .foregroundStyle(color)
@@ -508,14 +508,15 @@ struct LearningView: View {
     }
 
     private var emptyStateView: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: DesignTokens.Spacing.lg) {
             Image(systemName: "rectangle.stack.badge.plus")
-                .font(.system(size: 60))
-                .foregroundStyle(.secondary)
+                .font(.system(size: DesignTokens.IconSize.xl))
+                .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
             Text("还没有卡片")
-                .font(.title2)
+                .font(DesignTokens.Font.title2)
             Text("去「添加」页面创建一些卡片吧")
-                .foregroundStyle(.secondary)
+                .font(DesignTokens.Font.body)
+                .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
         }
         .accessibilityIdentifier("emptyStateView")
     }

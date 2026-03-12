@@ -55,6 +55,7 @@
 		8E51AAA41A46993C860D75E7 /* ResultFeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1C91C7A20F84D3E2085F6 /* ResultFeedbackView.swift */; };
 		8FD09C8629BFF8019DE25B01 /* SpellingCheckerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FBCA921861E86D6C50AD94 /* SpellingCheckerTests.swift */; };
 		913A4588F4C12F18EA0E2B2D /* textbook_grade5_upper.json in Resources */ = {isa = PBXBuildFile; fileRef = FDA1E2437E346958B6AD9BCD /* textbook_grade5_upper.json */; };
+		92751F36965515D31469AFA3 /* DesignTokensTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA8EECFE18D050B54C5E7B4 /* DesignTokensTests.swift */; };
 		9B00410AAA964A49B2A3F2C5 /* TextbookGradeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A16E26CA517C7303BD9A75 /* TextbookGradeTests.swift */; };
 		9E528379A55871B7112556E0 /* TTSService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD626B345D9A023DF1934A2 /* TTSService.swift */; };
 		9EC8FC6C724C634928467F0A /* textbook_grade3_lower.json in Resources */ = {isa = PBXBuildFile; fileRef = 2BF2128133161ED9C979AAEF /* textbook_grade3_lower.json */; };
@@ -89,6 +90,7 @@
 		E6B7FE6D31DC5DF7D04A450D /* GameModeRegressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB1376DFB07B7122734CDAE /* GameModeRegressionTests.swift */; };
 		E891FC17EDE145B303781B57 /* LevelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494AE74582602E6464E9AE5B /* LevelService.swift */; };
 		EA2116699E23712EE63C6962 /* CardLibraryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C549A8485569ABAB0BFF62 /* CardLibraryTests.swift */; };
+		EDA9523CDA73ED165EA31DE7 /* DesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA9973B0822EEE271C7390B /* DesignTokens.swift */; };
 		EE7D73F6B76C24F55CF46970 /* AIGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F7C0B6E96E330280FCBC9D /* AIGeneratorTests.swift */; };
 		F2DBA39536802609DC2B95E6 /* LevelProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C50D2A7E896878B548DC1 /* LevelProgress.swift */; };
 		FB08D4E4D9FF9206F98191F3 /* TabNavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D377E3C210703363C0C7F7 /* TabNavigationTests.swift */; };
@@ -152,6 +154,7 @@
 		73302C88BA99643F5041D15D /* SurvivalViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurvivalViewModelTests.swift; sourceTree = "<group>"; };
 		78CE539EA26B80CC88550A77 /* AnkiAnnaUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = AnkiAnnaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A0763CD8E573CE8BC12BE33 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
+		7AA8EECFE18D050B54C5E7B4 /* DesignTokensTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokensTests.swift; sourceTree = "<group>"; };
 		7C8C8F624B0D67EAA9B114C7 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		7D58E6FEB619B9BE59B8D2FC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7FB7529B8D21EF38D587DFCB /* TextbookBrowserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextbookBrowserTests.swift; sourceTree = "<group>"; };
@@ -177,6 +180,7 @@
 		B29A2961958B3248AF15AC72 /* SM2Engine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SM2Engine.swift; sourceTree = "<group>"; };
 		BBF33B3F00D5AC1C9289982B /* PointsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsService.swift; sourceTree = "<group>"; };
 		BC952E6603595C868BEE1F80 /* TextbookSeederTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextbookSeederTests.swift; sourceTree = "<group>"; };
+		BCA9973B0822EEE271C7390B /* DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokens.swift; sourceTree = "<group>"; };
 		BCF518E62533FE77BDFCAAF7 /* StatsViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewTests.swift; sourceTree = "<group>"; };
 		C00159B46B20EABF39130234 /* IntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationTests.swift; sourceTree = "<group>"; };
 		C0C549A8485569ABAB0BFF62 /* CardLibraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardLibraryTests.swift; sourceTree = "<group>"; };
@@ -342,6 +346,7 @@
 				85C31B41011F456A834B9ADE /* BadgeServiceTests.swift */,
 				48A712BB5249349C21C5B6F7 /* CardEditTests.swift */,
 				36EBAAE31A1925F4BA85E261 /* CharacterStatsTests.swift */,
+				7AA8EECFE18D050B54C5E7B4 /* DesignTokensTests.swift */,
 				0C5497CBBFB43009DF6E6E00 /* HandwritingRecognizerTests.swift */,
 				C00159B46B20EABF39130234 /* IntegrationTests.swift */,
 				D95BD5751D2748459F459680 /* LearningViewModelTests.swift */,
@@ -406,6 +411,7 @@
 		DC77018B4D14B9A86F5271B2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				BCA9973B0822EEE271C7390B /* DesignTokens.swift */,
 				769135BC23613C68FDE963FA /* AddCard */,
 				4F1DFAACA41AD51D525D4F02 /* CardLibrary */,
 				F81FC4F2813280E6CCC087F4 /* Learning */,
@@ -591,6 +597,7 @@
 				B71C44A5DEED2CE5ED93C95C /* BadgeServiceTests.swift in Sources */,
 				00BA7C9D2C5C36FE01A143D5 /* CardEditTests.swift in Sources */,
 				C0D71ACAD86DB483FDC1D27F /* CharacterStatsTests.swift in Sources */,
+				92751F36965515D31469AFA3 /* DesignTokensTests.swift in Sources */,
 				D63827A262C4A4615C30EC56 /* HandwritingRecognizerTests.swift in Sources */,
 				AFBFBE4016BECB6BD14CC48A /* IntegrationTests.swift in Sources */,
 				321EC5267967E2B0058ACAB9 /* LearningViewModelTests.swift in Sources */,
@@ -628,6 +635,7 @@
 				8D60B9A59A6C40499075A83E /* CharacterStats.swift in Sources */,
 				ACA33FE7CA8F2AD58F92DDF2 /* ContentView.swift in Sources */,
 				713CCE2BCA70CC7C9152BE42 /* DailySession.swift in Sources */,
+				EDA9523CDA73ED165EA31DE7 /* DesignTokens.swift in Sources */,
 				DC3FE25AFC17217A40047794 /* GameModeSelectionView.swift in Sources */,
 				DBA6BBA9A5EAFED5D5790457 /* HandwritingRecognizer.swift in Sources */,
 				E49B69657A40E33E4AB48F9F /* HapticService.swift in Sources */,

@@ -30,16 +30,16 @@ struct StatsView: View {
             List {
                 Section {
                     let info = LevelService.levelInfo(for: profile?.totalPoints ?? 0)
-                    VStack(spacing: 12) {
+                    VStack(spacing: DesignTokens.Spacing.md) {
                         Text("Lv.\(info.level) \(LevelService.title(forLevel: info.level))")
-                            .font(.system(size: 28, weight: .bold))
+                            .font(DesignTokens.Font.sectionTitle)
 
                         ProgressView(value: info.progressFraction)
                             .tint(.purple)
 
                         Text("\(info.progressInLevel)/\(info.xpNeededForCurrentLevel) XP")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .font(DesignTokens.Font.caption)
+                            .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
                     }
                     .padding(.vertical)
                 }
@@ -48,20 +48,20 @@ struct StatsView: View {
                     HStack {
                         VStack {
                             Text("\(profile?.totalPoints ?? 0)")
-                                .font(.system(size: 36, weight: .bold))
+                                .font(DesignTokens.Font.promptText)
                             Text("积分")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
+                                .font(DesignTokens.Font.caption)
+                                .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
                         }
                         .frame(maxWidth: .infinity)
 
                         VStack {
                             Text("\(currentStreak)")
-                                .font(.system(size: 36, weight: .bold))
-                                .foregroundStyle(.orange)
+                                .font(DesignTokens.Font.promptText)
+                                .foregroundStyle(DesignTokens.Colors.accent)
                             Text("连续打卡")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
+                                .font(DesignTokens.Font.caption)
+                                .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
                         }
                         .frame(maxWidth: .infinity)
                     }
@@ -76,22 +76,22 @@ struct StatsView: View {
                 Section("徽章") {
                     let earnedBadges = Set(profile?.badges ?? [])
                     LazyVGrid(columns: [
-                        GridItem(.adaptive(minimum: 80), spacing: 16)
-                    ], spacing: 16) {
+                        GridItem(.adaptive(minimum: 80), spacing: DesignTokens.Spacing.lg)
+                    ], spacing: DesignTokens.Spacing.lg) {
                         ForEach(Badge.allCases, id: \.id) { badge in
                             let isEarned = earnedBadges.contains(badge.id)
-                            VStack(spacing: 4) {
+                            VStack(spacing: DesignTokens.Spacing.xs) {
                                 Text(badge.icon)
-                                    .font(.system(size: 36))
+                                    .font(DesignTokens.Font.promptText)
                                 Text(badge.name)
-                                    .font(.caption)
+                                    .font(DesignTokens.Font.caption)
                                     .multilineTextAlignment(.center)
                             }
                             .opacity(isEarned ? 1.0 : 0.3)
                             .grayscale(isEarned ? 0.0 : 1.0)
                         }
                     }
-                    .padding(.vertical, 8)
+                    .padding(.vertical, DesignTokens.Spacing.sm)
                 }
             }
             .navigationTitle("统计")

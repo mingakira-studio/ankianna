@@ -25,19 +25,19 @@ struct TimeAttackView: View {
     }
 
     private var durationPicker: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: DesignTokens.Spacing.xl) {
             Image(systemName: "timer")
-                .font(.system(size: 60))
-                .foregroundColor(.red)
+                .font(.system(size: DesignTokens.IconSize.xl))
+                .foregroundColor(DesignTokens.Colors.timeAttack)
 
             Text("限时挑战")
-                .font(.largeTitle)
-                .fontWeight(.bold)
+                .font(DesignTokens.Font.largeTitle)
 
             Text("选择时长，限时内尽可能多答对！")
-                .foregroundColor(.secondary)
+                .font(DesignTokens.Font.body)
+                .foregroundColor(DesignTokens.Colors.onSurfaceSecondary)
 
-            VStack(spacing: 12) {
+            VStack(spacing: DesignTokens.Spacing.md) {
                 ForEach([60, 90, 120], id: \.self) { seconds in
                     Button {
                         let vm = TimeAttackViewModel(duration: seconds)
@@ -46,12 +46,11 @@ struct TimeAttackView: View {
                         startTimer()
                     } label: {
                         Text("\(seconds) 秒")
-                            .font(.title2)
-                            .fontWeight(.semibold)
+                            .font(DesignTokens.Font.title2)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.red.opacity(0.1))
-                            .cornerRadius(12)
+                            .background(DesignTokens.Colors.timeAttack.opacity(0.1))
+                            .cornerRadius(DesignTokens.Radius.md)
                     }
                     .disabled(cards.isEmpty)
                 }
@@ -60,7 +59,8 @@ struct TimeAttackView: View {
 
             if cards.isEmpty {
                 Text("请先添加卡片")
-                    .foregroundColor(.orange)
+                    .font(DesignTokens.Font.body)
+                    .foregroundColor(DesignTokens.Colors.warning)
             }
         }
         .navigationTitle("限时挑战")
@@ -71,24 +71,21 @@ struct TimeAttackView: View {
             // Top bar: timer + score + combo
             HStack {
                 Label("\(vm.remainingTime)s", systemImage: "timer")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .foregroundColor(vm.remainingTime <= 10 ? .red : .primary)
+                    .font(DesignTokens.Font.title2)
+                    .foregroundColor(vm.remainingTime <= 10 ? DesignTokens.Colors.error : DesignTokens.Colors.onSurface)
 
                 Spacer()
 
                 Text("连击 \(vm.combo)")
-                    .font(.headline)
-                    .foregroundColor(.orange)
+                    .font(DesignTokens.Font.headline)
+                    .foregroundColor(DesignTokens.Colors.accent)
 
                 Spacer()
 
                 Text("得分 \(vm.score)")
-                    .font(.title2)
-                    .fontWeight(.bold)
+                    .font(DesignTokens.Font.title2)
             }
             .padding()
-            .background(Color(.systemBackground))
 
             Divider()
 
@@ -101,11 +98,11 @@ struct TimeAttackView: View {
     }
 
     private func questionView(card: Card, context: CardContext, vm: TimeAttackViewModel) -> some View {
-        VStack(spacing: 20) {
+        VStack(spacing: DesignTokens.Spacing.xl) {
             Spacer()
 
             Text(context.text)
-                .font(.title)
+                .font(DesignTokens.Font.title)
                 .multilineTextAlignment(.center)
                 .padding()
                 .onAppear {
@@ -115,11 +112,11 @@ struct TimeAttackView: View {
             if card.type == .chineseWriting {
                 WritingCanvasView(drawing: $drawing)
                     .frame(height: 200)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(12)
+                    .background(DesignTokens.Colors.surface)
+                    .cornerRadius(DesignTokens.Radius.md)
                     .padding(.horizontal)
 
-                HStack(spacing: 16) {
+                HStack(spacing: DesignTokens.Spacing.lg) {
                     #if DEBUG
                     Button("模拟写对") {
                         drawing = PKDrawing()
@@ -137,7 +134,7 @@ struct TimeAttackView: View {
             } else {
                 TextField("输入答案", text: $typedAnswer)
                     .textFieldStyle(.roundedBorder)
-                    .font(.title2)
+                    .font(DesignTokens.Font.title2)
                     .padding(.horizontal)
                     .onSubmit {
                         let correct = typedAnswer.lowercased().trimmingCharacters(in: .whitespaces) == card.answer.lowercased()
@@ -155,48 +152,46 @@ struct TimeAttackView: View {
     }
 
     private func resultView(_ vm: TimeAttackViewModel) -> some View {
-        VStack(spacing: 20) {
+        VStack(spacing: DesignTokens.Spacing.xl) {
             Spacer()
 
             Image(systemName: vm.isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
-                .font(.system(size: 80))
-                .foregroundColor(vm.isCorrect ? .green : .red)
+                .font(.system(size: DesignTokens.IconSize.xxl))
+                .foregroundColor(vm.isCorrect ? DesignTokens.Colors.success : DesignTokens.Colors.error)
 
             if let card = vm.currentCard {
                 Text(card.answer)
-                    .font(.system(size: 48))
-                    .fontWeight(.bold)
+                    .font(DesignTokens.Font.rounded(size: DesignTokens.CharSize.answer, weight: .bold))
             }
 
             if vm.isCorrect {
                 Text("+\(PointsService.pointsForAnswer(correct: true, combo: vm.combo)) 分  +3秒")
-                    .font(.title2)
-                    .foregroundColor(.green)
+                    .font(DesignTokens.Font.title2)
+                    .foregroundColor(DesignTokens.Colors.success)
             }
 
             Button("继续") {
                 vm.next()
             }
             .buttonStyle(.borderedProminent)
-            .font(.title3)
+            .font(DesignTokens.Font.title3)
 
             Spacer()
         }
     }
 
     private func gameOverView(_ vm: TimeAttackViewModel) -> some View {
-        VStack(spacing: 24) {
+        VStack(spacing: DesignTokens.Spacing.xl) {
             Spacer()
 
             Image(systemName: "flag.checkered")
-                .font(.system(size: 60))
-                .foregroundColor(.red)
+                .font(.system(size: DesignTokens.IconSize.xl))
+                .foregroundColor(DesignTokens.Colors.timeAttack)
 
             Text("时间到！")
-                .font(.largeTitle)
-                .fontWeight(.bold)
+                .font(DesignTokens.Font.largeTitle)
 
-            VStack(spacing: 12) {
+            VStack(spacing: DesignTokens.Spacing.md) {
                 statRow(label: "总得分", value: "\(vm.score)")
                 statRow(label: "答题数", value: "\(vm.answeredCount)")
                 statRow(label: "正确数", value: "\(vm.correctCount)")
@@ -204,15 +199,15 @@ struct TimeAttackView: View {
                 statRow(label: "最佳连击", value: "\(vm.bestCombo)")
             }
             .padding()
-            .background(Color(.systemGray6))
-            .cornerRadius(12)
+            .background(DesignTokens.Colors.surface)
+            .cornerRadius(DesignTokens.Radius.md)
             .padding(.horizontal)
 
             Button("再来一次") {
                 viewModel = nil
             }
             .buttonStyle(.borderedProminent)
-            .font(.title3)
+            .font(DesignTokens.Font.title3)
 
             Spacer()
         }
@@ -222,10 +217,11 @@ struct TimeAttackView: View {
     private func statRow(label: String, value: String) -> some View {
         HStack {
             Text(label)
-                .foregroundColor(.secondary)
+                .font(DesignTokens.Font.body)
+                .foregroundColor(DesignTokens.Colors.onSurfaceSecondary)
             Spacer()
             Text(value)
-                .fontWeight(.bold)
+                .font(DesignTokens.Font.headline)
         }
     }
 

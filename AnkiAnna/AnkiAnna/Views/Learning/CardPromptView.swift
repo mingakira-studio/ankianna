@@ -6,21 +6,21 @@ struct CardPromptView: View {
     let onSpeak: () -> Void
 
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: DesignTokens.Spacing.lg) {
             if let context {
                 Text(context.text)
-                    .font(.system(size: 36, weight: .medium))
+                    .font(DesignTokens.Font.promptText)
                     .multilineTextAlignment(.center)
 
                 Text(context.type == .phrase ? "组词" : "造句")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .font(DesignTokens.Font.caption)
+                    .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
             }
 
             Button(action: onSpeak) {
                 Image(systemName: "speaker.wave.2.fill")
-                    .font(.system(size: 32))
-                    .foregroundStyle(.blue)
+                    .font(DesignTokens.Font.feedbackTitle)
+                    .foregroundStyle(DesignTokens.Colors.primary)
             }
             .accessibilityLabel("朗读")
             .buttonStyle(.bordered)

@@ -29,11 +29,11 @@ enum GameMode: String, CaseIterable {
 
     var color: Color {
         switch self {
-        case .quickLearn: return .orange
-        case .timeAttack: return .red
-        case .survival: return .pink
-        case .levels: return .blue
-        case .match: return .green
+        case .quickLearn: return DesignTokens.Colors.quickLearn
+        case .timeAttack: return DesignTokens.Colors.timeAttack
+        case .survival: return DesignTokens.Colors.survival
+        case .levels: return DesignTokens.Colors.levels
+        case .match: return DesignTokens.Colors.match
         }
     }
 }
@@ -42,7 +42,7 @@ struct GameModeSelectionView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
+                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: DesignTokens.Spacing.lg) {
                     ForEach(GameMode.allCases, id: \.self) { mode in
                         NavigationLink(destination: destinationView(for: mode)) {
                             GameModeCard(mode: mode)
@@ -73,7 +73,7 @@ struct PressableCardStyle: ButtonStyle {
         configuration.label
             .scaleEffect(configuration.isPressed ? 0.96 : 1.0)
             .opacity(configuration.isPressed ? 0.8 : 1.0)
-            .animation(.easeInOut(duration: 0.15), value: configuration.isPressed)
+            .animation(DesignTokens.Animation.cardPress, value: configuration.isPressed)
     }
 }
 
@@ -81,25 +81,24 @@ struct GameModeCard: View {
     let mode: GameMode
 
     var body: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: DesignTokens.Spacing.md) {
             Image(systemName: mode.icon)
-                .font(.system(size: 40))
-                .foregroundColor(.white)
+                .font(.system(size: DesignTokens.IconSize.lg))
+                .foregroundColor(DesignTokens.Colors.onPrimary)
 
             Text(mode.rawValue)
-                .font(.title2)
-                .fontWeight(.bold)
-                .foregroundColor(.white)
+                .font(DesignTokens.Font.title2)
+                .foregroundColor(DesignTokens.Colors.onPrimary)
 
             Text(mode.description)
-                .font(.caption)
-                .foregroundColor(.white.opacity(0.8))
+                .font(DesignTokens.Font.caption)
+                .foregroundColor(DesignTokens.Colors.onPrimary.opacity(0.8))
                 .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity)
         .frame(height: 160)
         .background(
-            RoundedRectangle(cornerRadius: 16)
+            RoundedRectangle(cornerRadius: DesignTokens.Radius.lg)
                 .fill(mode.color.gradient)
         )
     }

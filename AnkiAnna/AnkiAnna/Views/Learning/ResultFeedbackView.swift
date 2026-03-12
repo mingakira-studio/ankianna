@@ -15,11 +15,11 @@ struct ResultFeedbackView: View {
     @State private var checkmarkScale: CGFloat = 0.5
 
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: DesignTokens.Spacing.xl) {
             if isCorrect {
                 Image(systemName: "checkmark.circle.fill")
-                    .font(.system(size: 80))
-                    .foregroundStyle(.green)
+                    .font(.system(size: DesignTokens.IconSize.xxl))
+                    .foregroundStyle(DesignTokens.Colors.success)
                     .scaleEffect(checkmarkScale)
                     .accessibilityIdentifier("correctFeedback")
                     .onAppear {
@@ -34,15 +34,15 @@ struct ResultFeedbackView: View {
 
                 if pointsEarned > 0 {
                     Text("+\(pointsEarned)")
-                        .font(.system(size: 28, weight: .bold))
-                        .foregroundStyle(.orange)
+                        .font(DesignTokens.Font.points)
+                        .foregroundStyle(DesignTokens.Colors.accent)
                         .scaleEffect(pointsScale)
                         .accessibilityIdentifier("pointsEarnedText")
                         .onAppear {
                             if reduceMotion {
                                 pointsScale = 1.0
                             } else {
-                                withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
+                                withAnimation(DesignTokens.Animation.gentle) {
                                     pointsScale = 1.0
                                 }
                             }
@@ -50,16 +50,16 @@ struct ResultFeedbackView: View {
                 }
 
                 if combo >= 2 {
-                    Text("🔥 x\(combo)")
-                        .font(.system(size: 24, weight: .bold))
-                        .foregroundStyle(.orange)
+                    Text("x\(combo)")
+                        .font(DesignTokens.Font.encouragement)
+                        .foregroundStyle(DesignTokens.Colors.accent)
                         .scaleEffect(comboScale)
                         .accessibilityIdentifier("comboText")
                         .onAppear {
                             if reduceMotion {
                                 comboScale = 1.0
                             } else {
-                                withAnimation(.spring(response: 0.3, dampingFraction: 0.4)) {
+                                withAnimation(DesignTokens.Animation.bounce) {
                                     comboScale = 1.0
                                 }
                             }
@@ -67,33 +67,33 @@ struct ResultFeedbackView: View {
                 }
 
                 Text("太棒了！")
-                    .font(.system(size: 32, weight: .bold))
+                    .font(DesignTokens.Font.feedbackTitle)
 
                 if combo >= 3 {
                     ComboFireView(combo: combo)
                 }
             } else {
                 Image(systemName: "xmark.circle.fill")
-                    .font(.system(size: 80))
-                    .foregroundStyle(.red)
+                    .font(.system(size: DesignTokens.IconSize.xxl))
+                    .foregroundStyle(DesignTokens.Colors.error)
 
                 // Per-character feedback for English spelling
                 if let charResults = charResults {
                     Text("你的拼写")
-                        .font(.headline)
+                        .font(DesignTokens.Font.headline)
                     HStack(spacing: 2) {
                         ForEach(Array(charResults.enumerated()), id: \.offset) { _, result in
                             Text(String(result.character))
-                                .font(.system(size: 36, weight: .bold, design: .monospaced))
-                                .foregroundStyle(result.isCorrect ? .green : .red)
+                                .font(DesignTokens.Font.spellingChar)
+                                .foregroundStyle(result.isCorrect ? DesignTokens.Colors.success : DesignTokens.Colors.error)
                         }
                     }
                 }
 
                 Text("正确答案")
-                    .font(.headline)
+                    .font(DesignTokens.Font.headline)
                 Text(correctAnswer)
-                    .font(.system(size: 48, weight: .bold))
+                    .font(DesignTokens.Font.rounded(size: DesignTokens.CharSize.answer, weight: .bold))
                     .accessibilityIdentifier("correctAnswerText")
             }
 

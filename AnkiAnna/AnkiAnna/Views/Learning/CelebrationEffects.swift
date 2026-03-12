@@ -6,24 +6,28 @@ struct ConfettiView: View {
     @Environment(\.accessibilityReduceMotion) var reduceMotion
     @State private var animate = false
 
-    private let emojis = ["⭐", "🌟", "✨", "🎉", "💫"]
+    private let symbols = ["star.fill", "sparkle", "star.circle.fill", "heart.fill", "moon.stars.fill"]
+    private let colors: [Color] = [.yellow, .orange, .pink, .purple, .blue]
     private let pieces = 12
 
     var body: some View {
         ZStack {
             if reduceMotion {
                 // Static star for reduced motion
-                Text("⭐")
-                    .font(.system(size: 36))
+                Image(systemName: "star.fill")
+                    .font(DesignTokens.Font.promptText)
+                    .foregroundStyle(.yellow)
             } else {
                 ForEach(0..<pieces, id: \.self) { index in
-                    let emoji = emojis[index % emojis.count]
+                    let symbol = symbols[index % symbols.count]
+                    let color = colors[index % colors.count]
                     let xOffset = CGFloat.random(in: -160...160)
                     let yOffset = CGFloat.random(in: 40...280)
                     let rotation = Double.random(in: -180...180)
 
-                    Text(emoji)
+                    Image(systemName: symbol)
                         .font(.system(size: CGFloat.random(in: 20...36)))
+                        .foregroundStyle(color)
                         .offset(
                             x: animate ? xOffset : 0,
                             y: animate ? yOffset : -20
@@ -61,10 +65,11 @@ struct ComboFireView: View {
     }
 
     var body: some View {
-        HStack(spacing: 4) {
+        HStack(spacing: DesignTokens.Spacing.xs) {
             ForEach(0..<fireCount, id: \.self) { index in
-                Text("🔥")
-                    .font(.system(size: 28))
+                Image(systemName: "flame.fill")
+                    .font(DesignTokens.Font.points)
+                    .foregroundStyle(.orange.gradient)
                     .offset(y: reduceMotion ? 0 : (animate ? -12 : 0))
                     .opacity(reduceMotion ? 1.0 : (animate ? 0.7 : 1.0))
                     .animation(
@@ -93,9 +98,9 @@ struct EncouragementView: View {
     @State private var animate = false
 
     var body: some View {
-        Text("加油！💪")
-            .font(.system(size: 24, weight: .semibold))
-            .foregroundStyle(.orange)
+        Label("加油！", systemImage: "hand.thumbsup.fill")
+            .font(DesignTokens.Font.encouragement)
+            .foregroundStyle(DesignTokens.Colors.accent)
             .scaleEffect(reduceMotion ? 1.0 : (animate ? 1.05 : 0.95))
             .animation(
                 reduceMotion ? nil :

@@ -111,7 +111,7 @@ struct ManualAddCardView: View {
         Section("目标字词") {
             TextField("输入多个字词，用空格或逗号分隔\n如：龙 凤 虎 或 apple, banana", text: $wordsInput, axis: .vertical)
                 .lineLimit(2...4)
-                .font(.title3)
+                .font(DesignTokens.Font.title3)
         }
 
         Section("标签") {
@@ -161,7 +161,7 @@ struct ManualAddCardView: View {
         if let lesson = currentLesson {
             Section("本课生字（\(lesson.characters.count) 个）") {
                 Text(lesson.characters.map(\.char).joined(separator: "  "))
-                    .font(.title2)
+                    .font(DesignTokens.Font.title2)
             }
 
             Section {

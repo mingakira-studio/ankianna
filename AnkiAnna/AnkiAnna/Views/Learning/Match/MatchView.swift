@@ -18,29 +18,30 @@ struct MatchView: View {
     }
 
     private var startView: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: DesignTokens.Spacing.xl) {
             Image(systemName: "link")
-                .font(.system(size: 60))
-                .foregroundColor(.green)
+                .font(.system(size: DesignTokens.IconSize.xl))
+                .foregroundColor(DesignTokens.Colors.match)
 
             Text("连连看")
-                .font(.largeTitle)
-                .fontWeight(.bold)
+                .font(DesignTokens.Font.largeTitle)
 
             Text("将汉字与对应的词语配对")
-                .foregroundColor(.secondary)
+                .font(DesignTokens.Font.body)
+                .foregroundColor(DesignTokens.Colors.onSurfaceSecondary)
 
             Button("开始游戏") {
                 setupGame()
             }
             .buttonStyle(.borderedProminent)
-            .tint(.green)
-            .font(.title2)
+            .tint(DesignTokens.Colors.match)
+            .font(DesignTokens.Font.title2)
             .disabled(cards.count < 3)
 
             if cards.count < 3 {
                 Text("至少需要3张卡片")
-                    .foregroundColor(.orange)
+                    .font(DesignTokens.Font.body)
+                    .foregroundColor(DesignTokens.Colors.warning)
             }
         }
         .navigationTitle("连连看")
@@ -51,20 +52,20 @@ struct MatchView: View {
             // Top bar
             HStack {
                 Text("已配对 \(viewModel.matchedPairs)/\(viewModel.totalPairs)")
-                    .font(.headline)
+                    .font(DesignTokens.Font.headline)
 
                 Spacer()
 
                 Text("用时 \(viewModel.elapsedTime)s")
-                    .font(.headline)
-                    .foregroundColor(.secondary)
+                    .font(DesignTokens.Font.headline)
+                    .foregroundColor(DesignTokens.Colors.onSurfaceSecondary)
             }
             .padding()
 
             Divider()
 
             // Grid
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4), spacing: 12) {
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: DesignTokens.Spacing.md), count: 4), spacing: DesignTokens.Spacing.md) {
                 ForEach(viewModel.tiles.indices, id: \.self) { index in
                     let tile = viewModel.tiles[index]
                     Button {
@@ -72,15 +73,14 @@ struct MatchView: View {
                         viewModel.selectTile(at: index)
                     } label: {
                         Text(tile.text)
-                            .font(tile.isCharacter ? .system(size: 28) : .body)
-                            .fontWeight(.medium)
+                            .font(tile.isCharacter ? DesignTokens.Font.sectionTitle : DesignTokens.Font.body)
                             .frame(maxWidth: .infinity)
                             .frame(height: 70)
                             .background(
-                                RoundedRectangle(cornerRadius: 10)
+                                RoundedRectangle(cornerRadius: DesignTokens.Radius.sm)
                                     .fill(tileColor(tile))
                             )
-                            .foregroundColor(tile.isMatched ? .clear : .primary)
+                            .foregroundColor(tile.isMatched ? .clear : DesignTokens.Colors.onSurface)
                     }
                     .disabled(tile.isMatched)
                     .opacity(tile.isMatched ? 0.3 : 1)
@@ -93,30 +93,29 @@ struct MatchView: View {
     }
 
     private func tileColor(_ tile: MatchViewModel.Tile) -> Color {
-        if tile.isMatched { return Color.green.opacity(0.2) }
-        if tile.isSelected { return Color.blue.opacity(0.3) }
-        return tile.isCharacter ? Color(.systemGray5) : Color(.systemGray6)
+        if tile.isMatched { return DesignTokens.Colors.success.opacity(0.2) }
+        if tile.isSelected { return DesignTokens.Colors.levels.opacity(0.3) }
+        return tile.isCharacter ? DesignTokens.Colors.surfaceSecondary : DesignTokens.Colors.surface
     }
 
     private var completeView: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: DesignTokens.Spacing.xl) {
             Spacer()
 
             Image(systemName: "checkmark.seal.fill")
-                .font(.system(size: 60))
-                .foregroundColor(.green)
+                .font(.system(size: DesignTokens.IconSize.xl))
+                .foregroundColor(DesignTokens.Colors.match)
 
             Text("全部配对成功！")
-                .font(.largeTitle)
-                .fontWeight(.bold)
+                .font(DesignTokens.Font.largeTitle)
 
-            VStack(spacing: 12) {
+            VStack(spacing: DesignTokens.Spacing.md) {
                 statRow(label: "用时", value: "\(viewModel.elapsedTime) 秒")
                 statRow(label: "错误次数", value: "\(viewModel.wrongAttempts)")
             }
             .padding()
-            .background(Color(.systemGray6))
-            .cornerRadius(12)
+            .background(DesignTokens.Colors.surface)
+            .cornerRadius(DesignTokens.Radius.md)
             .padding(.horizontal)
 
             Button("再来一次") {
@@ -126,8 +125,8 @@ struct MatchView: View {
                 timer = nil
             }
             .buttonStyle(.borderedProminent)
-            .tint(.green)
-            .font(.title3)
+            .tint(DesignTokens.Colors.match)
+            .font(DesignTokens.Font.title3)
 
             Spacer()
         }
@@ -141,10 +140,11 @@ struct MatchView: View {
     private func statRow(label: String, value: String) -> some View {
         HStack {
             Text(label)
-                .foregroundColor(.secondary)
+                .font(DesignTokens.Font.body)
+                .foregroundColor(DesignTokens.Colors.onSurfaceSecondary)
             Spacer()
             Text(value)
-                .fontWeight(.bold)
+                .font(DesignTokens.Font.headline)
         }
     }
 

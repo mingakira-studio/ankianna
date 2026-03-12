@@ -20,31 +20,32 @@ struct SurvivalView: View {
     }
 
     private var startView: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: DesignTokens.Spacing.xl) {
             Image(systemName: "heart.fill")
-                .font(.system(size: 60))
-                .foregroundColor(.pink)
+                .font(.system(size: DesignTokens.IconSize.xl))
+                .foregroundColor(DesignTokens.Colors.survival)
 
             Text("生存模式")
-                .font(.largeTitle)
-                .fontWeight(.bold)
+                .font(DesignTokens.Font.largeTitle)
 
             Text("3条命，看能走多远！\n连续答对5题恢复1条命")
                 .multilineTextAlignment(.center)
-                .foregroundColor(.secondary)
+                .font(DesignTokens.Font.body)
+                .foregroundColor(DesignTokens.Colors.onSurfaceSecondary)
 
             Button("开始挑战") {
                 viewModel.start(cards: cards)
                 hasStarted = true
             }
             .buttonStyle(.borderedProminent)
-            .tint(.pink)
-            .font(.title2)
+            .tint(DesignTokens.Colors.survival)
+            .font(DesignTokens.Font.title2)
             .disabled(cards.isEmpty)
 
             if cards.isEmpty {
                 Text("请先添加卡片")
-                    .foregroundColor(.orange)
+                    .font(DesignTokens.Font.body)
+                    .foregroundColor(DesignTokens.Colors.warning)
             }
         }
         .navigationTitle("生存模式")
@@ -54,28 +55,26 @@ struct SurvivalView: View {
         VStack(spacing: 0) {
             // Top bar: lives + survived + combo
             HStack {
-                HStack(spacing: 4) {
+                HStack(spacing: DesignTokens.Spacing.xs) {
                     ForEach(0..<3, id: \.self) { i in
                         Image(systemName: i < viewModel.lives ? "heart.fill" : "heart")
-                            .foregroundColor(.pink)
-                            .font(.title2)
+                            .foregroundColor(DesignTokens.Colors.survival)
+                            .font(DesignTokens.Font.title2)
                     }
                 }
 
                 Spacer()
 
                 Text("连击 \(viewModel.combo)")
-                    .font(.headline)
-                    .foregroundColor(.orange)
+                    .font(DesignTokens.Font.headline)
+                    .foregroundColor(DesignTokens.Colors.accent)
 
                 Spacer()
 
                 Text("存活 \(viewModel.survivedCount)")
-                    .font(.title2)
-                    .fontWeight(.bold)
+                    .font(DesignTokens.Font.title2)
             }
             .padding()
-            .background(Color(.systemBackground))
 
             Divider()
 
@@ -88,11 +87,11 @@ struct SurvivalView: View {
     }
 
     private func questionView(card: Card, context: CardContext) -> some View {
-        VStack(spacing: 20) {
+        VStack(spacing: DesignTokens.Spacing.xl) {
             Spacer()
 
             Text(context.text)
-                .font(.title)
+                .font(DesignTokens.Font.title)
                 .multilineTextAlignment(.center)
                 .padding()
                 .onAppear {
@@ -102,11 +101,11 @@ struct SurvivalView: View {
             if card.type == .chineseWriting {
                 WritingCanvasView(drawing: $drawing)
                     .frame(height: 200)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(12)
+                    .background(DesignTokens.Colors.surface)
+                    .cornerRadius(DesignTokens.Radius.md)
                     .padding(.horizontal)
 
-                HStack(spacing: 16) {
+                HStack(spacing: DesignTokens.Spacing.lg) {
                     #if DEBUG
                     Button("模拟写对") {
                         drawing = PKDrawing()
@@ -124,7 +123,7 @@ struct SurvivalView: View {
             } else {
                 TextField("输入答案", text: $typedAnswer)
                     .textFieldStyle(.roundedBorder)
-                    .font(.title2)
+                    .font(DesignTokens.Font.title2)
                     .padding(.horizontal)
                     .onSubmit {
                         let correct = typedAnswer.lowercased().trimmingCharacters(in: .whitespaces) == card.answer.lowercased()
@@ -142,54 +141,52 @@ struct SurvivalView: View {
     }
 
     private var resultView: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: DesignTokens.Spacing.xl) {
             Spacer()
 
             Image(systemName: viewModel.isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
-                .font(.system(size: 80))
-                .foregroundColor(viewModel.isCorrect ? .green : .red)
+                .font(.system(size: DesignTokens.IconSize.xxl))
+                .foregroundColor(viewModel.isCorrect ? DesignTokens.Colors.success : DesignTokens.Colors.error)
 
             if let card = viewModel.currentCard {
                 Text(card.answer)
-                    .font(.system(size: 48))
-                    .fontWeight(.bold)
+                    .font(DesignTokens.Font.rounded(size: DesignTokens.CharSize.answer, weight: .bold))
             }
 
             if !viewModel.isCorrect {
                 Text("剩余 \(viewModel.lives) 条命")
-                    .font(.title2)
-                    .foregroundColor(.pink)
+                    .font(DesignTokens.Font.title2)
+                    .foregroundColor(DesignTokens.Colors.survival)
             }
 
             Button("继续") {
                 viewModel.next()
             }
             .buttonStyle(.borderedProminent)
-            .font(.title3)
+            .font(DesignTokens.Font.title3)
 
             Spacer()
         }
     }
 
     private var gameOverView: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: DesignTokens.Spacing.xl) {
             Spacer()
 
             Image(systemName: "heart.slash.fill")
-                .font(.system(size: 60))
-                .foregroundColor(.pink)
+                .font(.system(size: DesignTokens.IconSize.xl))
+                .foregroundColor(DesignTokens.Colors.survival)
 
             Text("游戏结束")
-                .font(.largeTitle)
-                .fontWeight(.bold)
+                .font(DesignTokens.Font.largeTitle)
 
-            VStack(spacing: 12) {
+            VStack(spacing: DesignTokens.Spacing.md) {
                 statRow(label: "存活数", value: "\(viewModel.survivedCount)")
                 statRow(label: "最佳连击", value: "\(viewModel.bestCombo)")
             }
             .padding()
-            .background(Color(.systemGray6))
-            .cornerRadius(12)
+            .background(DesignTokens.Colors.surface)
+            .cornerRadius(DesignTokens.Radius.md)
             .padding(.horizontal)
 
             Button("再来一次") {
@@ -197,8 +194,8 @@ struct SurvivalView: View {
                 hasStarted = false
             }
             .buttonStyle(.borderedProminent)
-            .tint(.pink)
-            .font(.title3)
+            .tint(DesignTokens.Colors.survival)
+            .font(DesignTokens.Font.title3)
 
             Spacer()
         }
@@ -208,10 +205,11 @@ struct SurvivalView: View {
     private func statRow(label: String, value: String) -> some View {
         HStack {
             Text(label)
-                .foregroundColor(.secondary)
+                .font(DesignTokens.Font.body)
+                .foregroundColor(DesignTokens.Colors.onSurfaceSecondary)
             Spacer()
             Text(value)
-                .fontWeight(.bold)
+                .font(DesignTokens.Font.headline)
         }
     }
 }

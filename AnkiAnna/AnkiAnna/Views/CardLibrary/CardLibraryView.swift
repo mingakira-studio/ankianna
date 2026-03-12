@@ -57,10 +57,10 @@ struct CardLibraryView: View {
     @ViewBuilder
     private func cardRow(_ card: Card) -> some View {
         let stats = statsFor(card)
-        HStack(spacing: 16) {
+        HStack(spacing: DesignTokens.Spacing.lg) {
             // Character — visual anchor
             Text(card.answer)
-                .font(.system(size: 44, weight: .semibold))
+                .font(DesignTokens.Font.rounded(size: DesignTokens.CharSize.library, weight: .semibold))
                 .frame(width: 56, alignment: .center)
 
             // Mastery badge
@@ -69,21 +69,21 @@ struct CardLibraryView: View {
             if let stats, stats.practiceCount > 0 {
                 // Accuracy — color-coded
                 Text("\(Int(Double(stats.correctCount) / Double(stats.practiceCount) * 100))%")
-                    .font(.system(size: 17, weight: .semibold))
+                    .font(DesignTokens.Font.headline)
                     .foregroundStyle(accuracyColor(correct: stats.correctCount, total: stats.practiceCount))
 
                 Text("\(stats.practiceCount)次")
-                    .font(.system(size: 15))
-                    .foregroundStyle(.secondary)
+                    .font(DesignTokens.Font.subheadline)
+                    .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
 
                 if let last = stats.lastPracticed {
                     Text(relativeDate(last))
-                        .font(.system(size: 15))
-                        .foregroundStyle(.secondary)
+                        .font(DesignTokens.Font.subheadline)
+                        .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
                 }
             } else {
                 Text("未学习")
-                    .font(.system(size: 15))
+                    .font(DesignTokens.Font.subheadline)
                     .foregroundStyle(.quaternary)
             }
 
@@ -93,21 +93,21 @@ struct CardLibraryView: View {
                 cardToDelete = card
             } label: {
                 Image(systemName: "trash")
-                    .font(.system(size: 15))
-                    .foregroundStyle(.red.opacity(0.4))
+                    .font(DesignTokens.Font.subheadline)
+                    .foregroundStyle(DesignTokens.Colors.error.opacity(0.4))
                     .frame(minWidth: 44, minHeight: 44)
             }
             .accessibilityLabel("删除卡片")
             .buttonStyle(.plain)
         }
-        .padding(.vertical, 6)
+        .padding(.vertical, DesignTokens.Spacing.sm)
     }
 
     private func accuracyColor(correct: Int, total: Int) -> Color {
         let rate = Double(correct) / Double(total)
-        if rate >= 0.8 { return .green }
-        if rate >= 0.5 { return .orange }
-        return .red
+        if rate >= 0.8 { return DesignTokens.Colors.success }
+        if rate >= 0.5 { return DesignTokens.Colors.warning }
+        return DesignTokens.Colors.error
     }
 
     private func relativeDate(_ date: Date) -> String {
@@ -120,14 +120,14 @@ struct CardLibraryView: View {
 
     private func masteryBadge(_ level: MasteryLevel) -> some View {
         let (text, color): (String, Color) = switch level {
-        case .mastered: ("已掌握", .green)
-        case .learning: ("学习中", .blue)
-        case .difficult: ("疑难字", .orange)
+        case .mastered: ("已掌握", DesignTokens.Colors.success)
+        case .learning: ("学习中", DesignTokens.Colors.primary)
+        case .difficult: ("疑难字", DesignTokens.Colors.warning)
         case .new: ("新字", .gray)
         }
         return Text(text)
-            .font(.system(size: 13, weight: .medium))
-            .padding(.horizontal, 8)
+            .font(DesignTokens.Font.footnote)
+            .padding(.horizontal, DesignTokens.Spacing.sm)
             .padding(.vertical, 3)
             .background(color.opacity(0.12))
             .foregroundStyle(color)

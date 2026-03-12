@@ -23,31 +23,31 @@ struct LevelsView: View {
 
     private var levelSelectionView: some View {
         ScrollView {
-            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: DesignTokens.Spacing.lg) {
                 ForEach(viewModel.levels) { level in
                     Button {
                         if level.isUnlocked {
                             viewModel.startLevel(level, cards: cards)
                         }
                     } label: {
-                        VStack(spacing: 8) {
+                        VStack(spacing: DesignTokens.Spacing.sm) {
                             ZStack {
-                                RoundedRectangle(cornerRadius: 12)
-                                    .fill(level.isUnlocked ? Color.blue.opacity(0.1) : Color.gray.opacity(0.1))
+                                RoundedRectangle(cornerRadius: DesignTokens.Radius.md)
+                                    .fill(level.isUnlocked ? DesignTokens.Colors.levels.opacity(0.1) : Color.gray.opacity(0.1))
                                     .frame(height: 100)
 
                                 if level.isUnlocked {
                                     VStack {
                                         Text("第\(level.lesson)课")
-                                            .font(.headline)
+                                            .font(DesignTokens.Font.headline)
                                         Text(level.title)
-                                            .font(.caption)
-                                            .foregroundColor(.secondary)
+                                            .font(DesignTokens.Font.caption)
+                                            .foregroundColor(DesignTokens.Colors.onSurfaceSecondary)
                                             .lineLimit(1)
                                     }
                                 } else {
                                     Image(systemName: "lock.fill")
-                                        .font(.title)
+                                        .font(DesignTokens.Font.title)
                                         .foregroundColor(.gray)
                                 }
                             }
@@ -56,7 +56,7 @@ struct LevelsView: View {
                                 HStack(spacing: 2) {
                                     ForEach(0..<3, id: \.self) { i in
                                         Image(systemName: i < level.stars ? "star.fill" : "star")
-                                            .font(.caption)
+                                            .font(DesignTokens.Font.caption)
                                             .foregroundColor(.yellow)
                                     }
                                 }
@@ -79,18 +79,18 @@ struct LevelsView: View {
             // Top bar: progress
             HStack {
                 Text("第\(viewModel.currentLevel?.lesson ?? 0)课")
-                    .font(.headline)
+                    .font(DesignTokens.Font.headline)
 
                 Spacer()
 
                 Text("\(viewModel.currentIndex + 1)/\(viewModel.totalCount)")
-                    .font(.headline)
+                    .font(DesignTokens.Font.headline)
 
                 Spacer()
 
                 Text("错误 \(viewModel.errorCount)")
-                    .font(.headline)
-                    .foregroundColor(viewModel.errorCount > 0 ? .red : .secondary)
+                    .font(DesignTokens.Font.headline)
+                    .foregroundColor(viewModel.errorCount > 0 ? DesignTokens.Colors.error : DesignTokens.Colors.onSurfaceSecondary)
             }
             .padding()
 
@@ -108,11 +108,11 @@ struct LevelsView: View {
     }
 
     private func questionView(card: Card, context: CardContext) -> some View {
-        VStack(spacing: 20) {
+        VStack(spacing: DesignTokens.Spacing.xl) {
             Spacer()
 
             Text(context.text)
-                .font(.title)
+                .font(DesignTokens.Font.title)
                 .multilineTextAlignment(.center)
                 .padding()
                 .onAppear {
@@ -122,11 +122,11 @@ struct LevelsView: View {
             if card.type == .chineseWriting {
                 WritingCanvasView(drawing: $drawing)
                     .frame(height: 200)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(12)
+                    .background(DesignTokens.Colors.surface)
+                    .cornerRadius(DesignTokens.Radius.md)
                     .padding(.horizontal)
 
-                HStack(spacing: 16) {
+                HStack(spacing: DesignTokens.Spacing.lg) {
                     #if DEBUG
                     Button("模拟写对") {
                         drawing = PKDrawing()
@@ -144,7 +144,7 @@ struct LevelsView: View {
             } else {
                 TextField("输入答案", text: $typedAnswer)
                     .textFieldStyle(.roundedBorder)
-                    .font(.title2)
+                    .font(DesignTokens.Font.title2)
                     .padding(.horizontal)
                     .onSubmit {
                         let correct = typedAnswer.lowercased().trimmingCharacters(in: .whitespaces) == card.answer.lowercased()
@@ -162,54 +162,52 @@ struct LevelsView: View {
     }
 
     private var resultView: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: DesignTokens.Spacing.xl) {
             Spacer()
 
             Image(systemName: viewModel.isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
-                .font(.system(size: 80))
-                .foregroundColor(viewModel.isCorrect ? .green : .red)
+                .font(.system(size: DesignTokens.IconSize.xxl))
+                .foregroundColor(viewModel.isCorrect ? DesignTokens.Colors.success : DesignTokens.Colors.error)
 
             if let card = viewModel.currentCard {
                 Text(card.answer)
-                    .font(.system(size: 48))
-                    .fontWeight(.bold)
+                    .font(DesignTokens.Font.rounded(size: DesignTokens.CharSize.answer, weight: .bold))
             }
 
             Button("继续") {
                 viewModel.next()
             }
             .buttonStyle(.borderedProminent)
-            .font(.title3)
+            .font(DesignTokens.Font.title3)
 
             Spacer()
         }
     }
 
     private var levelCompleteView: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: DesignTokens.Spacing.xl) {
             Spacer()
 
             let stars = viewModel.starsForCurrentLevel()
 
             Image(systemName: "trophy.fill")
-                .font(.system(size: 60))
+                .font(.system(size: DesignTokens.IconSize.xl))
                 .foregroundColor(.yellow)
 
             Text("关卡完成！")
-                .font(.largeTitle)
-                .fontWeight(.bold)
+                .font(DesignTokens.Font.largeTitle)
 
-            HStack(spacing: 8) {
+            HStack(spacing: DesignTokens.Spacing.sm) {
                 ForEach(0..<3, id: \.self) { i in
                     Image(systemName: i < stars ? "star.fill" : "star")
-                        .font(.system(size: 36))
+                        .font(DesignTokens.Font.promptText)
                         .foregroundColor(.yellow)
                 }
             }
 
             Text("错误: \(viewModel.errorCount)")
-                .font(.title2)
-                .foregroundColor(.secondary)
+                .font(DesignTokens.Font.title2)
+                .foregroundColor(DesignTokens.Colors.onSurfaceSecondary)
 
             Button("返回关卡列表") {
                 saveLevelProgress(stars: stars)
@@ -217,7 +215,7 @@ struct LevelsView: View {
                 viewModel.loadLevels(stats: characterStats, progress: levelProgress)
             }
             .buttonStyle(.borderedProminent)
-            .font(.title3)
+            .font(DesignTokens.Font.title3)
 
             Spacer()
         }

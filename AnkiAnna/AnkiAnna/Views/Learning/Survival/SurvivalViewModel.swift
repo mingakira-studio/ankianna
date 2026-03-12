@@ -34,6 +34,7 @@ class SurvivalViewModel {
         consecutiveCorrect += 1
         isCorrect = true
         showResult = true
+        HapticService.success()
         if consecutiveCorrect >= 5 && lives < 3 {
             lives += 1
             consecutiveCorrect = 0
@@ -46,6 +47,7 @@ class SurvivalViewModel {
         lives -= 1
         isCorrect = false
         showResult = true
+        HapticService.error()
         if lives <= 0 {
             isGameOver = true
         }

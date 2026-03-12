@@ -17,7 +17,7 @@
 ## 代码结构
 - `AnkiAnna/AnkiAnna/` — 主应用代码
   - `Models/` — SwiftData 数据模型 (Card, CardContext, ReviewRecord, DailySession, UserProfile, CharacterStats, LevelProgress)
-  - `Services/` — 业务逻辑 (SM2Engine, TTSService, HandwritingRecognizer, AIGenerator, PointsService, BadgeService, LevelService, TextbookSeeder)
+  - `Services/` — 业务逻辑 (SM2Engine, TTSService, HandwritingRecognizer, AIGenerator, PointsService, BadgeService, LevelService, TextbookSeeder, HapticService)
   - `Views/` — SwiftUI 视图 (Learning/, AddCard/, CardLibrary/, Stats/)
     - `Learning/` — GameModeSelectionView (入口), LearningView (快速学习), MascotView, CelebrationEffects, ResultFeedbackView
       - `TimeAttack/` — 限时挑战模式 (TimeAttackView + ViewModel)

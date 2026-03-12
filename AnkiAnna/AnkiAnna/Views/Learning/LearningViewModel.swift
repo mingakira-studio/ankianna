@@ -165,6 +165,13 @@ final class LearningViewModel {
     }
 
     private func processMainAnswer(card: Card, modelContext: ModelContext, profile: UserProfile?) {
+        // Haptic feedback
+        if isCorrect {
+            HapticService.success()
+        } else {
+            HapticService.error()
+        }
+
         // Update session state
         var state = sessionStates[card.answer] ?? CharacterSessionState()
         if isCorrect {

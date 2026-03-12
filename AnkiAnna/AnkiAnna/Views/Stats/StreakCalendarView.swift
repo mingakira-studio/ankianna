@@ -30,7 +30,7 @@ struct StreakCalendarView: View {
                         .font(.caption2)
                     Circle()
                         .fill(completed ? .green : .gray.opacity(0.2))
-                        .frame(width: 24, height: 24)
+                        .frame(width: 28, height: 28)
                 }
             }
         }

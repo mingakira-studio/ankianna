@@ -63,9 +63,11 @@ class MatchViewModel {
                 tiles[selectedIndex].isMatched = true
                 tiles[index].isMatched = true
                 matchedPairs += 1
+                HapticService.success()
                 if matchedPairs >= totalPairs { isComplete = true }
             } else {
                 wrongAttempts += 1
+                HapticService.error()
             }
             // Reset selection
             tiles[selectedIndex].isSelected = false

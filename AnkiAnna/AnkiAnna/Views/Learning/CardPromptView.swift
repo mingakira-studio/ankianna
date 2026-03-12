@@ -22,6 +22,7 @@ struct CardPromptView: View {
                     .font(.system(size: 32))
                     .foregroundStyle(.blue)
             }
+            .accessibilityLabel("朗读")
             .buttonStyle(.bordered)
             .controlSize(.large)
         }

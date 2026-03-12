@@ -47,7 +47,7 @@ struct GameModeSelectionView: View {
                         NavigationLink(destination: destinationView(for: mode)) {
                             GameModeCard(mode: mode)
                         }
-                        .buttonStyle(.plain)
+                        .buttonStyle(PressableCardStyle())
                     }
                 }
                 .padding()
@@ -65,6 +65,15 @@ struct GameModeSelectionView: View {
         case .levels: LevelsView()
         case .match: MatchView()
         }
+    }
+}
+
+struct PressableCardStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.96 : 1.0)
+            .opacity(configuration.isPressed ? 0.8 : 1.0)
+            .animation(.easeInOut(duration: 0.15), value: configuration.isPressed)
     }
 }
 

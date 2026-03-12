@@ -50,6 +50,7 @@ class TimeAttackViewModel {
         remainingTime += bonusTime
         isCorrect = true
         showResult = true
+        HapticService.success()
     }
 
     func handleWrongAnswer() {
@@ -57,6 +58,7 @@ class TimeAttackViewModel {
         answeredCount += 1
         isCorrect = false
         showResult = true
+        HapticService.error()
     }
 
     func next() {

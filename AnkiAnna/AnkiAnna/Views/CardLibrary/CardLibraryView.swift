@@ -95,7 +95,9 @@ struct CardLibraryView: View {
                 Image(systemName: "trash")
                     .font(.system(size: 15))
                     .foregroundStyle(.red.opacity(0.4))
+                    .frame(minWidth: 44, minHeight: 44)
             }
+            .accessibilityLabel("删除卡片")
             .buttonStyle(.plain)
         }
         .padding(.vertical, 6)

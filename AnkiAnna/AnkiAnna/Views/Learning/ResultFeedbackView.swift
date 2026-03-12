@@ -9,6 +9,7 @@ struct ResultFeedbackView: View {
     let onNext: () -> Void
     let onRetry: () -> Void
 
+    @Environment(\.accessibilityReduceMotion) var reduceMotion
     @State private var pointsScale: CGFloat = 2.0
     @State private var comboScale: CGFloat = 0.5
     @State private var checkmarkScale: CGFloat = 0.5
@@ -22,8 +23,12 @@ struct ResultFeedbackView: View {
                     .scaleEffect(checkmarkScale)
                     .accessibilityIdentifier("correctFeedback")
                     .onAppear {
-                        withAnimation(.spring(response: 0.4, dampingFraction: 0.5)) {
+                        if reduceMotion {
                             checkmarkScale = 1.0
+                        } else {
+                            withAnimation(.spring(response: 0.4, dampingFraction: 0.5)) {
+                                checkmarkScale = 1.0
+                            }
                         }
                     }
 
@@ -34,8 +39,12 @@ struct ResultFeedbackView: View {
                         .scaleEffect(pointsScale)
                         .accessibilityIdentifier("pointsEarnedText")
                         .onAppear {
-                            withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
+                            if reduceMotion {
                                 pointsScale = 1.0
+                            } else {
+                                withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
+                                    pointsScale = 1.0
+                                }
                             }
                         }
                 }
@@ -47,8 +56,12 @@ struct ResultFeedbackView: View {
                         .scaleEffect(comboScale)
                         .accessibilityIdentifier("comboText")
                         .onAppear {
-                            withAnimation(.spring(response: 0.3, dampingFraction: 0.4)) {
+                            if reduceMotion {
                                 comboScale = 1.0
+                            } else {
+                                withAnimation(.spring(response: 0.3, dampingFraction: 0.4)) {
+                                    comboScale = 1.0
+                                }
                             }
                         }
                 }
@@ -102,7 +115,7 @@ struct ResultFeedbackView: View {
         }
         .padding()
         .overlay {
-            if isCorrect {
+            if isCorrect && !reduceMotion {
                 ConfettiView()
             }
         }

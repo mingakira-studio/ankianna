@@ -84,6 +84,7 @@
 		DC3FE25AFC17217A40047794 /* GameModeSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D293F4EB00F0CDFE150E44B9 /* GameModeSelectionView.swift */; };
 		DE2DB3A9C61E17686AB98848 /* ManualAddCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2103AB8F71425C88801BEE6B /* ManualAddCardView.swift */; };
 		E2582D8F56F4C79FDCA243EF /* SM2Engine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29A2961958B3248AF15AC72 /* SM2Engine.swift */; };
+		E49B69657A40E33E4AB48F9F /* HapticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0763CD8E573CE8BC12BE33 /* HapticService.swift */; };
 		E65E4C8620D68C8231CB1AB0 /* CardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452F373EE47DDF0314FDFAE0 /* CardDetailView.swift */; };
 		E6B7FE6D31DC5DF7D04A450D /* GameModeRegressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB1376DFB07B7122734CDAE /* GameModeRegressionTests.swift */; };
 		E891FC17EDE145B303781B57 /* LevelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494AE74582602E6464E9AE5B /* LevelService.swift */; };
@@ -150,6 +151,7 @@
 		72F0BC5E415A8BBA970D2891 /* CharacterStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterStats.swift; sourceTree = "<group>"; };
 		73302C88BA99643F5041D15D /* SurvivalViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurvivalViewModelTests.swift; sourceTree = "<group>"; };
 		78CE539EA26B80CC88550A77 /* AnkiAnnaUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = AnkiAnnaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A0763CD8E573CE8BC12BE33 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
 		7C8C8F624B0D67EAA9B114C7 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		7D58E6FEB619B9BE59B8D2FC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7FB7529B8D21EF38D587DFCB /* TextbookBrowserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextbookBrowserTests.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 				02CAD302D14F5BFB2A99B825 /* AIGenerator.swift */,
 				FA4C4A7AE8B1B2C6B03E9F8B /* BadgeService.swift */,
 				84C1C8E4BA66B2F2F6BA61A0 /* HandwritingRecognizer.swift */,
+				7A0763CD8E573CE8BC12BE33 /* HapticService.swift */,
 				494AE74582602E6464E9AE5B /* LevelService.swift */,
 				BBF33B3F00D5AC1C9289982B /* PointsService.swift */,
 				B29A2961958B3248AF15AC72 /* SM2Engine.swift */,
@@ -627,6 +630,7 @@
 				713CCE2BCA70CC7C9152BE42 /* DailySession.swift in Sources */,
 				DC3FE25AFC17217A40047794 /* GameModeSelectionView.swift in Sources */,
 				DBA6BBA9A5EAFED5D5790457 /* HandwritingRecognizer.swift in Sources */,
+				E49B69657A40E33E4AB48F9F /* HapticService.swift in Sources */,
 				CCBC3A780E9610935640F66E /* LearningView.swift in Sources */,
 				A3A6D054C6BEC1B73F30AA03 /* LearningViewModel.swift in Sources */,
 				F2DBA39536802609DC2B95E6 /* LevelProgress.swift in Sources */,

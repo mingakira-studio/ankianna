@@ -94,12 +94,14 @@ class LevelsViewModel {
     func handleCorrectAnswer() {
         isCorrect = true
         showResult = true
+        HapticService.success()
     }
 
     func handleWrongAnswer() {
         errorCount += 1
         isCorrect = false
         showResult = true
+        HapticService.error()
     }
 
     func next() {

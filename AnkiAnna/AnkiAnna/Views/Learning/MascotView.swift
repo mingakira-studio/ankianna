@@ -11,6 +11,7 @@ enum MascotState {
 struct MascotView: View {
     let state: MascotState
 
+    @Environment(\.accessibilityReduceMotion) var reduceMotion
     @State private var bouncing = false
 
     private var emoji: String {
@@ -51,17 +52,22 @@ struct MascotView: View {
                 }
         }
         .onChange(of: state) {
-            bouncing = true
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.4)) {
+            if reduceMotion {
+                // Just update emoji/message without bounce animation
+                bouncing = false
+            } else {
                 bouncing = true
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
-                    bouncing = false
+                withAnimation(.spring(response: 0.3, dampingFraction: 0.4)) {
+                    bouncing = true
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+                        bouncing = false
+                    }
                 }
             }
         }
-        .animation(.spring(response: 0.4, dampingFraction: 0.6), value: state)
+        .animation(reduceMotion ? nil : .spring(response: 0.4, dampingFraction: 0.6), value: state)
     }
 }
 

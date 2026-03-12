@@ -4,6 +4,7 @@ import PencilKit
 
 struct LearningView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.accessibilityReduceMotion) var reduceMotion
     @Query private var cards: [Card]
     @Query private var profiles: [UserProfile]
     @Query private var allCharacterStats: [CharacterStats]
@@ -100,7 +101,7 @@ struct LearningView: View {
                         .font(.system(size: 22, weight: .bold))
                         .foregroundStyle(.orange)
                         .accessibilityIdentifier("comboCounter")
-                        .transition(.scale.combined(with: .opacity))
+                        .transition(reduceMotion ? .opacity : .scale.combined(with: .opacity))
                 }
 
                 // Progress
@@ -254,7 +255,7 @@ struct LearningView: View {
                         Image(systemName: "checkmark.circle.fill")
                             .font(.system(size: 48))
                             .foregroundStyle(.green)
-                            .transition(.scale.combined(with: .opacity))
+                            .transition(reduceMotion ? .opacity : .scale.combined(with: .opacity))
                             .accessibilityIdentifier("practiceCorrectIcon")
                     } else {
                         VStack(spacing: 4) {
@@ -265,7 +266,7 @@ struct LearningView: View {
                                 .font(.headline)
                                 .foregroundStyle(.red)
                         }
-                        .transition(.scale.combined(with: .opacity))
+                        .transition(reduceMotion ? .opacity : .scale.combined(with: .opacity))
                         .accessibilityIdentifier("practiceWrongFeedback")
                     }
                 }
@@ -349,11 +350,11 @@ struct LearningView: View {
             }
             .frame(maxWidth: .infinity)
         }
-        .animation(.easeInOut(duration: 0.3), value: viewModel.practiceIsCorrect != nil)
+        .animation(reduceMotion ? nil : .easeInOut(duration: 0.3), value: viewModel.practiceIsCorrect != nil)
         .onChange(of: viewModel.showPracticeCorrectFlash) {
             if viewModel.showPracticeCorrectFlash {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                    withAnimation {
+                    withAnimation(reduceMotion ? .none : .default) {
                         viewModel.showPracticeCorrectFlash = false
                         viewModel.practiceIsCorrect = nil
                     }
@@ -413,6 +414,9 @@ struct LearningView: View {
                 .foregroundStyle(.secondary)
         }
         .accessibilityIdentifier("cardExitFeedbackView")
+        .onTapGesture {
+            viewModel.dismissCardExitFeedback()
+        }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                 viewModel.dismissCardExitFeedback()

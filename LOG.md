@@ -1,5 +1,8 @@
 # Anna 记忆卡片 App - 操作日志
 
+## 2026-03-13
+- 08:13 [adhoc] UIScreenshotTests 截图测试工具: UIScreenshotTests.swift(6个XCUITest截图+设计要求) + ios-ui-screenshot-test.sh(运行+提取脚本) + triggerWrongAnswer()支持中英文卡片; 161 unit tests + 6 screenshot tests 回归通过
+
 ## 2026-03-12
 - 19:20 [adhoc] UI/UX Pro Max 全局审查: 审查全部 28 个 SwiftUI 视图文件，基于 10 大 UX 规则类别(Accessibility/Touch/Style/Layout/Typography/Animation/Forms/Navigation/Charts/Performance)逐项评估，总评 C+（功能完整、设计粗糙），产出 24 项分级优化清单(P0可访问性+触控6项/P1设计系统4项/P2交互5项/P3布局4项/P4进阶5项)，推荐 Claymorphism 风格 + SF Rounded 字体。报告保存到 docs/plans/2026-03-12-ui-ux-review.md
 

@@ -5,7 +5,7 @@
 - Status: active
 - Path: ~/Projects/ankianna
 - Created: 2025-05-01
-- Last Updated: 2026-03-12
+- Last Updated: 2026-03-13
 
 ## 目标
 为 Anna 打造个性化的记忆卡片应用，基于间隔重复算法帮助高效记忆学习内容。
@@ -39,6 +39,7 @@
 > Skill: ui-ux-pro-max + SwiftUI Expert
 
 ## Log
+- 08:13 [adhoc] UIScreenshotTests截图测试工具: 6个XCUITest覆盖关键页面+设计要求, ios-ui-screenshot-test.sh通用脚本, triggerWrongAnswer()支持中英文; 161 unit tests + 6 screenshot tests 通过
 - 23:25 [project-next] 完成「UI优化 P2: 交互体验」— 4游戏模式结束画面+返回首页按钮(dismiss), ResultFeedbackView答对显示「X」写对了, 学习tab待复习badge(.badge(dueCount)), CardLibraryView正确率旁趋势图标+StreakCalendar打卡checkmark, 4游戏模式过渡动画(.transition+withAnimation); 161 unit tests 回归通过; NEXT=UI优化 P3: 布局与内容
 - 20:28 [project-next] 完成「UI优化 P1: 设计系统基础」— DesignTokens.swift(语义颜色/SF Rounded字体/4pt间距/圆角/阴影/动画), MascotView emoji→SwiftUI绘制恐龙(5表情+弹跳), CelebrationEffects emoji→SF Symbols, 16个视图迁移到DesignTokens; 161 unit tests 回归通过; NEXT=UI优化 P2: 交互体验
 - 20:01 [project-next] 完成「UI优化 P0: 可访问性与触控安全」— trash按钮/日历圆点触控≥44pt, speaker/trash accessibilityLabel, 4文件reducedMotion支持, PressableCardStyle按压反馈, HapticService(success/error/selection/impact)+5个ViewModel接入, exitFeedback点击可跳过; 156 unit tests 回归通过; NEXT=UI优化 P1: 设计系统基础
@@ -85,3 +86,4 @@
 - CardLibraryView 列表行增强：大字+badge左侧，正确率/练习次数/上次学习时间居中，删除按钮右侧；去掉类型和语境数；正确率按高中低变色
 - [bug修复] 疑难字判定：改为累计错3次即标疑难（非连续错），新增 totalWrong 字段；删除"跳过"功能，答错后只能"再试一次"进入练习模式
 - UI/UX Pro Max 全局审查报告: docs/plans/2026-03-12-ui-ux-review.md — 审查全部 28 个视图文件，评分 C+，产出 24 项优化清单(P0-P4)，推荐 Claymorphism 风格 + SF Rounded 字体
+- UIScreenshotTests.swift: XCUITest 截图测试工具，6个测试覆盖关键页面(首页/卡片库/统计/生存模式结束/限时挑战/答对反馈)，每个截图附带设计要求清单；triggerWrongAnswer() 同时支持中文手写和英文输入卡片；配套脚本 ios-ui-screenshot-test.sh (~/workspace/scripts/) 运行测试+提取截图到 /tmp/ui-screenshots/

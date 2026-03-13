@@ -13,6 +13,7 @@
 		0D7CF85BE6FEF407EBFE83A3 /* ReviewRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF401FED0B8846B0F416A3B /* ReviewRecord.swift */; };
 		136E4AFB2BF3FB37C6163542 /* textbook_grade2_lower.json in Resources */ = {isa = PBXBuildFile; fileRef = 2BFA2E208693A3AE316A4FC0 /* textbook_grade2_lower.json */; };
 		153AFEF148995E8C65C01CDD /* textbook_grade4_lower.json in Resources */ = {isa = PBXBuildFile; fileRef = A0F194E15DE332D4E4AAF4C6 /* textbook_grade4_lower.json */; };
+		1643EDACE1EB0FF22F02EEC2 /* Pods_AnkiAnnaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDC6EB1374213FF4B2771034 /* Pods_AnkiAnnaTests.framework */; };
 		176E6358C2130DD9875B8147 /* BadgeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4C4A7AE8B1B2C6B03E9F8B /* BadgeService.swift */; };
 		1931A8B420CE51DBE6CB7181 /* CardPromptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3675974735D72044D27836 /* CardPromptView.swift */; };
 		1C6255B5D89BBBA5B422FC1A /* StreakCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894905687DC7EBE0A8EA3F81 /* StreakCalendarView.swift */; };
@@ -25,6 +26,7 @@
 		2FB2FFA63DF8A9DB497DDA2A /* MascotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7FA6C5CB871576E090B6D24 /* MascotView.swift */; };
 		321EC5267967E2B0058ACAB9 /* LearningViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95BD5751D2748459F459680 /* LearningViewModelTests.swift */; };
 		3433C7BDF2ED1F72154E77AD /* FullJourneyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E9BF4AA0484F4A30507781 /* FullJourneyTests.swift */; };
+		34FDB721E511225957DA58F2 /* UIScreenshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6FF105DB3BF259060584586 /* UIScreenshotTests.swift */; };
 		37D86E2A7B13C11F6D656C01 /* SurvivalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542553FE8F9C8FBD97FD287D /* SurvivalView.swift */; };
 		3EB55600E06FFC6A15BBC5DB /* SurvivalViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73302C88BA99643F5041D15D /* SurvivalViewModelTests.swift */; };
 		42407C847F116E5EDD97AD77 /* WritingCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC81E7894202A55B306F9BB6 /* WritingCanvasView.swift */; };
@@ -82,6 +84,7 @@
 		D63827A262C4A4615C30EC56 /* HandwritingRecognizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5497CBBFB43009DF6E6E00 /* HandwritingRecognizerTests.swift */; };
 		D95FFB1C981740E6373A383B /* MatchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53C552E743CA3D84CCE3B6C /* MatchViewModel.swift */; };
 		DBA6BBA9A5EAFED5D5790457 /* HandwritingRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1C8E4BA66B2F2F6BA61A0 /* HandwritingRecognizer.swift */; };
+		DC1E0998B096B2C09A7E3E7D /* Pods_AnkiAnna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 821BB7D15E0A2F6BCF144BF1 /* Pods_AnkiAnna.framework */; };
 		DC3FE25AFC17217A40047794 /* GameModeSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D293F4EB00F0CDFE150E44B9 /* GameModeSelectionView.swift */; };
 		DE2DB3A9C61E17686AB98848 /* ManualAddCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2103AB8F71425C88801BEE6B /* ManualAddCardView.swift */; };
 		E2582D8F56F4C79FDCA243EF /* SM2Engine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29A2961958B3248AF15AC72 /* SM2Engine.swift */; };
@@ -150,6 +153,7 @@
 		664E74B17927FF6135856C91 /* DailySession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySession.swift; sourceTree = "<group>"; };
 		6F833511A10A25B7D26B5A25 /* SM2EngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SM2EngineTests.swift; sourceTree = "<group>"; };
 		6FF8D5BAB3DD5859720EB5D7 /* LevelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelsView.swift; sourceTree = "<group>"; };
+		70F0A52FE42184A96D90E664 /* Pods-AnkiAnnaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnkiAnnaTests.release.xcconfig"; path = "Target Support Files/Pods-AnkiAnnaTests/Pods-AnkiAnnaTests.release.xcconfig"; sourceTree = "<group>"; };
 		72F0BC5E415A8BBA970D2891 /* CharacterStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterStats.swift; sourceTree = "<group>"; };
 		73302C88BA99643F5041D15D /* SurvivalViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurvivalViewModelTests.swift; sourceTree = "<group>"; };
 		78CE539EA26B80CC88550A77 /* AnkiAnnaUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = AnkiAnnaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -160,11 +164,13 @@
 		7FB7529B8D21EF38D587DFCB /* TextbookBrowserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextbookBrowserTests.swift; sourceTree = "<group>"; };
 		8007726F88F19791B909DB8F /* AnkiAnna.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = AnkiAnna.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		803F4E3BAC49B1684AC1A7A9 /* MatchViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchViewModelTests.swift; sourceTree = "<group>"; };
+		821BB7D15E0A2F6BCF144BF1 /* Pods_AnkiAnna.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AnkiAnna.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		846717C9766B879CB908CFB2 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		84C1C8E4BA66B2F2F6BA61A0 /* HandwritingRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandwritingRecognizer.swift; sourceTree = "<group>"; };
 		84C1C91C7A20F84D3E2085F6 /* ResultFeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultFeedbackView.swift; sourceTree = "<group>"; };
 		851C00104F444E3D3A060CDC /* LearningFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningFlowTests.swift; sourceTree = "<group>"; };
 		85C31B41011F456A834B9ADE /* BadgeServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeServiceTests.swift; sourceTree = "<group>"; };
+		86070AC3D8F932B1C72490FF /* Pods-AnkiAnna.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnkiAnna.release.xcconfig"; path = "Target Support Files/Pods-AnkiAnna/Pods-AnkiAnna.release.xcconfig"; sourceTree = "<group>"; };
 		885C50D2A7E896878B548DC1 /* LevelProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelProgress.swift; sourceTree = "<group>"; };
 		894905687DC7EBE0A8EA3F81 /* StreakCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCalendarView.swift; sourceTree = "<group>"; };
 		94438DFDD81EEB8AE6732939 /* UITestSeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestSeeder.swift; sourceTree = "<group>"; };
@@ -175,6 +181,8 @@
 		9EFAC64E62156C0E16A5591A /* MatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchView.swift; sourceTree = "<group>"; };
 		A0F194E15DE332D4E4AAF4C6 /* textbook_grade4_lower.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = textbook_grade4_lower.json; sourceTree = "<group>"; };
 		A3A16E26CA517C7303BD9A75 /* TextbookGradeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextbookGradeTests.swift; sourceTree = "<group>"; };
+		A6FDFC52E0E1A691B979B643 /* Pods-AnkiAnnaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnkiAnnaTests.debug.xcconfig"; path = "Target Support Files/Pods-AnkiAnnaTests/Pods-AnkiAnnaTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A6FF105DB3BF259060584586 /* UIScreenshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScreenshotTests.swift; sourceTree = "<group>"; };
 		A784FCE3DABBB5150E85C1F9 /* textbook_grade1_upper.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = textbook_grade1_upper.json; sourceTree = "<group>"; };
 		A9789ADBDCB5A84715862967 /* textbook_grade3_upper.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = textbook_grade3_upper.json; sourceTree = "<group>"; };
 		B29A2961958B3248AF15AC72 /* SM2Engine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SM2Engine.swift; sourceTree = "<group>"; };
@@ -183,11 +191,13 @@
 		BCA9973B0822EEE271C7390B /* DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokens.swift; sourceTree = "<group>"; };
 		BCF518E62533FE77BDFCAAF7 /* StatsViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewTests.swift; sourceTree = "<group>"; };
 		C00159B46B20EABF39130234 /* IntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationTests.swift; sourceTree = "<group>"; };
+		C05EB12C3223E6445C642ABA /* Pods-AnkiAnna.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnkiAnna.debug.xcconfig"; path = "Target Support Files/Pods-AnkiAnna/Pods-AnkiAnna.debug.xcconfig"; sourceTree = "<group>"; };
 		C0C549A8485569ABAB0BFF62 /* CardLibraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardLibraryTests.swift; sourceTree = "<group>"; };
 		C53C552E743CA3D84CCE3B6C /* MatchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchViewModel.swift; sourceTree = "<group>"; };
 		C9CA1B8DF24616F047B40977 /* SurvivalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurvivalViewModel.swift; sourceTree = "<group>"; };
 		CCB1376DFB07B7122734CDAE /* GameModeRegressionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModeRegressionTests.swift; sourceTree = "<group>"; };
 		CD92A8F017F901D58CBE0C07 /* TimeAttackViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeAttackViewModelTests.swift; sourceTree = "<group>"; };
+		CDC6EB1374213FF4B2771034 /* Pods_AnkiAnnaTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AnkiAnnaTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D25B4CD7699D5EA008AF3C8B /* LearningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningViewModel.swift; sourceTree = "<group>"; };
 		D293F4EB00F0CDFE150E44B9 /* GameModeSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModeSelectionView.swift; sourceTree = "<group>"; };
 		D6A225EB7005EEB2DE0653A5 /* AnkiAnnaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnkiAnnaApp.swift; sourceTree = "<group>"; };
@@ -209,6 +219,25 @@
 		FC81E7894202A55B306F9BB6 /* WritingCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingCanvasView.swift; sourceTree = "<group>"; };
 		FDA1E2437E346958B6AD9BCD /* textbook_grade5_upper.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = textbook_grade5_upper.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4AEFEB432003EEE11259A309 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DC1E0998B096B2C09A7E3E7D /* Pods_AnkiAnna.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		723837B4532355BBA8626C44 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1643EDACE1EB0FF22F02EEC2 /* Pods_AnkiAnnaTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		2DBD21DFA3A8077CCE281999 /* Match */ = {
@@ -325,6 +354,7 @@
 				BCF518E62533FE77BDFCAAF7 /* StatsViewTests.swift */,
 				07D377E3C210703363C0C7F7 /* TabNavigationTests.swift */,
 				7FB7529B8D21EF38D587DFCB /* TextbookBrowserTests.swift */,
+				A6FF105DB3BF259060584586 /* UIScreenshotTests.swift */,
 				566CBB3F3DB1F8F3D9B7C5C4 /* Helpers */,
 			);
 			path = AnkiAnnaUITests;
@@ -405,7 +435,30 @@
 				921B174ABFB7DCF24D69505A /* AnkiAnnaTests */,
 				78AE814F56B8DCC46426EB95 /* AnkiAnnaUITests */,
 				5440DAFD575589F677769D80 /* Products */,
+				DB9E5F4E6E9925AF92293595 /* Pods */,
+				D30B4664FDD8BB197C35041D /* Frameworks */,
 			);
+			sourceTree = "<group>";
+		};
+		D30B4664FDD8BB197C35041D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				821BB7D15E0A2F6BCF144BF1 /* Pods_AnkiAnna.framework */,
+				CDC6EB1374213FF4B2771034 /* Pods_AnkiAnnaTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DB9E5F4E6E9925AF92293595 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C05EB12C3223E6445C642ABA /* Pods-AnkiAnna.debug.xcconfig */,
+				86070AC3D8F932B1C72490FF /* Pods-AnkiAnna.release.xcconfig */,
+				A6FDFC52E0E1A691B979B643 /* Pods-AnkiAnnaTests.debug.xcconfig */,
+				70F0A52FE42184A96D90E664 /* Pods-AnkiAnnaTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		DC77018B4D14B9A86F5271B2 /* Views */ = {
@@ -460,16 +513,18 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6A0FB8F0070EC54F80350F9D /* Build configuration list for PBXNativeTarget "AnkiAnna" */;
 			buildPhases = (
+				A398944640683947B9B25628 /* [CP] Check Pods Manifest.lock */,
 				6C24E8F7D6818DA968423BA2 /* Sources */,
 				0BEBA4DE10B1F7F90CF9E249 /* Resources */,
+				4AEFEB432003EEE11259A309 /* Frameworks */,
+				FBB855717C3978E98FD29601 /* [CP] Embed Pods Frameworks */,
+				9B3C2FCFC7FE1989A9E94A26 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = AnkiAnna;
-			packageProductDependencies = (
-			);
 			productName = AnkiAnna;
 			productReference = 8007726F88F19791B909DB8F /* AnkiAnna.app */;
 			productType = "com.apple.product-type.application";
@@ -486,8 +541,6 @@
 				2317B1D07AB9F9C399278089 /* PBXTargetDependency */,
 			);
 			name = AnkiAnnaUITests;
-			packageProductDependencies = (
-			);
 			productName = AnkiAnnaUITests;
 			productReference = 78CE539EA26B80CC88550A77 /* AnkiAnnaUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -496,7 +549,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BD92946ABD40B2C310AA6FB6 /* Build configuration list for PBXNativeTarget "AnkiAnnaTests" */;
 			buildPhases = (
+				6C7E15A41761222251724DFB /* [CP] Check Pods Manifest.lock */,
 				5073A05A860FAA3968FFBAEE /* Sources */,
+				723837B4532355BBA8626C44 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -504,8 +559,6 @@
 				A4F7C90C0CF7FB2E5F962E1B /* PBXTargetDependency */,
 			);
 			name = AnkiAnnaTests;
-			packageProductDependencies = (
-			);
 			productName = AnkiAnnaTests;
 			productReference = E28608525112E217B1E21564 /* AnkiAnnaTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -539,6 +592,7 @@
 			mainGroup = BF1DBCBEF66E9432D0B66754;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
+			productRefGroup = 5440DAFD575589F677769D80 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -569,6 +623,87 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		6C7E15A41761222251724DFB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AnkiAnnaTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9B3C2FCFC7FE1989A9E94A26 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AnkiAnna/Pods-AnkiAnna-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AnkiAnna/Pods-AnkiAnna-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AnkiAnna/Pods-AnkiAnna-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A398944640683947B9B25628 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AnkiAnna-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FBB855717C3978E98FD29601 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AnkiAnna/Pods-AnkiAnna-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AnkiAnna/Pods-AnkiAnna-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AnkiAnna/Pods-AnkiAnna-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		2FF85C7033D85D718AD764E8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -586,6 +721,7 @@
 				59C1A6717F8482B1E2E676B7 /* StatsViewTests.swift in Sources */,
 				FB08D4E4D9FF9206F98191F3 /* TabNavigationTests.swift in Sources */,
 				67E837E6E28A6A6820D94DFF /* TextbookBrowserTests.swift in Sources */,
+				34FDB721E511225957DA58F2 /* UIScreenshotTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -688,6 +824,7 @@
 /* Begin XCBuildConfiguration section */
 		5E18681A9F7FCB0A87CE5B02 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C05EB12C3223E6445C642ABA /* Pods-AnkiAnna.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -774,6 +911,7 @@
 		};
 		6F88528639690CFFB685AD27 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 86070AC3D8F932B1C72490FF /* Pods-AnkiAnna.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -887,6 +1025,7 @@
 		};
 		A3A8C618AB2EFFD8BAC00316 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A6FDFC52E0E1A691B979B643 /* Pods-AnkiAnnaTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -904,6 +1043,7 @@
 		};
 		B796D1D93293A4D761C82193 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 70F0A52FE42184A96D90E664 /* Pods-AnkiAnnaTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GENERATE_INFOPLIST_FILE = YES;

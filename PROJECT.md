@@ -5,7 +5,7 @@
 - Status: active
 - Path: ~/Projects/ankianna
 - Created: 2025-05-01
-- Last Updated: 2026-03-13
+- Last Updated: 2026-03-14
 
 ## 目标
 为 Anna 打造个性化的记忆卡片应用，基于间隔重复算法帮助高效记忆学习内容。
@@ -37,6 +37,31 @@
 ## NEXT: UI优化 P4 — 进阶优化
 > 审查报告: docs/plans/2026-03-12-ui-ux-review.md (P4 章节)
 > Skill: ui-ux-pro-max + SwiftUI Expert
+> Research: docs/research/2026-03-13_UI优化P4_进阶优化.md
+
+### 子任务
+- [ ] **SpriteKit 粒子替换 confetti** | 预估: 1.5h | 类型: code
+  - 所需: Views/Learning/CelebrationEffects.swift（当前 SF Symbols 实现）
+  - 产出: SpriteKitParticleView.swift（SKEmitterNode 粒子）+ CelebrationEffects.swift 改用 SpriteKit；保留 reducedMotion 支持
+  - 验证: 全量 unit tests 通过；答对后庆祝特效为粒子效果而非 emoji 图标
+- [ ] **Dynamic Type 支持** | 预估: 2h | 类型: code
+  - 所需: DesignTokens.swift Font 定义（当前硬编码 CGFloat）
+  - 产出: DesignTokens.Font 改用 .relativeTo() 或 @ScaledMetric；CharSize 改为自适应；全视图字体跟随系统设置
+  - 验证: 全量 unit tests 通过；iPad 设置中调大字号后 App 字体跟随变化且不溢出
+- [ ] **Claymorphism 设计风格** | 预估: 2h | 类型: code
+  - 所需: DesignTokens.swift（Shadow/Radius 定义）
+  - 产出: DesignTokens 新增 Shadow.lg/xl/claymorphism + Radius.claymorphism=40；.claymorphismCard() ViewModifier；GameModeCard/学习卡片等应用
+  - 验证: 全量 unit tests 通过；卡片呈现多层阴影+大圆角的 Claymorphism 风格
+  - blockedBy: Dynamic Type 支持
+- [ ] **暗色模式调优** | 预估: 2h | 类型: code
+  - 所需: DesignTokens.swift Colors（当前 canvas=.white 不区分 Light/Dark）
+  - 产出: Colors 改用 Color(light:dark:) 或 Asset Catalog；canvas 改 systemBackground；全视图暗色模式适配
+  - 验证: 全量 unit tests 通过；iPad 切换暗色模式后所有页面可读、无白色背景残留
+  - blockedBy: Claymorphism 设计风格
+- [ ] **Onboarding 引导动画** | 预估: 1.5h | 类型: code
+  - 所需: ContentView.swift（主入口）
+  - 产出: OnboardingView.swift（3页引导+吉祥物动画+AppStorage 首次检测）；ContentView 首次启动显示 onboarding
+  - 验证: 全量 unit tests 通过；删除 App 重装后首次启动显示引导，完成后不再显示
 
 ## Log
 - 10:49 [project-next] 完成「UI优化 P3: 布局与内容」— 4游戏模式横屏适配(GeometryReader+HStack分栏), GameModeCard去硬编码高度改minHeight+flexible, MascotView bounce双重赋值bug修复, sessionCompleteView添加ShareLink文本分享按钮; 161 unit tests 回归通过; NEXT=UI优化 P4: 进阶优化

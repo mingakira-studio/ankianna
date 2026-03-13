@@ -55,47 +55,51 @@ struct MatchView: View {
     }
 
     private var gameplayView: some View {
-        VStack(spacing: 0) {
-            // Top bar
-            HStack {
-                Text("已配对 \(viewModel.matchedPairs)/\(viewModel.totalPairs)")
-                    .font(DesignTokens.Font.headline)
+        GeometryReader { geo in
+            let isLandscape = geo.size.width > geo.size.height
+            let columnCount = isLandscape ? 6 : 4
+            VStack(spacing: 0) {
+                // Top bar
+                HStack {
+                    Text("已配对 \(viewModel.matchedPairs)/\(viewModel.totalPairs)")
+                        .font(DesignTokens.Font.headline)
+
+                    Spacer()
+
+                    Text("用时 \(viewModel.elapsedTime)s")
+                        .font(DesignTokens.Font.headline)
+                        .foregroundColor(DesignTokens.Colors.onSurfaceSecondary)
+                }
+                .padding()
+
+                Divider()
+
+                // Grid — landscape uses more columns to fill width
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: DesignTokens.Spacing.md), count: columnCount), spacing: DesignTokens.Spacing.md) {
+                    ForEach(viewModel.tiles.indices, id: \.self) { index in
+                        let tile = viewModel.tiles[index]
+                        Button {
+                            TTSService.speak(text: tile.speakText, cardType: .chineseWriting)
+                            viewModel.selectTile(at: index)
+                        } label: {
+                            Text(tile.text)
+                                .font(tile.isCharacter ? DesignTokens.Font.sectionTitle : DesignTokens.Font.body)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: isLandscape ? 60 : 70)
+                                .background(
+                                    RoundedRectangle(cornerRadius: DesignTokens.Radius.sm)
+                                        .fill(tileColor(tile))
+                                )
+                                .foregroundColor(tile.isMatched ? .clear : DesignTokens.Colors.onSurface)
+                        }
+                        .disabled(tile.isMatched)
+                        .opacity(tile.isMatched ? 0.3 : 1)
+                    }
+                }
+                .padding()
 
                 Spacer()
-
-                Text("用时 \(viewModel.elapsedTime)s")
-                    .font(DesignTokens.Font.headline)
-                    .foregroundColor(DesignTokens.Colors.onSurfaceSecondary)
             }
-            .padding()
-
-            Divider()
-
-            // Grid
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: DesignTokens.Spacing.md), count: 4), spacing: DesignTokens.Spacing.md) {
-                ForEach(viewModel.tiles.indices, id: \.self) { index in
-                    let tile = viewModel.tiles[index]
-                    Button {
-                        TTSService.speak(text: tile.speakText, cardType: .chineseWriting)
-                        viewModel.selectTile(at: index)
-                    } label: {
-                        Text(tile.text)
-                            .font(tile.isCharacter ? DesignTokens.Font.sectionTitle : DesignTokens.Font.body)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 70)
-                            .background(
-                                RoundedRectangle(cornerRadius: DesignTokens.Radius.sm)
-                                    .fill(tileColor(tile))
-                            )
-                            .foregroundColor(tile.isMatched ? .clear : DesignTokens.Colors.onSurface)
-                    }
-                    .disabled(tile.isMatched)
-                    .opacity(tile.isMatched ? 0.3 : 1)
-                }
-            }
-            .padding()
-
-            Spacer()
         }
     }
 

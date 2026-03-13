@@ -96,7 +96,8 @@ struct GameModeCard: View {
                 .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity)
-        .frame(height: 160)
+        .frame(minHeight: 140)
+        .padding(.vertical, DesignTokens.Spacing.lg)
         .background(
             RoundedRectangle(cornerRadius: DesignTokens.Radius.lg)
                 .fill(mode.color.gradient)

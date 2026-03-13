@@ -45,7 +45,6 @@ struct MascotView: View {
             if reduceMotion {
                 bouncing = false
             } else {
-                bouncing = true
                 withAnimation(DesignTokens.Animation.bounce) {
                     bouncing = true
                 }

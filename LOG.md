@@ -1,6 +1,12 @@
 # Anna 记忆卡片 App - 操作日志
 
 ## 2026-03-13
+- 10:49 [project-next] 完成「UI优化 P3: 布局与内容」, 设置 NEXT=UI优化 P4: 进阶优化
+  - 4游戏模式横屏适配: GeometryReader检测横屏, questionView改HStack左右分栏(限时/生存/闯关), MatchView横屏6列
+  - GameModeCard: 去掉frame(height:160)硬编码, 改minHeight(140)+flexible padding
+  - MascotView: 修复bounce双重赋值bug(删除withAnimation外冗余bouncing=true)
+  - sessionCompleteView: 添加ShareLink文本分享按钮(学习成绩+字符+正确率+时长+积分)
+  - 161 unit tests 回归通过
 - 08:13 [adhoc] UIScreenshotTests 截图测试工具: UIScreenshotTests.swift(6个XCUITest截图+设计要求) + ios-ui-screenshot-test.sh(运行+提取脚本) + triggerWrongAnswer()支持中英文卡片; 161 unit tests + 6 screenshot tests 回归通过
 
 ## 2026-03-12

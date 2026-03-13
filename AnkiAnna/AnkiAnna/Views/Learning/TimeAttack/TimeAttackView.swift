@@ -74,87 +74,118 @@ struct TimeAttackView: View {
     }
 
     private func gameplayView(_ vm: TimeAttackViewModel) -> some View {
-        VStack(spacing: 0) {
-            // Top bar: timer + score + combo
-            HStack {
-                Label("\(vm.remainingTime)s", systemImage: "timer")
-                    .font(DesignTokens.Font.title2)
-                    .foregroundColor(vm.remainingTime <= 10 ? DesignTokens.Colors.error : DesignTokens.Colors.onSurface)
+        GeometryReader { geo in
+            let isLandscape = geo.size.width > geo.size.height
+            VStack(spacing: 0) {
+                // Top bar: timer + score + combo
+                HStack {
+                    Label("\(vm.remainingTime)s", systemImage: "timer")
+                        .font(DesignTokens.Font.title2)
+                        .foregroundColor(vm.remainingTime <= 10 ? DesignTokens.Colors.error : DesignTokens.Colors.onSurface)
 
-                Spacer()
+                    Spacer()
 
-                Text("连击 \(vm.combo)")
-                    .font(DesignTokens.Font.headline)
-                    .foregroundColor(DesignTokens.Colors.accent)
+                    Text("连击 \(vm.combo)")
+                        .font(DesignTokens.Font.headline)
+                        .foregroundColor(DesignTokens.Colors.accent)
 
-                Spacer()
+                    Spacer()
 
-                Text("得分 \(vm.score)")
-                    .font(DesignTokens.Font.title2)
-            }
-            .padding()
+                    Text("得分 \(vm.score)")
+                        .font(DesignTokens.Font.title2)
+                }
+                .padding()
 
-            Divider()
+                Divider()
 
-            if vm.showResult {
-                resultView(vm)
-            } else if let card = vm.currentCard, let ctx = vm.currentContext {
-                questionView(card: card, context: ctx, vm: vm)
+                if vm.showResult {
+                    resultView(vm)
+                } else if let card = vm.currentCard, let ctx = vm.currentContext {
+                    questionView(card: card, context: ctx, vm: vm, isLandscape: isLandscape)
+                }
             }
         }
     }
 
-    private func questionView(card: Card, context: CardContext, vm: TimeAttackViewModel) -> some View {
-        VStack(spacing: DesignTokens.Spacing.xl) {
-            Spacer()
+    @ViewBuilder
+    private func questionView(card: Card, context: CardContext, vm: TimeAttackViewModel, isLandscape: Bool = false) -> some View {
+        if isLandscape {
+            HStack(spacing: 0) {
+                Text(context.text)
+                    .font(DesignTokens.Font.title)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .onAppear {
+                        TTSService.speak(text: context.fullText, cardType: card.type)
+                    }
 
-            Text(context.text)
-                .font(DesignTokens.Font.title)
-                .multilineTextAlignment(.center)
-                .padding()
-                .onAppear {
-                    TTSService.speak(text: context.fullText, cardType: card.type)
+                Divider()
+
+                VStack(spacing: DesignTokens.Spacing.lg) {
+                    Spacer()
+                    inputArea(card: card, onCorrect: { vm.handleCorrectAnswer() }, onWrong: { vm.handleWrongAnswer() })
+                    Spacer()
                 }
-
-            if card.type == .chineseWriting {
-                WritingCanvasView(drawing: $drawing)
-                    .frame(height: 200)
-                    .background(DesignTokens.Colors.surface)
-                    .cornerRadius(DesignTokens.Radius.md)
-                    .padding(.horizontal)
-
-                HStack(spacing: DesignTokens.Spacing.lg) {
-                    #if DEBUG
-                    Button("模拟写对") {
-                        drawing = PKDrawing()
-                        vm.handleCorrectAnswer()
-                    }
-                    .buttonStyle(.bordered)
-
-                    Button("模拟写错") {
-                        drawing = PKDrawing()
-                        vm.handleWrongAnswer()
-                    }
-                    .buttonStyle(.bordered)
-                    #endif
-                }
-            } else {
-                TextField("输入答案", text: $typedAnswer)
-                    .textFieldStyle(.roundedBorder)
-                    .font(DesignTokens.Font.title2)
-                    .padding(.horizontal)
-                    .onSubmit {
-                        let correct = typedAnswer.lowercased().trimmingCharacters(in: .whitespaces) == card.answer.lowercased()
-                        typedAnswer = ""
-                        if correct {
-                            vm.handleCorrectAnswer()
-                        } else {
-                            vm.handleWrongAnswer()
-                        }
-                    }
+                .frame(maxWidth: .infinity)
             }
+        } else {
+            VStack(spacing: DesignTokens.Spacing.xl) {
+                Spacer()
 
-            Spacer()
+                Text(context.text)
+                    .font(DesignTokens.Font.title)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                    .onAppear {
+                        TTSService.speak(text: context.fullText, cardType: card.type)
+                    }
+
+                inputArea(card: card, onCorrect: { vm.handleCorrectAnswer() }, onWrong: { vm.handleWrongAnswer() })
+
+                Spacer()
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func inputArea(card: Card, onCorrect: @escaping () -> Void, onWrong: @escaping () -> Void) -> some View {
+        if card.type == .chineseWriting {
+            WritingCanvasView(drawing: $drawing)
+                .frame(height: 200)
+                .background(DesignTokens.Colors.surface)
+                .cornerRadius(DesignTokens.Radius.md)
+                .padding(.horizontal)
+
+            HStack(spacing: DesignTokens.Spacing.lg) {
+                #if DEBUG
+                Button("模拟写对") {
+                    drawing = PKDrawing()
+                    onCorrect()
+                }
+                .buttonStyle(.bordered)
+
+                Button("模拟写错") {
+                    drawing = PKDrawing()
+                    onWrong()
+                }
+                .buttonStyle(.bordered)
+                #endif
+            }
+        } else {
+            TextField("输入答案", text: $typedAnswer)
+                .textFieldStyle(.roundedBorder)
+                .font(DesignTokens.Font.title2)
+                .padding(.horizontal)
+                .onSubmit {
+                    let correct = typedAnswer.lowercased().trimmingCharacters(in: .whitespaces) == card.answer.lowercased()
+                    typedAnswer = ""
+                    if correct {
+                        onCorrect()
+                    } else {
+                        onWrong()
+                    }
+                }
         }
     }
 

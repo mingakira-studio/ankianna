@@ -454,10 +454,22 @@ struct LearningView: View {
             }
             .font(DesignTokens.Font.headline)
             .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
-            .padding(.bottom)
             .accessibilityIdentifier("sessionSummaryStats")
+
+            ShareLink(item: sessionShareText) {
+                Label("分享成绩", systemImage: "square.and.arrow.up")
+                    .font(DesignTokens.Font.headline)
+            }
+            .buttonStyle(.bordered)
+            .padding(.bottom)
         }
         .accessibilityIdentifier("sessionCompleteView")
+    }
+
+    private var sessionShareText: String {
+        let accuracy = Int(viewModel.sessionAccuracyRate * 100)
+        let characters = viewModel.orderedSummaries.map(\.character).joined()
+        return "Anna 记忆卡片 - 今日学习完成!\n学习了 \(viewModel.orderedSummaries.count) 个字: \(characters)\n正确率: \(accuracy)%\n用时: \(viewModel.sessionDurationFormatted)\n积分: \(viewModel.sessionTotalPoints)"
     }
 
     private func sessionSummaryRow(_ summary: CharacterSummary) -> some View {

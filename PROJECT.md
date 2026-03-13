@@ -88,3 +88,4 @@
 - [bug修复] 疑难字判定：改为累计错3次即标疑难（非连续错），新增 totalWrong 字段；删除"跳过"功能，答错后只能"再试一次"进入练习模式
 - UI/UX Pro Max 全局审查报告: docs/plans/2026-03-12-ui-ux-review.md — 审查全部 28 个视图文件，评分 C+，产出 24 项优化清单(P0-P4)，推荐 Claymorphism 风格 + SF Rounded 字体
 - UIScreenshotTests.swift: XCUITest 截图测试工具，6个测试覆盖关键页面(首页/卡片库/统计/生存模式结束/限时挑战/答对反馈)，每个截图附带设计要求清单；triggerWrongAnswer() 同时支持中文手写和英文输入卡片；配套脚本 ios-ui-screenshot-test.sh (~/workspace/scripts/) 运行测试+提取截图到 /tmp/ui-screenshots/
+- [流程修复] 纯 UI 变更时 /project-next 跳过 test-guard 后连带跳过 e2e-guard，导致 UI 修改无截图验收。已修复：project-next Step 5/10 明确 e2e-guard 独立于 test-guard，纯 UI 仍必须走 e2e-guard Step 6.5 截图验收；e2e-guard 新增「UI 变更强制验收规则」

@@ -1,6 +1,7 @@
 # Anna 记忆卡片 App - 操作日志
 
 ## 2026-03-13
+- 19:46 [adhoc] 修复 /project-next + e2e-guard 流程缺陷: 纯UI变更跳过test-guard后连带跳过e2e-guard导致无截图验收; project-next Step 5/10新增纯UI独立调用e2e-guard规则, e2e-guard新增UI变更强制验收规则; 更新两个skill的CHANGELOG.md
 - 10:49 [project-next] 完成「UI优化 P3: 布局与内容」, 设置 NEXT=UI优化 P4: 进阶优化
   - 4游戏模式横屏适配: GeometryReader检测横屏, questionView改HStack左右分栏(限时/生存/闯关), MatchView横屏6列
   - GameModeCard: 去掉frame(height:160)硬编码, 改minHeight(140)+flexible padding

@@ -1,6 +1,13 @@
 # Anna 记忆卡片 App - 操作日志
 
 ## 2026-03-13
+- 22:37 [project-next] 完成「UI优化 P4: 进阶优化」, 设置 NEXT=报告系统
+  - SpriteKit粒子替换confetti: SKEmitterNode多色粒子系统替代SF Symbols, 保留reducedMotion
+  - Dynamic Type支持: DesignTokens.Font改用.system(.textStyle)自动缩放, CharSize固定不变
+  - Claymorphism设计风格: 多层阴影ViewModifier(light/dark自适应), GameModeCard+WritingCanvas应用
+  - 暗色模式调优: canvas改systemBackground, Claymorphism阴影随colorScheme适配
+  - Onboarding引导: 3页引导动画+AppStorage首次检测, UITest模式自动跳过
+  - 161 unit tests + 6 screenshot tests 回归通过
 - 19:46 [adhoc] 修复 /project-next + e2e-guard 流程缺陷: 纯UI变更跳过test-guard后连带跳过e2e-guard导致无截图验收; project-next Step 5/10新增纯UI独立调用e2e-guard规则, e2e-guard新增UI变更强制验收规则; 更新两个skill的CHANGELOG.md
 - 10:49 [project-next] 完成「UI优化 P3: 布局与内容」, 设置 NEXT=UI优化 P4: 进阶优化
   - 4游戏模式横屏适配: GeometryReader检测横屏, questionView改HStack左右分栏(限时/生存/闯关), MatchView横屏6列

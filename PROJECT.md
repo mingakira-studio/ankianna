@@ -30,38 +30,13 @@
 12. [x] UI优化 P1: 设计系统基础 — DesignTokens.swift(颜色/字号/间距/圆角)、SF Rounded字体、emoji吉祥物替换、游戏模式视觉统一 (SwiftUI Expert) (2026-03-12)
 13. [x] UI优化 P2: 交互体验 — 游戏结束返回首页、过渡动画、颜色辅助指示、学习tab badge、答对显示对应字 (ui-ux-pro-max + SwiftUI Expert) (2026-03-12)
 14. [x] UI优化 P3: 布局与内容 — iPad横屏适配、GameModeCard adaptive布局、Session分享功能、MascotView bug修复 (ui-ux-pro-max + SwiftUI Expert) (2026-03-13)
-15. [>] UI优化 P4: 进阶优化 — Claymorphism风格、SpriteKit粒子替换confetti、暗色模式调优、Dynamic Type、onboarding动画 (ui-ux-pro-max + SwiftUI Expert)
-16. [ ] 报告系统 — 今日概览、学习趋势图、掌握进度、易错字排行 (Phase 4, Task 17-20)
+15. [x] UI优化 P4: 进阶优化 — Claymorphism风格、SpriteKit粒子替换confetti、暗色模式调优、Dynamic Type、onboarding动画 (ui-ux-pro-max + SwiftUI Expert) (2026-03-13)
+16. [>] 报告系统 — 今日概览、学习趋势图、掌握进度、易错字排行 (Phase 4, Task 17-20)
 17. [ ] 集成收尾 — 设置页、全量测试修复、文档更新 (Phase 5, Task 21-23)
 
-## NEXT: UI优化 P4 — 进阶优化
-> 审查报告: docs/plans/2026-03-12-ui-ux-review.md (P4 章节)
-> Skill: ui-ux-pro-max + SwiftUI Expert
-> Research: docs/research/2026-03-13_UI优化P4_进阶优化.md
-
-### 子任务
-- [ ] **SpriteKit 粒子替换 confetti** | 预估: 1.5h | 类型: code
-  - 所需: Views/Learning/CelebrationEffects.swift（当前 SF Symbols 实现）
-  - 产出: SpriteKitParticleView.swift（SKEmitterNode 粒子）+ CelebrationEffects.swift 改用 SpriteKit；保留 reducedMotion 支持
-  - 验证: 全量 unit tests 通过；答对后庆祝特效为粒子效果而非 emoji 图标
-- [ ] **Dynamic Type 支持** | 预估: 2h | 类型: code
-  - 所需: DesignTokens.swift Font 定义（当前硬编码 CGFloat）
-  - 产出: DesignTokens.Font 改用 .relativeTo() 或 @ScaledMetric；CharSize 改为自适应；全视图字体跟随系统设置
-  - 验证: 全量 unit tests 通过；iPad 设置中调大字号后 App 字体跟随变化且不溢出
-- [ ] **Claymorphism 设计风格** | 预估: 2h | 类型: code
-  - 所需: DesignTokens.swift（Shadow/Radius 定义）
-  - 产出: DesignTokens 新增 Shadow.lg/xl/claymorphism + Radius.claymorphism=40；.claymorphismCard() ViewModifier；GameModeCard/学习卡片等应用
-  - 验证: 全量 unit tests 通过；卡片呈现多层阴影+大圆角的 Claymorphism 风格
-  - blockedBy: Dynamic Type 支持
-- [ ] **暗色模式调优** | 预估: 2h | 类型: code
-  - 所需: DesignTokens.swift Colors（当前 canvas=.white 不区分 Light/Dark）
-  - 产出: Colors 改用 Color(light:dark:) 或 Asset Catalog；canvas 改 systemBackground；全视图暗色模式适配
-  - 验证: 全量 unit tests 通过；iPad 切换暗色模式后所有页面可读、无白色背景残留
-  - blockedBy: Claymorphism 设计风格
-- [ ] **Onboarding 引导动画** | 预估: 1.5h | 类型: code
-  - 所需: ContentView.swift（主入口）
-  - 产出: OnboardingView.swift（3页引导+吉祥物动画+AppStorage 首次检测）；ContentView 首次启动显示 onboarding
-  - 验证: 全量 unit tests 通过；删除 App 重装后首次启动显示引导，完成后不再显示
+## NEXT: 报告系统
+> 设计文档: docs/plans/2026-03-09-v2-features-design.md
+> 实施计划: docs/plans/2026-03-09-v2-implementation.md (Phase 4, Task 17-20)
 
 ## Log
 - 10:49 [project-next] 完成「UI优化 P3: 布局与内容」— 4游戏模式横屏适配(GeometryReader+HStack分栏), GameModeCard去硬编码高度改minHeight+flexible, MascotView bounce双重赋值bug修复, sessionCompleteView添加ShareLink文本分享按钮; 161 unit tests 回归通过; NEXT=UI优化 P4: 进阶优化

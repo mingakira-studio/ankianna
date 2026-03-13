@@ -17,10 +17,10 @@ enum DesignTokens {
         static let warning = Color.orange
         static let error = Color.red
 
-        // Surfaces
+        // Surfaces (auto-adapt to dark mode)
         static let surface = Color(.systemGray6)
         static let surfaceSecondary = Color(.systemGray5)
-        static let canvas = Color.white
+        static let canvas = Color(.systemBackground)
 
         // Text
         static let onPrimary = Color.white
@@ -35,31 +35,34 @@ enum DesignTokens {
         static let match = Color.green
     }
 
-    // MARK: - Typography (SF Rounded)
+    // MARK: - Typography (SF Rounded, Dynamic Type)
 
     enum Font {
-        static let caption = SwiftUI.Font.system(size: 12, weight: .regular, design: .rounded)
-        static let caption2 = SwiftUI.Font.system(size: 11, weight: .regular, design: .rounded)
-        static let footnote = SwiftUI.Font.system(size: 13, weight: .regular, design: .rounded)
-        static let body = SwiftUI.Font.system(size: 17, weight: .regular, design: .rounded)
-        static let headline = SwiftUI.Font.system(size: 17, weight: .semibold, design: .rounded)
-        static let subheadline = SwiftUI.Font.system(size: 15, weight: .regular, design: .rounded)
-        static let title3 = SwiftUI.Font.system(size: 20, weight: .semibold, design: .rounded)
-        static let title2 = SwiftUI.Font.system(size: 22, weight: .bold, design: .rounded)
-        static let title = SwiftUI.Font.system(size: 28, weight: .bold, design: .rounded)
-        static let largeTitle = SwiftUI.Font.system(size: 34, weight: .bold, design: .rounded)
+        // Standard text styles — auto-scale with Dynamic Type
+        static let caption = SwiftUI.Font.system(.caption, design: .rounded)
+        static let caption2 = SwiftUI.Font.system(.caption2, design: .rounded)
+        static let footnote = SwiftUI.Font.system(.footnote, design: .rounded)
+        static let body = SwiftUI.Font.system(.body, design: .rounded)
+        static let headline = SwiftUI.Font.system(.headline, design: .rounded)
+        static let subheadline = SwiftUI.Font.system(.subheadline, design: .rounded)
+        static let title3 = SwiftUI.Font.system(.title3, design: .rounded, weight: .semibold)
+        static let title2 = SwiftUI.Font.system(.title2, design: .rounded, weight: .bold)
+        static let title = SwiftUI.Font.system(.title, design: .rounded, weight: .bold)
+        static let largeTitle = SwiftUI.Font.system(.largeTitle, design: .rounded, weight: .bold)
 
-        // Custom sizes for specific use cases
-        static let comboText = SwiftUI.Font.system(size: 22, weight: .bold, design: .rounded)
-        static let encouragement = SwiftUI.Font.system(size: 24, weight: .semibold, design: .rounded)
-        static let points = SwiftUI.Font.system(size: 28, weight: .bold, design: .rounded)
-        static let sectionTitle = SwiftUI.Font.system(size: 28, weight: .bold, design: .rounded)
-        static let feedbackTitle = SwiftUI.Font.system(size: 32, weight: .bold, design: .rounded)
-        static let inputField = SwiftUI.Font.system(size: 32, design: .rounded)
-        static let promptText = SwiftUI.Font.system(size: 36, weight: .medium, design: .rounded)
-        static let spellingChar = SwiftUI.Font.system(size: 36, weight: .bold, design: .monospaced)
+        // Semantic aliases — mapped to closest text style for Dynamic Type
+        static let comboText = SwiftUI.Font.system(.title2, design: .rounded, weight: .bold)
+        static let encouragement = SwiftUI.Font.system(.title2, design: .rounded, weight: .semibold)
+        static let points = SwiftUI.Font.system(.title, design: .rounded, weight: .bold)
+        static let sectionTitle = SwiftUI.Font.system(.title, design: .rounded, weight: .bold)
+        static let feedbackTitle = SwiftUI.Font.system(.largeTitle, design: .rounded, weight: .bold)
+        static let inputField = SwiftUI.Font.system(.largeTitle, design: .rounded)
+        static let promptText = SwiftUI.Font.system(.largeTitle, design: .rounded, weight: .medium)
+        static let spellingChar = SwiftUI.Font.system(.largeTitle, design: .monospaced, weight: .bold)
 
-        /// SF Rounded font at arbitrary size/weight for special cases
+        /// Fixed-size SF Rounded font for display characters (CharSize/IconSize).
+        /// These intentionally do NOT scale with Dynamic Type — character display
+        /// sizes are layout-dependent and already large enough for readability.
         static func rounded(size: CGFloat, weight: SwiftUI.Font.Weight = .regular) -> SwiftUI.Font {
             .system(size: size, weight: weight, design: .rounded)
         }
@@ -83,6 +86,8 @@ enum DesignTokens {
         static let md: CGFloat = 12
         static let lg: CGFloat = 16
         static let xl: CGFloat = 24
+        static let xxl: CGFloat = 32
+        static let clay: CGFloat = 28
     }
 
     // MARK: - Icon Sizes
@@ -107,6 +112,8 @@ enum DesignTokens {
 
     enum Shadow {
         static let radius: CGFloat = 2
+        static let lg: CGFloat = 8
+        static let xl: CGFloat = 16
     }
 
     // MARK: - Animation
@@ -116,5 +123,55 @@ enum DesignTokens {
         static let bounce = SwiftUI.Animation.spring(response: 0.3, dampingFraction: 0.4)
         static let gentle = SwiftUI.Animation.spring(response: 0.4, dampingFraction: 0.6)
         static let quick = SwiftUI.Animation.easeInOut(duration: 0.3)
+    }
+}
+
+// MARK: - Claymorphism ViewModifier
+
+struct ClaymorphismCard: ViewModifier {
+    var cornerRadius: CGFloat = DesignTokens.Radius.clay
+    var fillColor: Color = DesignTokens.Colors.surface
+    @Environment(\.colorScheme) private var colorScheme
+
+    func body(content: Content) -> some View {
+        let isDark = colorScheme == .dark
+        content
+            .background(
+                RoundedRectangle(cornerRadius: cornerRadius)
+                    .fill(fillColor)
+                    .shadow(color: (isDark ? Color.white.opacity(0.08) : Color.white.opacity(0.6)), radius: 6, x: -4, y: -4)
+                    .shadow(color: .black.opacity(isDark ? 0.4 : 0.15), radius: 8, x: 6, y: 6)
+                    .shadow(color: .black.opacity(isDark ? 0.2 : 0.05), radius: 16, x: 10, y: 10)
+            )
+            .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+    }
+}
+
+struct ClaymorphismGradientCard: ViewModifier {
+    let gradient: AnyShapeStyle
+    var cornerRadius: CGFloat = DesignTokens.Radius.clay
+    @Environment(\.colorScheme) private var colorScheme
+
+    func body(content: Content) -> some View {
+        let isDark = colorScheme == .dark
+        content
+            .background(
+                RoundedRectangle(cornerRadius: cornerRadius)
+                    .fill(gradient)
+                    .shadow(color: (isDark ? Color.white.opacity(0.05) : Color.white.opacity(0.4)), radius: 4, x: -3, y: -3)
+                    .shadow(color: .black.opacity(isDark ? 0.35 : 0.2), radius: 8, x: 6, y: 6)
+                    .shadow(color: .black.opacity(isDark ? 0.15 : 0.08), radius: 16, x: 10, y: 10)
+            )
+            .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+    }
+}
+
+extension View {
+    func claymorphism(cornerRadius: CGFloat = DesignTokens.Radius.clay, fillColor: Color = DesignTokens.Colors.surface) -> some View {
+        modifier(ClaymorphismCard(cornerRadius: cornerRadius, fillColor: fillColor))
+    }
+
+    func claymorphismGradient(_ gradient: some ShapeStyle, cornerRadius: CGFloat = DesignTokens.Radius.clay) -> some View {
+        modifier(ClaymorphismGradientCard(gradient: AnyShapeStyle(gradient), cornerRadius: cornerRadius))
     }
 }

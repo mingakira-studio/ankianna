@@ -153,11 +153,7 @@ struct LearningView: View {
                 } else {
                     // Handwriting input for Chinese cards
                     WritingCanvasView(drawing: $drawing)
-                        .background(
-                            RoundedRectangle(cornerRadius: DesignTokens.Radius.lg)
-                                .fill(DesignTokens.Colors.canvas)
-                                .shadow(radius: DesignTokens.Shadow.radius)
-                        )
+                        .claymorphism(fillColor: DesignTokens.Colors.canvas)
                         .padding()
 
                     #if targetEnvironment(simulator)
@@ -302,11 +298,7 @@ struct LearningView: View {
                     .accessibilityIdentifier("practiceSubmitButton")
                 } else {
                     WritingCanvasView(drawing: $drawing)
-                        .background(
-                            RoundedRectangle(cornerRadius: DesignTokens.Radius.lg)
-                                .fill(DesignTokens.Colors.canvas)
-                                .shadow(radius: DesignTokens.Shadow.radius)
-                        )
+                        .claymorphism(fillColor: DesignTokens.Colors.canvas)
                         .padding()
                         .onChange(of: viewModel.practicePhase1Count) {
                             drawing = PKDrawing()

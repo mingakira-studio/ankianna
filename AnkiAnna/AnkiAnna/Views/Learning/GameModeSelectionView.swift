@@ -98,9 +98,6 @@ struct GameModeCard: View {
         .frame(maxWidth: .infinity)
         .frame(minHeight: 140)
         .padding(.vertical, DesignTokens.Spacing.lg)
-        .background(
-            RoundedRectangle(cornerRadius: DesignTokens.Radius.lg)
-                .fill(mode.color.gradient)
-        )
+        .claymorphismGradient(mode.color.gradient)
     }
 }

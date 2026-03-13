@@ -34,7 +34,7 @@ struct StreakCalendarView: View {
                             .frame(width: 28, height: 28)
                         if completed {
                             Image(systemName: "checkmark")
-                                .font(.system(size: 12, weight: .bold))
+                                .font(DesignTokens.Font.caption.bold())
                                 .foregroundStyle(.white)
                         }
                     }

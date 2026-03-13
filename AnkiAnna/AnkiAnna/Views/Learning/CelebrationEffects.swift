@@ -1,51 +1,97 @@
 import SwiftUI
+import SpriteKit
 
-// MARK: - Confetti View
+// MARK: - Confetti View (SpriteKit Particle System)
 
 struct ConfettiView: View {
     @Environment(\.accessibilityReduceMotion) var reduceMotion
-    @State private var animate = false
-
-    private let symbols = ["star.fill", "sparkle", "star.circle.fill", "heart.fill", "moon.stars.fill"]
-    private let colors: [Color] = [.yellow, .orange, .pink, .purple, .blue]
-    private let pieces = 12
 
     var body: some View {
-        ZStack {
-            if reduceMotion {
-                // Static star for reduced motion
-                Image(systemName: "star.fill")
-                    .font(DesignTokens.Font.promptText)
-                    .foregroundStyle(.yellow)
-            } else {
-                ForEach(0..<pieces, id: \.self) { index in
-                    let symbol = symbols[index % symbols.count]
-                    let color = colors[index % colors.count]
-                    let xOffset = CGFloat.random(in: -160...160)
-                    let yOffset = CGFloat.random(in: 40...280)
-                    let rotation = Double.random(in: -180...180)
+        if reduceMotion {
+            Image(systemName: "star.fill")
+                .font(DesignTokens.Font.promptText)
+                .foregroundStyle(.yellow)
+        } else {
+            SpriteView(scene: ConfettiScene(), transition: nil, isPaused: false, preferredFramesPerSecond: 60)
+                .allowsHitTesting(false)
+                .ignoresSafeArea()
+        }
+    }
+}
 
-                    Image(systemName: symbol)
-                        .font(.system(size: CGFloat.random(in: 20...36)))
-                        .foregroundStyle(color)
-                        .offset(
-                            x: animate ? xOffset : 0,
-                            y: animate ? yOffset : -20
-                        )
-                        .rotationEffect(.degrees(animate ? rotation : 0))
-                        .opacity(animate ? 0 : 1)
-                        .scaleEffect(animate ? 0.6 : 0.2)
-                }
-            }
+private class ConfettiScene: SKScene {
+    override func didMove(to view: SKView) {
+        size = view.bounds.size
+        scaleMode = .resizeFill
+        backgroundColor = .clear
+        view.allowsTransparency = true
+
+        let colors: [UIColor] = [.systemYellow, .systemOrange, .systemPink, .systemPurple, .systemBlue]
+
+        for color in colors {
+            let emitter = makeEmitter(color: color)
+            emitter.position = CGPoint(x: size.width / 2, y: size.height)
+            addChild(emitter)
         }
-        .onAppear {
-            if !reduceMotion {
-                withAnimation(.easeOut(duration: 1.5)) {
-                    animate = true
-                }
+
+        // Auto-remove scene after particles finish
+        run(.sequence([
+            .wait(forDuration: 2.5),
+            .run { [weak self] in
+                self?.children.forEach { ($0 as? SKEmitterNode)?.particleBirthRate = 0 }
             }
+        ]))
+    }
+
+    private func makeEmitter(color: UIColor) -> SKEmitterNode {
+        let emitter = SKEmitterNode()
+
+        // Particle appearance
+        emitter.particleTexture = SKTexture(imageNamed: "spark") // Falls back to default if missing
+        if emitter.particleTexture == nil {
+            // Programmatic circle texture as fallback
+            emitter.particleTexture = circleTexture(size: 12)
         }
-        .allowsHitTesting(false)
+        emitter.particleColor = color
+        emitter.particleColorBlendFactor = 1.0
+        emitter.particleSize = CGSize(width: 10, height: 10)
+        emitter.particleScaleRange = 0.8
+
+        // Emission
+        emitter.particleBirthRate = 25
+        emitter.numParticlesToEmit = 30
+        emitter.particleLifetime = 2.0
+        emitter.particleLifetimeRange = 0.5
+
+        // Movement — burst downward with spread
+        emitter.emissionAngle = -.pi / 2  // downward
+        emitter.emissionAngleRange = .pi / 3
+        emitter.particleSpeed = 300
+        emitter.particleSpeedRange = 150
+        emitter.yAcceleration = -200  // gravity
+
+        // Spread across width
+        emitter.particlePositionRange = CGVector(dx: size.width * 0.8, dy: 0)
+
+        // Rotation
+        emitter.particleRotation = 0
+        emitter.particleRotationRange = .pi * 2
+        emitter.particleRotationSpeed = 2
+
+        // Fade out
+        emitter.particleAlpha = 1.0
+        emitter.particleAlphaSpeed = -0.5
+
+        return emitter
+    }
+
+    private func circleTexture(size: CGFloat) -> SKTexture {
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: size, height: size))
+        let image = renderer.image { ctx in
+            UIColor.white.setFill()
+            ctx.cgContext.fillEllipse(in: CGRect(x: 0, y: 0, width: size, height: size))
+        }
+        return SKTexture(image: image)
     }
 }
 

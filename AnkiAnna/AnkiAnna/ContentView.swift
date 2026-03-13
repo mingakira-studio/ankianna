@@ -4,6 +4,7 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @AppStorage("hasSeededTextbook") private var hasSeeded = false
+    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
     @Query private var allCharacterStats: [CharacterStats]
 
     private var dueCount: Int {
@@ -14,7 +15,17 @@ struct ContentView: View {
         }.count
     }
 
+    private var shouldShowOnboarding: Bool {
+        #if DEBUG
+        if CommandLine.arguments.contains("-UITestMode") { return false }
+        #endif
+        return !hasSeenOnboarding
+    }
+
     var body: some View {
+        if shouldShowOnboarding {
+            OnboardingView(hasSeenOnboarding: $hasSeenOnboarding)
+        } else {
         TabView {
             GameModeSelectionView()
                 .tabItem {
@@ -58,5 +69,6 @@ struct ContentView: View {
                 hasSeeded = true
             }
         }
+        } // else
     }
 }

@@ -1,5 +1,22 @@
 # Anna 记忆卡片 App - 操作日志
 
+## 2026-03-16
+- 09:32 [project-next] 完成「报告系统」, 设置 NEXT=互动角色设计
+  - TodayOverviewView: 今日练习/正确率/新掌握/连续打卡 四格卡片 + 快速练习完成状态(✅/未完成) + goalStreak(连续达成dailyGoal天数)
+  - MasteryProgressView: 自定义Canvas donut圆环图(掌握/学习中/疑难/未学) + 1-5年级ProgressView进度条
+  - DifficultCharactersView: 错误率>30%且练习≥3次的Top 10排行
+  - TrendChartView: SwiftUI Charts 7天/30天切换, 练习数BarMark + 正确率LineMark+AreaMark
+  - StatsView重构: 6个section(今日概览→掌握进度→易错字→趋势→等级徽章→打卡日历)
+  - 161 unit tests + 6 screenshot tests 回归通过
+
+## 2026-03-15
+- 21:37 [project-quick] 完成「设置页与橡皮擦」
+  - SettingsView: 新tab页，测试模式开关(@AppStorage) + 重播引导按钮
+  - WritingCanvasWithTools: 画笔/橡皮擦(PKEraserTool.vector)/清除 三按钮工具栏
+  - LearningView/SurvivalView/TimeAttackView/LevelsView: 模拟按钮从#if DEBUG改为testModeEnabled控制
+  - LaunchHelper: UITest自动设置testModeEnabled=1
+  - 161 unit + 56 UI tests 回归通过; NEXT=互动角色设计
+
 ## 2026-03-13
 - 22:37 [project-next] 完成「UI优化 P4: 进阶优化」, 设置 NEXT=报告系统
   - SpriteKit粒子替换confetti: SKEmitterNode多色粒子系统替代SF Symbols, 保留reducedMotion

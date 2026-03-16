@@ -9,6 +9,7 @@ struct SurvivalView: View {
     @State private var hasStarted = false
     @State private var drawing = PKDrawing()
     @State private var typedAnswer = ""
+    @AppStorage("testModeEnabled") private var testModeEnabled = false
 
     var body: some View {
         Group {
@@ -140,26 +141,26 @@ struct SurvivalView: View {
     @ViewBuilder
     private func inputArea(card: Card) -> some View {
         if card.type == .chineseWriting {
-            WritingCanvasView(drawing: $drawing)
+            WritingCanvasWithTools(drawing: $drawing)
                 .frame(height: 200)
                 .background(DesignTokens.Colors.surface)
                 .cornerRadius(DesignTokens.Radius.md)
                 .padding(.horizontal)
 
-            HStack(spacing: DesignTokens.Spacing.lg) {
-                #if DEBUG
-                Button("模拟写对") {
-                    drawing = PKDrawing()
-                    viewModel.handleCorrectAnswer()
-                }
-                .buttonStyle(.bordered)
+            if testModeEnabled {
+                HStack(spacing: DesignTokens.Spacing.lg) {
+                    Button("模拟写对") {
+                        drawing = PKDrawing()
+                        viewModel.handleCorrectAnswer()
+                    }
+                    .buttonStyle(.bordered)
 
-                Button("模拟写错") {
-                    drawing = PKDrawing()
-                    viewModel.handleWrongAnswer()
+                    Button("模拟写错") {
+                        drawing = PKDrawing()
+                        viewModel.handleWrongAnswer()
+                    }
+                    .buttonStyle(.bordered)
                 }
-                .buttonStyle(.bordered)
-                #endif
             }
         } else {
             TextField("输入答案", text: $typedAnswer)

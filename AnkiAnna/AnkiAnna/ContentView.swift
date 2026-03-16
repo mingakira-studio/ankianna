@@ -44,6 +44,10 @@ struct ContentView: View {
                 .tabItem {
                     Label("统计", systemImage: "chart.bar")
                 }
+            SettingsView()
+                .tabItem {
+                    Label("设置", systemImage: "gearshape")
+                }
         }
         .onAppear {
             #if DEBUG

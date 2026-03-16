@@ -13,6 +13,8 @@ enum LaunchHelper {
     static func launchApp(seed: SeedMode = .testData) -> XCUIApplication {
         let app = XCUIApplication()
         app.launchArguments.append("-UITestMode")
+        // Enable test mode so simulate buttons are available in UI tests
+        app.launchArguments += ["-testModeEnabled", "1"]
         switch seed {
         case .testData:     app.launchArguments.append("-SeedTestData")
         case .englishOnly:  app.launchArguments.append("-SeedEnglishCards")

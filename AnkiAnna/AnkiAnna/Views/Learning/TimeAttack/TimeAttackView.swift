@@ -10,6 +10,7 @@ struct TimeAttackView: View {
     @State private var timer: Timer?
     @State private var drawing = PKDrawing()
     @State private var typedAnswer = ""
+    @AppStorage("testModeEnabled") private var testModeEnabled = false
 
     var body: some View {
         Group {
@@ -151,26 +152,26 @@ struct TimeAttackView: View {
     @ViewBuilder
     private func inputArea(card: Card, onCorrect: @escaping () -> Void, onWrong: @escaping () -> Void) -> some View {
         if card.type == .chineseWriting {
-            WritingCanvasView(drawing: $drawing)
+            WritingCanvasWithTools(drawing: $drawing)
                 .frame(height: 200)
                 .background(DesignTokens.Colors.surface)
                 .cornerRadius(DesignTokens.Radius.md)
                 .padding(.horizontal)
 
-            HStack(spacing: DesignTokens.Spacing.lg) {
-                #if DEBUG
-                Button("模拟写对") {
-                    drawing = PKDrawing()
-                    onCorrect()
-                }
-                .buttonStyle(.bordered)
+            if testModeEnabled {
+                HStack(spacing: DesignTokens.Spacing.lg) {
+                    Button("模拟写对") {
+                        drawing = PKDrawing()
+                        onCorrect()
+                    }
+                    .buttonStyle(.bordered)
 
-                Button("模拟写错") {
-                    drawing = PKDrawing()
-                    onWrong()
+                    Button("模拟写错") {
+                        drawing = PKDrawing()
+                        onWrong()
+                    }
+                    .buttonStyle(.bordered)
                 }
-                .buttonStyle(.bordered)
-                #endif
             }
         } else {
             TextField("输入答案", text: $typedAnswer)

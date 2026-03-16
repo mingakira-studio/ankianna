@@ -5,7 +5,7 @@
 - Status: active
 - Path: ~/Projects/ankianna
 - Created: 2025-05-01
-- Last Updated: 2026-03-13
+- Last Updated: 2026-03-16
 
 ## 目标
 为 Anna 打造个性化的记忆卡片应用，基于间隔重复算法帮助高效记忆学习内容。
@@ -31,14 +31,17 @@
 13. [x] UI优化 P2: 交互体验 — 游戏结束返回首页、过渡动画、颜色辅助指示、学习tab badge、答对显示对应字 (ui-ux-pro-max + SwiftUI Expert) (2026-03-12)
 14. [x] UI优化 P3: 布局与内容 — iPad横屏适配、GameModeCard adaptive布局、Session分享功能、MascotView bug修复 (ui-ux-pro-max + SwiftUI Expert) (2026-03-13)
 15. [x] UI优化 P4: 进阶优化 — Claymorphism风格、SpriteKit粒子替换confetti、暗色模式调优、Dynamic Type、onboarding动画 (ui-ux-pro-max + SwiftUI Expert) (2026-03-13)
-16. [>] 报告系统 — 今日概览、学习趋势图、掌握进度、易错字排行 (Phase 4, Task 17-20)
-17. [ ] 集成收尾 — 设置页、全量测试修复、文档更新 (Phase 5, Task 21-23)
+16. [x] 设置页与橡皮擦 — 设置页(测试开关隐藏DEBUG按钮)、写字界面橡皮擦工具 (2026-03-15)
+17. [x] 报告系统 — 今日概览、学习趋势图、掌握进度、易错字排行 (Phase 4, Task 17-20) (2026-03-16)
+18. [>] 互动角色设计 — 3D卡通龙角色，指导/评价/鼓励学习过程
+19. [ ] 闯关模式重设计 — 战斗化闯关体验（具体研究后设计）
+20. [ ] 集成收尾 — 全量测试修复、文档更新 (Phase 5, Task 21-23)
 
-## NEXT: 报告系统
-> 设计文档: docs/plans/2026-03-09-v2-features-design.md
-> 实施计划: docs/plans/2026-03-09-v2-implementation.md (Phase 4, Task 17-20)
+## NEXT: 互动角色设计
+> 用户反馈：设计更详细的3D卡通龙角色，指导/评价/鼓励学习过程
 
 ## Log
+- 21:37 [project-quick] 完成「设置页与橡皮擦」— SettingsView新tab(测试模式开关+重播引导), WritingCanvasWithTools(画笔/橡皮擦/清除工具栏), 4个视图模拟按钮从#if DEBUG改为@AppStorage控制, UITest自动启用testMode; 161 unit + 56 UI tests 回归通过; NEXT=互动角色设计
 - 10:49 [project-next] 完成「UI优化 P3: 布局与内容」— 4游戏模式横屏适配(GeometryReader+HStack分栏), GameModeCard去硬编码高度改minHeight+flexible, MascotView bounce双重赋值bug修复, sessionCompleteView添加ShareLink文本分享按钮; 161 unit tests 回归通过; NEXT=UI优化 P4: 进阶优化
 - 08:13 [adhoc] UIScreenshotTests截图测试工具: 6个XCUITest覆盖关键页面+设计要求, ios-ui-screenshot-test.sh通用脚本, triggerWrongAnswer()支持中英文; 161 unit tests + 6 screenshot tests 通过
 - 23:25 [project-next] 完成「UI优化 P2: 交互体验」— 4游戏模式结束画面+返回首页按钮(dismiss), ResultFeedbackView答对显示「X」写对了, 学习tab待复习badge(.badge(dueCount)), CardLibraryView正确率旁趋势图标+StreakCalendar打卡checkmark, 4游戏模式过渡动画(.transition+withAnimation); 161 unit tests 回归通过; NEXT=UI优化 P3: 布局与内容

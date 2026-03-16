@@ -12,6 +12,7 @@ struct LearningView: View {
     @State private var drawing = PKDrawing()
     @State private var typedAnswer: String = ""
     @State private var modelReady: Bool = false
+    @AppStorage("testModeEnabled") private var testModeEnabled = false
 
     private var profile: UserProfile? { profiles.first }
 
@@ -152,7 +153,7 @@ struct LearningView: View {
                     .accessibilityIdentifier("submitButton")
                 } else {
                     // Handwriting input for Chinese cards
-                    WritingCanvasView(drawing: $drawing)
+                    WritingCanvasWithTools(drawing: $drawing)
                         .claymorphism(fillColor: DesignTokens.Colors.canvas)
                         .padding()
 
@@ -176,24 +177,24 @@ struct LearningView: View {
                     .padding(.bottom)
                     #endif
 
-                    #if DEBUG
-                    HStack(spacing: 16) {
-                        Button("模拟写对") {
-                            viewModel.submitAnswer(recognized: card.answer, modelContext: modelContext, profile: profile)
-                        }
-                        .buttonStyle(.bordered)
-                        .tint(.green)
-                        .accessibilityIdentifier("simulateCorrectButton")
+                    if testModeEnabled {
+                        HStack(spacing: 16) {
+                            Button("模拟写对") {
+                                viewModel.submitAnswer(recognized: card.answer, modelContext: modelContext, profile: profile)
+                            }
+                            .buttonStyle(.bordered)
+                            .tint(.green)
+                            .accessibilityIdentifier("simulateCorrectButton")
 
-                        Button("模拟写错") {
-                            viewModel.submitAnswer(recognized: "", modelContext: modelContext, profile: profile)
+                            Button("模拟写错") {
+                                viewModel.submitAnswer(recognized: "", modelContext: modelContext, profile: profile)
+                            }
+                            .buttonStyle(.bordered)
+                            .tint(.red)
+                            .accessibilityIdentifier("simulateWrongButton")
                         }
-                        .buttonStyle(.bordered)
-                        .tint(.red)
-                        .accessibilityIdentifier("simulateWrongButton")
+                        .padding(.bottom, 8)
                     }
-                    .padding(.bottom, 8)
-                    #endif
                 }
             }
             .frame(maxWidth: .infinity)
@@ -297,7 +298,7 @@ struct LearningView: View {
                     .padding(.bottom)
                     .accessibilityIdentifier("practiceSubmitButton")
                 } else {
-                    WritingCanvasView(drawing: $drawing)
+                    WritingCanvasWithTools(drawing: $drawing)
                         .claymorphism(fillColor: DesignTokens.Colors.canvas)
                         .padding()
                         .onChange(of: viewModel.practicePhase1Count) {
@@ -318,26 +319,26 @@ struct LearningView: View {
                     .accessibilityIdentifier("practiceSubmitButton")
                     #endif
 
-                    #if DEBUG
-                    HStack(spacing: 16) {
-                        Button("模拟写对") {
-                            viewModel.submitPracticeAnswer(recognized: viewModel.practiceCorrectAnswer)
-                            drawing = PKDrawing()
-                        }
-                        .buttonStyle(.bordered)
-                        .tint(.green)
-                        .accessibilityIdentifier("practiceSimulateCorrectButton")
+                    if testModeEnabled {
+                        HStack(spacing: 16) {
+                            Button("模拟写对") {
+                                viewModel.submitPracticeAnswer(recognized: viewModel.practiceCorrectAnswer)
+                                drawing = PKDrawing()
+                            }
+                            .buttonStyle(.bordered)
+                            .tint(.green)
+                            .accessibilityIdentifier("practiceSimulateCorrectButton")
 
-                        Button("模拟写错") {
-                            viewModel.submitPracticeAnswer(recognized: "")
-                            drawing = PKDrawing()
+                            Button("模拟写错") {
+                                viewModel.submitPracticeAnswer(recognized: "")
+                                drawing = PKDrawing()
+                            }
+                            .buttonStyle(.bordered)
+                            .tint(.red)
+                            .accessibilityIdentifier("practiceSimulateWrongButton")
                         }
-                        .buttonStyle(.bordered)
-                        .tint(.red)
-                        .accessibilityIdentifier("practiceSimulateWrongButton")
+                        .padding(.bottom, 8)
                     }
-                    .padding(.bottom, 8)
-                    #endif
                 }
             }
             .frame(maxWidth: .infinity)

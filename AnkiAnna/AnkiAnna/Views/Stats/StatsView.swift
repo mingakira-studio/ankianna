@@ -4,30 +4,33 @@ import SwiftData
 struct StatsView: View {
     @Query(sort: \DailySession.date, order: .reverse) private var sessions: [DailySession]
     @Query private var profiles: [UserProfile]
+    @Query private var characterStats: [CharacterStats]
 
     private var profile: UserProfile? { profiles.first }
-    private var currentStreak: Int {
-        var streak = 0
-        let calendar = Calendar.current
-        var checkDate = Date()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        for session in sessions {
-            let sessionKey = formatter.string(from: session.date)
-            let checkKey = formatter.string(from: checkDate)
-            if sessionKey == checkKey && session.completedCount > 0 {
-                streak += 1
-                checkDate = calendar.date(byAdding: .day, value: -1, to: checkDate)!
-            } else {
-                break
-            }
-        }
-        return streak
-    }
 
     var body: some View {
         NavigationStack {
             List {
+                Section("今日概览") {
+                    TodayOverviewView(
+                        sessions: sessions,
+                        characterStats: characterStats,
+                        dailyGoal: profile?.dailyGoal ?? 15
+                    )
+                }
+
+                Section("掌握进度") {
+                    MasteryProgressView(stats: characterStats)
+                }
+
+                Section("易错字排行") {
+                    DifficultCharactersView(stats: characterStats)
+                }
+
+                Section("学习趋势") {
+                    TrendChartView(sessions: sessions)
+                }
+
                 Section {
                     let info = LevelService.levelInfo(for: profile?.totalPoints ?? 0)
                     VStack(spacing: DesignTokens.Spacing.md) {
@@ -42,35 +45,8 @@ struct StatsView: View {
                             .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
                     }
                     .padding(.vertical)
-                }
-
-                Section {
-                    HStack {
-                        VStack {
-                            Text("\(profile?.totalPoints ?? 0)")
-                                .font(DesignTokens.Font.promptText)
-                            Text("积分")
-                                .font(DesignTokens.Font.caption)
-                                .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
-                        }
-                        .frame(maxWidth: .infinity)
-
-                        VStack {
-                            Text("\(currentStreak)")
-                                .font(DesignTokens.Font.promptText)
-                                .foregroundStyle(DesignTokens.Colors.accent)
-                            Text("连续打卡")
-                                .font(DesignTokens.Font.caption)
-                                .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
-                        }
-                        .frame(maxWidth: .infinity)
-                    }
-                    .padding(.vertical)
-                }
-
-                Section("打卡日历（近30天）") {
-                    StreakCalendarView(sessions: sessions)
-                        .padding(.vertical)
+                } header: {
+                    Text("等级")
                 }
 
                 Section("徽章") {
@@ -92,6 +68,11 @@ struct StatsView: View {
                         }
                     }
                     .padding(.vertical, DesignTokens.Spacing.sm)
+                }
+
+                Section("打卡日历（近30天）") {
+                    StreakCalendarView(sessions: sessions)
+                        .padding(.vertical)
                 }
             }
             .navigationTitle("统计")

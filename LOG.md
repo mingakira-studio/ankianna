@@ -1,6 +1,11 @@
 # Anna 记忆卡片 App - 操作日志
 
 ## 2026-03-16
+- 10:07 [project-next] 完成「互动角色设计」, 设置 NEXT=闯关模式重设计
+  - DragonCharacter重写: DinoCharacter→DragonCharacter, LinearGradient/RadialGradient 3D质感, 龙角(金色渐变), 翅膀(WingShape), 尾巴(TailShape尖端), 腹部(奶油色RadialGradient), 龙须(4根Capsule)
+  - 表情系统: 眉毛(5状态各异), 星星眼(celebrate), 眼泪(TearDrop Shape), thinking眨眼动画, celebrate手臂挥舞+sparkle, 粉色腮红
+  - 动态台词: 每状态4-5条随机台词, messageIndex随机化
+  - 161 unit + 6 screenshot tests 回归通过
 - 09:32 [project-next] 完成「报告系统」, 设置 NEXT=互动角色设计
   - TodayOverviewView: 今日练习/正确率/新掌握/连续打卡 四格卡片 + 快速练习完成状态(✅/未完成) + goalStreak(连续达成dailyGoal天数)
   - MasteryProgressView: 自定义Canvas donut圆环图(掌握/学习中/疑难/未学) + 1-5年级ProgressView进度条

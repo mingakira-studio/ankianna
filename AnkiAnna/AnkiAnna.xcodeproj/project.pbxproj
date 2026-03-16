@@ -26,6 +26,7 @@
 		321EC5267967E2B0058ACAB9 /* LearningViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95BD5751D2748459F459680 /* LearningViewModelTests.swift */; };
 		3433C7BDF2ED1F72154E77AD /* FullJourneyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E9BF4AA0484F4A30507781 /* FullJourneyTests.swift */; };
 		34FDB721E511225957DA58F2 /* UIScreenshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6FF105DB3BF259060584586 /* UIScreenshotTests.swift */; };
+		3575B3343B14EE26CDB8233E /* BattleSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB66E29B3C349E0169EBC5F6 /* BattleSceneView.swift */; };
 		37D86E2A7B13C11F6D656C01 /* SurvivalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542553FE8F9C8FBD97FD287D /* SurvivalView.swift */; };
 		3EB55600E06FFC6A15BBC5DB /* SurvivalViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73302C88BA99643F5041D15D /* SurvivalViewModelTests.swift */; };
 		42407C847F116E5EDD97AD77 /* WritingCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC81E7894202A55B306F9BB6 /* WritingCanvasView.swift */; };
@@ -88,6 +89,7 @@
 		D63827A262C4A4615C30EC56 /* HandwritingRecognizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5497CBBFB43009DF6E6E00 /* HandwritingRecognizerTests.swift */; };
 		D8098BFDEE0654308855653B /* TodayOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744D56365741CA7C6AC20E7B /* TodayOverviewView.swift */; };
 		D95FFB1C981740E6373A383B /* MatchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53C552E743CA3D84CCE3B6C /* MatchViewModel.swift */; };
+		DA143EACB833AB926B786D6A /* MonsterCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6CA0E95975032A4C4960A9 /* MonsterCharacter.swift */; };
 		DBA6BBA9A5EAFED5D5790457 /* HandwritingRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1C8E4BA66B2F2F6BA61A0 /* HandwritingRecognizer.swift */; };
 		DC3FE25AFC17217A40047794 /* GameModeSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D293F4EB00F0CDFE150E44B9 /* GameModeSelectionView.swift */; };
 		DE2DB3A9C61E17686AB98848 /* ManualAddCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2103AB8F71425C88801BEE6B /* ManualAddCardView.swift */; };
@@ -183,6 +185,7 @@
 		9C3675974735D72044D27836 /* CardPromptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPromptView.swift; sourceTree = "<group>"; };
 		9ED0EB7040C345DD0694E265 /* CardEditTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardEditTests.swift; sourceTree = "<group>"; };
 		9EFAC64E62156C0E16A5591A /* MatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchView.swift; sourceTree = "<group>"; };
+		9F6CA0E95975032A4C4960A9 /* MonsterCharacter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterCharacter.swift; sourceTree = "<group>"; };
 		A0F194E15DE332D4E4AAF4C6 /* textbook_grade4_lower.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = textbook_grade4_lower.json; sourceTree = "<group>"; };
 		A3A16E26CA517C7303BD9A75 /* TextbookGradeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextbookGradeTests.swift; sourceTree = "<group>"; };
 		A6FF105DB3BF259060584586 /* UIScreenshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScreenshotTests.swift; sourceTree = "<group>"; };
@@ -190,6 +193,7 @@
 		A9789ADBDCB5A84715862967 /* textbook_grade3_upper.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = textbook_grade3_upper.json; sourceTree = "<group>"; };
 		AE64E38C362DAFF0628B9927 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B29A2961958B3248AF15AC72 /* SM2Engine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SM2Engine.swift; sourceTree = "<group>"; };
+		BB66E29B3C349E0169EBC5F6 /* BattleSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleSceneView.swift; sourceTree = "<group>"; };
 		BBF33B3F00D5AC1C9289982B /* PointsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsService.swift; sourceTree = "<group>"; };
 		BC952E6603595C868BEE1F80 /* TextbookSeederTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextbookSeederTests.swift; sourceTree = "<group>"; };
 		BCA9973B0822EEE271C7390B /* DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokens.swift; sourceTree = "<group>"; };
@@ -397,8 +401,10 @@
 		9646742EB59929C7F47FF3AD /* Levels */ = {
 			isa = PBXGroup;
 			children = (
+				BB66E29B3C349E0169EBC5F6 /* BattleSceneView.swift */,
 				6FF8D5BAB3DD5859720EB5D7 /* LevelsView.swift */,
 				488A9510AC6528CFFE8087F0 /* LevelsViewModel.swift */,
+				9F6CA0E95975032A4C4960A9 /* MonsterCharacter.swift */,
 			);
 			path = Levels;
 			sourceTree = "<group>";
@@ -656,6 +662,7 @@
 				853B230FC2B6CFBB4DA34686 /* AddCardView.swift in Sources */,
 				5E66FEE695E81A59F160C9D4 /* AnkiAnnaApp.swift in Sources */,
 				176E6358C2130DD9875B8147 /* BadgeService.swift in Sources */,
+				3575B3343B14EE26CDB8233E /* BattleSceneView.swift in Sources */,
 				55C35DC1141C8B2DB785B2BA /* Card.swift in Sources */,
 				CDCAE78043D07782D1A02A1B /* CardContext.swift in Sources */,
 				E65E4C8620D68C8231CB1AB0 /* CardDetailView.swift in Sources */,
@@ -681,6 +688,7 @@
 				BFCC4AC1B885F5D4438D1C39 /* MasteryProgressView.swift in Sources */,
 				564E6FD771276868221FCC43 /* MatchView.swift in Sources */,
 				D95FFB1C981740E6373A383B /* MatchViewModel.swift in Sources */,
+				DA143EACB833AB926B786D6A /* MonsterCharacter.swift in Sources */,
 				C903A58D75A7BF6415C32500 /* OnboardingView.swift in Sources */,
 				FBF8BA44E08C243DC83C8E1B /* PointsService.swift in Sources */,
 				8E51AAA41A46993C860D75E7 /* ResultFeedbackView.swift in Sources */,

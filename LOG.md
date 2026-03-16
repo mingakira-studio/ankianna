@@ -1,6 +1,12 @@
 # Anna 记忆卡片 App - 操作日志
 
 ## 2026-03-16
+- 10:29 [project-next] 完成「闯关模式重设计」, 设置 NEXT=集成收尾
+  - MonsterCharacter: 渐变紫色字妖(RadialGradient+红角+红眼+齿嘴), Boss(皇冠+发光+2HP), hit震动/defeated, MiniMonster进度图标
+  - BattleSceneView: 暗色渐变战场, 左龙右怪对战, HUD(课名+♥+进度), 火焰/闪电攻击特效, promptView+TTS, 横竖屏自适应
+  - LevelsViewModel: HP系统(龙3心/怪1HP/Boss2HP), Boss=最易错字, battleAnimState状态机, 1秒动画延迟
+  - LevelsView: 暗色游戏风关卡选择页, levelComplete(奖杯+星+统计), gameOver(重新挑战)
+  - 161 unit + 6 screenshot tests 回归通过
 - 10:07 [project-next] 完成「互动角色设计」, 设置 NEXT=闯关模式重设计
   - DragonCharacter重写: DinoCharacter→DragonCharacter, LinearGradient/RadialGradient 3D质感, 龙角(金色渐变), 翅膀(WingShape), 尾巴(TailShape尖端), 腹部(奶油色RadialGradient), 龙须(4根Capsule)
   - 表情系统: 眉毛(5状态各异), 星星眼(celebrate), 眼泪(TearDrop Shape), thinking眨眼动画, celebrate手臂挥舞+sparkle, 粉色腮红

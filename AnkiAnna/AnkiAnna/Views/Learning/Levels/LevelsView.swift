@@ -5,6 +5,7 @@ import PencilKit
 struct LevelsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Query var cards: [Card]
     @Query var characterStats: [CharacterStats]
     @Query var levelProgress: [LevelProgress]
@@ -15,265 +16,352 @@ struct LevelsView: View {
 
     var body: some View {
         Group {
-            if viewModel.isLevelComplete {
+            if viewModel.isGameOver {
+                gameOverView
+                    .transition(.opacity.combined(with: .scale(scale: 0.95)))
+            } else if viewModel.isLevelComplete {
                 levelCompleteView
                     .transition(.opacity.combined(with: .scale(scale: 0.95)))
             } else if viewModel.isPlaying {
-                gameplayView
-                    .transition(.opacity)
+                BattleSceneView(
+                    viewModel: $viewModel,
+                    drawing: $drawing,
+                    typedAnswer: $typedAnswer,
+                    testModeEnabled: testModeEnabled,
+                    onSubmitDrawing: { submitDrawing() }
+                )
+                .transition(.opacity)
             } else {
                 levelSelectionView
             }
         }
-        .animation(DesignTokens.Animation.quick, value: viewModel.isLevelComplete)
-        .animation(DesignTokens.Animation.quick, value: viewModel.isPlaying)
+        .animation(reduceMotion ? nil : DesignTokens.Animation.quick, value: viewModel.isLevelComplete)
+        .animation(reduceMotion ? nil : DesignTokens.Animation.quick, value: viewModel.isPlaying)
+        .animation(reduceMotion ? nil : DesignTokens.Animation.quick, value: viewModel.isGameOver)
     }
 
+    // MARK: - Level Selection (Professional Game UI)
+
     private var levelSelectionView: some View {
-        ScrollView {
-            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: DesignTokens.Spacing.lg) {
-                ForEach(viewModel.levels) { level in
-                    Button {
-                        if level.isUnlocked {
-                            viewModel.startLevel(level, cards: cards)
+        ZStack {
+            // Dark game background
+            LinearGradient(
+                colors: [
+                    Color(red: 0.06, green: 0.05, blue: 0.15),
+                    Color(red: 0.12, green: 0.08, blue: 0.22),
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+
+            ScrollView {
+                VStack(spacing: DesignTokens.Spacing.lg) {
+                    // Header
+                    HStack {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("闯关模式")
+                                .font(DesignTokens.Font.largeTitle)
+                                .foregroundStyle(.white)
+                            Text("击败字妖，征服每一课！")
+                                .font(DesignTokens.Font.subheadline)
+                                .foregroundStyle(.white.opacity(0.6))
                         }
-                    } label: {
-                        VStack(spacing: DesignTokens.Spacing.sm) {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: DesignTokens.Radius.md)
-                                    .fill(level.isUnlocked ? DesignTokens.Colors.levels.opacity(0.1) : Color.gray.opacity(0.1))
-                                    .frame(height: 100)
+                        Spacer()
+                        MascotView(state: .idle)
+                            .scaleEffect(0.7)
+                    }
+                    .padding(.horizontal)
 
-                                if level.isUnlocked {
-                                    VStack {
-                                        Text("第\(level.lesson)课")
-                                            .font(DesignTokens.Font.headline)
-                                        Text(level.title)
-                                            .font(DesignTokens.Font.caption)
-                                            .foregroundColor(DesignTokens.Colors.onSurfaceSecondary)
-                                            .lineLimit(1)
-                                    }
-                                } else {
-                                    Image(systemName: "lock.fill")
-                                        .font(DesignTokens.Font.title)
-                                        .foregroundColor(.gray)
-                                }
-                            }
-
-                            if level.stars > 0 {
-                                HStack(spacing: 2) {
-                                    ForEach(0..<3, id: \.self) { i in
-                                        Image(systemName: i < level.stars ? "star.fill" : "star")
-                                            .font(DesignTokens.Font.caption)
-                                            .foregroundColor(.yellow)
-                                    }
-                                }
-                            }
+                    // Level grid
+                    LazyVGrid(columns: [
+                        GridItem(.flexible(), spacing: DesignTokens.Spacing.md),
+                        GridItem(.flexible(), spacing: DesignTokens.Spacing.md),
+                        GridItem(.flexible(), spacing: DesignTokens.Spacing.md),
+                    ], spacing: DesignTokens.Spacing.lg) {
+                        ForEach(viewModel.levels) { level in
+                            levelCard(level)
                         }
                     }
-                    .disabled(!level.isUnlocked)
+                    .padding(.horizontal)
                 }
+                .padding(.vertical)
             }
-            .padding()
         }
-        .navigationTitle("闯关模式")
         .onAppear {
             viewModel.loadLevels(stats: characterStats, progress: levelProgress)
         }
     }
 
-    private var gameplayView: some View {
-        GeometryReader { geo in
-            let isLandscape = geo.size.width > geo.size.height
-            VStack(spacing: 0) {
-                // Top bar: progress
-                HStack {
-                    Text("第\(viewModel.currentLevel?.lesson ?? 0)课")
-                        .font(DesignTokens.Font.headline)
+    private func levelCard(_ level: LevelsViewModel.LevelInfo) -> some View {
+        Button {
+            if level.isUnlocked {
+                drawing = PKDrawing()
+                viewModel.startLevel(level, cards: cards, stats: characterStats)
+            }
+        } label: {
+            VStack(spacing: DesignTokens.Spacing.sm) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: DesignTokens.Radius.lg)
+                        .fill(
+                            level.isUnlocked
+                                ? LinearGradient(
+                                    colors: [Color.purple.opacity(0.3), Color.blue.opacity(0.2)],
+                                    startPoint: .topLeading, endPoint: .bottomTrailing)
+                                : LinearGradient(
+                                    colors: [Color.gray.opacity(0.15), Color.gray.opacity(0.1)],
+                                    startPoint: .topLeading, endPoint: .bottomTrailing)
+                        )
+                        .frame(height: 100)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: DesignTokens.Radius.lg)
+                                .stroke(level.isUnlocked ? Color.purple.opacity(0.4) : Color.gray.opacity(0.2), lineWidth: 1)
+                        )
 
-                    Spacer()
-
-                    Text("\(viewModel.currentIndex + 1)/\(viewModel.totalCount)")
-                        .font(DesignTokens.Font.headline)
-
-                    Spacer()
-
-                    Text("错误 \(viewModel.errorCount)")
-                        .font(DesignTokens.Font.headline)
-                        .foregroundColor(viewModel.errorCount > 0 ? DesignTokens.Colors.error : DesignTokens.Colors.onSurfaceSecondary)
+                    if level.isUnlocked {
+                        VStack(spacing: 4) {
+                            Text("第\(level.lesson)课")
+                                .font(DesignTokens.Font.headline)
+                                .foregroundStyle(.white)
+                            Text(level.title)
+                                .font(DesignTokens.Font.caption)
+                                .foregroundStyle(.white.opacity(0.7))
+                                .lineLimit(1)
+                            Text("\(level.characterCount)字")
+                                .font(DesignTokens.Font.caption2)
+                                .foregroundStyle(.white.opacity(0.5))
+                        }
+                    } else {
+                        Image(systemName: "lock.fill")
+                            .font(DesignTokens.Font.title)
+                            .foregroundStyle(.white.opacity(0.3))
+                    }
                 }
-                .padding()
 
-                ProgressView(value: Double(viewModel.currentIndex), total: Double(viewModel.totalCount))
-                    .padding(.horizontal)
-
-                Divider()
-
-                if viewModel.showResult {
-                    resultView
-                } else if let card = viewModel.currentCard, let ctx = viewModel.currentContext {
-                    questionView(card: card, context: ctx, isLandscape: isLandscape)
+                if level.stars > 0 {
+                    HStack(spacing: 2) {
+                        ForEach(0..<3, id: \.self) { i in
+                            Image(systemName: i < level.stars ? "star.fill" : "star")
+                                .font(.system(size: 12))
+                                .foregroundStyle(i < level.stars ? .yellow : .white.opacity(0.3))
+                        }
+                    }
                 }
             }
         }
+        .disabled(!level.isUnlocked)
     }
 
-    @ViewBuilder
-    private func questionView(card: Card, context: CardContext, isLandscape: Bool = false) -> some View {
-        if isLandscape {
-            HStack(spacing: 0) {
-                Text(context.text)
-                    .font(DesignTokens.Font.title)
-                    .multilineTextAlignment(.center)
-                    .padding()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .onAppear {
-                        TTSService.speak(text: context.fullText, cardType: card.type)
-                    }
+    // MARK: - Level Complete
 
-                Divider()
+    private var levelCompleteView: some View {
+        ZStack {
+            LinearGradient(
+                colors: [
+                    Color(red: 0.05, green: 0.12, blue: 0.08),
+                    Color(red: 0.08, green: 0.18, blue: 0.10),
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
 
-                VStack(spacing: DesignTokens.Spacing.lg) {
-                    Spacer()
-                    inputArea(card: card)
-                    Spacer()
-                }
-                .frame(maxWidth: .infinity)
-            }
-        } else {
             VStack(spacing: DesignTokens.Spacing.xl) {
                 Spacer()
 
-                Text(context.text)
-                    .font(DesignTokens.Font.title)
-                    .multilineTextAlignment(.center)
-                    .padding()
-                    .onAppear {
-                        TTSService.speak(text: context.fullText, cardType: card.type)
+                let stars = viewModel.starsForCurrentLevel()
+
+                // Trophy
+                ZStack {
+                    Circle()
+                        .fill(Color.yellow.opacity(0.1))
+                        .frame(width: 120, height: 120)
+                    Image(systemName: "trophy.fill")
+                        .font(.system(size: 60))
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [.yellow, Color(red: 1.0, green: 0.75, blue: 0.0)],
+                                startPoint: .top, endPoint: .bottom
+                            )
+                        )
+                        .shadow(color: .yellow.opacity(0.4), radius: 12)
+                }
+
+                Text("关卡完成！")
+                    .font(DesignTokens.Font.largeTitle)
+                    .foregroundStyle(.white)
+
+                // Stars
+                HStack(spacing: DesignTokens.Spacing.md) {
+                    ForEach(0..<3, id: \.self) { i in
+                        Image(systemName: i < stars ? "star.fill" : "star")
+                            .font(.system(size: 36))
+                            .foregroundStyle(i < stars ? .yellow : .white.opacity(0.3))
+                            .shadow(color: i < stars ? .yellow.opacity(0.5) : .clear, radius: 6)
+                    }
+                }
+
+                // Stats
+                HStack(spacing: DesignTokens.Spacing.xxl) {
+                    VStack {
+                        Text("\(viewModel.defeatedCount)")
+                            .font(DesignTokens.Font.title)
+                            .foregroundStyle(.green)
+                        Text("击败")
+                            .font(DesignTokens.Font.caption)
+                            .foregroundStyle(.white.opacity(0.6))
+                    }
+                    VStack {
+                        Text("\(viewModel.errorCount)")
+                            .font(DesignTokens.Font.title)
+                            .foregroundStyle(viewModel.errorCount > 0 ? .red : .green)
+                        Text("失误")
+                            .font(DesignTokens.Font.caption)
+                            .foregroundStyle(.white.opacity(0.6))
+                    }
+                    VStack {
+                        Text("\(3 - (3 - viewModel.dragonHp))♥")
+                            .font(DesignTokens.Font.title)
+                            .foregroundStyle(.red)
+                        Text("剩余生命")
+                            .font(DesignTokens.Font.caption)
+                            .foregroundStyle(.white.opacity(0.6))
+                    }
+                }
+                .padding()
+                .background(.white.opacity(0.06))
+                .clipShape(RoundedRectangle(cornerRadius: DesignTokens.Radius.lg))
+
+                Spacer()
+
+                // Buttons
+                HStack(spacing: DesignTokens.Spacing.lg) {
+                    Button {
+                        saveLevelProgress(stars: stars)
+                        dismiss()
+                    } label: {
+                        Label("返回首页", systemImage: "house")
+                            .font(DesignTokens.Font.headline)
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, DesignTokens.Spacing.xl)
+                            .padding(.vertical, DesignTokens.Spacing.md)
+                            .background(.white.opacity(0.1))
+                            .clipShape(Capsule())
                     }
 
-                inputArea(card: card)
+                    Button {
+                        saveLevelProgress(stars: stars)
+                        viewModel = LevelsViewModel()
+                        viewModel.loadLevels(stats: characterStats, progress: levelProgress)
+                    } label: {
+                        Label("继续闯关", systemImage: "arrow.right")
+                            .font(DesignTokens.Font.headline)
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, DesignTokens.Spacing.xl)
+                            .padding(.vertical, DesignTokens.Spacing.md)
+                            .background(
+                                LinearGradient(colors: [.purple, .blue], startPoint: .leading, endPoint: .trailing)
+                            )
+                            .clipShape(Capsule())
+                    }
+                }
 
                 Spacer()
             }
         }
     }
 
-    @ViewBuilder
-    private func inputArea(card: Card) -> some View {
-        if card.type == .chineseWriting {
-            WritingCanvasWithTools(drawing: $drawing)
-                .frame(height: 200)
-                .background(DesignTokens.Colors.surface)
-                .cornerRadius(DesignTokens.Radius.md)
-                .padding(.horizontal)
+    // MARK: - Game Over
 
-            if testModeEnabled {
+    private var gameOverView: some View {
+        ZStack {
+            LinearGradient(
+                colors: [
+                    Color(red: 0.15, green: 0.05, blue: 0.05),
+                    Color(red: 0.20, green: 0.08, blue: 0.08),
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+
+            VStack(spacing: DesignTokens.Spacing.xl) {
+                Spacer()
+
+                MascotView(state: .encourage)
+
+                Text("挑战失败")
+                    .font(DesignTokens.Font.largeTitle)
+                    .foregroundStyle(.white)
+
+                Text("击败了 \(viewModel.defeatedCount)/\(viewModel.totalCount) 个字妖")
+                    .font(DesignTokens.Font.title3)
+                    .foregroundStyle(.white.opacity(0.7))
+
+                Spacer()
+
                 HStack(spacing: DesignTokens.Spacing.lg) {
-                    Button("模拟写对") {
-                        drawing = PKDrawing()
-                        viewModel.handleCorrectAnswer()
+                    Button {
+                        dismiss()
+                    } label: {
+                        Label("返回首页", systemImage: "house")
+                            .font(DesignTokens.Font.headline)
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, DesignTokens.Spacing.xl)
+                            .padding(.vertical, DesignTokens.Spacing.md)
+                            .background(.white.opacity(0.1))
+                            .clipShape(Capsule())
                     }
-                    .buttonStyle(.bordered)
 
-                    Button("模拟写错") {
-                        drawing = PKDrawing()
-                        viewModel.handleWrongAnswer()
+                    Button {
+                        if let level = viewModel.currentLevel {
+                            drawing = PKDrawing()
+                            viewModel.startLevel(level, cards: cards, stats: characterStats)
+                        }
+                    } label: {
+                        Label("重新挑战", systemImage: "arrow.counterclockwise")
+                            .font(DesignTokens.Font.headline)
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, DesignTokens.Spacing.xl)
+                            .padding(.vertical, DesignTokens.Spacing.md)
+                            .background(
+                                LinearGradient(colors: [.red, .orange], startPoint: .leading, endPoint: .trailing)
+                            )
+                            .clipShape(Capsule())
                     }
-                    .buttonStyle(.bordered)
                 }
+
+                Spacer()
             }
-        } else {
-            TextField("输入答案", text: $typedAnswer)
-                .textFieldStyle(.roundedBorder)
-                .font(DesignTokens.Font.title2)
-                .padding(.horizontal)
-                .onSubmit {
-                    let correct = typedAnswer.lowercased().trimmingCharacters(in: .whitespaces) == card.answer.lowercased()
-                    typedAnswer = ""
-                    if correct {
+        }
+    }
+
+    // MARK: - Helpers
+
+    private func submitDrawing() {
+        guard let card = viewModel.currentCard else { return }
+        let lang = TTSService.languageCode(for: card.type)
+        HandwritingRecognizer.recognize(drawing: drawing, language: lang) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let candidates):
+                    let matched = HandwritingRecognizer.bestMatch(candidates: candidates, expected: card.answer)
+                    if matched {
                         viewModel.handleCorrectAnswer()
                     } else {
                         viewModel.handleWrongAnswer()
                     }
+                case .failure:
+                    viewModel.handleWrongAnswer()
                 }
+                drawing = PKDrawing()
+            }
         }
-    }
-
-    private var resultView: some View {
-        VStack(spacing: DesignTokens.Spacing.xl) {
-            Spacer()
-
-            Image(systemName: viewModel.isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
-                .font(.system(size: DesignTokens.IconSize.xxl))
-                .foregroundColor(viewModel.isCorrect ? DesignTokens.Colors.success : DesignTokens.Colors.error)
-
-            if let card = viewModel.currentCard {
-                Text(card.answer)
-                    .font(DesignTokens.Font.rounded(size: DesignTokens.CharSize.answer, weight: .bold))
-            }
-
-            Button("继续") {
-                viewModel.next()
-            }
-            .buttonStyle(.borderedProminent)
-            .font(DesignTokens.Font.title3)
-
-            Spacer()
-        }
-    }
-
-    private var levelCompleteView: some View {
-        VStack(spacing: DesignTokens.Spacing.xl) {
-            Spacer()
-
-            let stars = viewModel.starsForCurrentLevel()
-
-            Image(systemName: "trophy.fill")
-                .font(.system(size: DesignTokens.IconSize.xl))
-                .foregroundColor(.yellow)
-
-            Text("关卡完成！")
-                .font(DesignTokens.Font.largeTitle)
-
-            HStack(spacing: DesignTokens.Spacing.sm) {
-                ForEach(0..<3, id: \.self) { i in
-                    Image(systemName: i < stars ? "star.fill" : "star")
-                        .font(DesignTokens.Font.promptText)
-                        .foregroundColor(.yellow)
-                }
-            }
-
-            Text("错误: \(viewModel.errorCount)")
-                .font(DesignTokens.Font.title2)
-                .foregroundColor(DesignTokens.Colors.onSurfaceSecondary)
-
-            HStack(spacing: DesignTokens.Spacing.lg) {
-                Button("返回首页") {
-                    saveLevelProgress(stars: stars)
-                    dismiss()
-                }
-                .buttonStyle(.bordered)
-                .font(DesignTokens.Font.title3)
-
-                Button("返回关卡列表") {
-                    saveLevelProgress(stars: stars)
-                    viewModel = LevelsViewModel()
-                    viewModel.loadLevels(stats: characterStats, progress: levelProgress)
-                }
-                .buttonStyle(.borderedProminent)
-                .font(DesignTokens.Font.title3)
-            }
-
-            Spacer()
-        }
-        .navigationTitle("闯关模式")
     }
 
     private func saveLevelProgress(stars: Int) {
         guard let level = viewModel.currentLevel else { return }
 
-        // Find or create progress
         if let existing = levelProgress.first(where: {
             $0.grade == level.grade && $0.semester == level.semester && $0.lesson == level.lesson
         }) {

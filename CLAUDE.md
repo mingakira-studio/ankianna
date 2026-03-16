@@ -18,14 +18,16 @@
 - `AnkiAnna/AnkiAnna/` — 主应用代码
   - `Models/` — SwiftData 数据模型 (Card, CardContext, ReviewRecord, DailySession, UserProfile, CharacterStats, LevelProgress)
   - `Services/` — 业务逻辑 (SM2Engine, TTSService, HandwritingRecognizer, AIGenerator, PointsService, BadgeService, LevelService, TextbookSeeder, HapticService)
-  - `Views/` — SwiftUI 视图 (Learning/, AddCard/, CardLibrary/, Stats/, DesignTokens.swift)
+  - `Views/` — SwiftUI 视图 (Learning/, AddCard/, CardLibrary/, Stats/, Settings/, DesignTokens.swift)
     - `DesignTokens.swift` — 设计系统 (语义颜色/SF Rounded字体/4pt间距/圆角/阴影/动画常量)
-    - `Learning/` — GameModeSelectionView (入口), LearningView (快速学习), MascotView, CelebrationEffects, ResultFeedbackView
+    - `Learning/` — GameModeSelectionView (入口), LearningView (快速学习), MascotView (DragonCharacter 3D龙), WritingCanvasView (含橡皮擦工具), CelebrationEffects, ResultFeedbackView
       - `TimeAttack/` — 限时挑战模式 (TimeAttackView + ViewModel)
       - `Survival/` — 生存模式 (SurvivalView + ViewModel)
       - `Levels/` — 闯关模式 (LevelsView + ViewModel)
       - `Match/` — 连连看模式 (MatchView + ViewModel)
     - `AddCard/` — AddCardView (入口), ManualAddCardView, AIGenerateView, TextbookBrowserView (课本字库三级导航)
+    - `Stats/` — StatsView (统计入口), TodayOverviewView, MasteryProgressView, DifficultCharactersView, TrendChartView, StreakCalendarView
+    - `Settings/` — SettingsView (测试模式开关, 重播引导)
 - `AnkiAnna/AnkiAnnaTests/` — 单元测试
 - `AnkiAnna/AnkiAnnaUITests/` — E2E 测试
 - `docs/plans/` — 设计文档和实施计划

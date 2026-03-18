@@ -105,8 +105,8 @@ struct MonsterCharacter: View {
                 // Mouth
                 monsterMouth(w: w, h: h)
 
-                // Character label on body
-                Text(character)
+                // Mystery mark (don't reveal the answer)
+                Text("?")
                     .font(DesignTokens.Font.rounded(size: isBoss ? 28 : 22, weight: .bold))
                     .foregroundStyle(.white)
                     .shadow(color: .black.opacity(0.5), radius: 2, x: 1, y: 1)
@@ -314,7 +314,7 @@ struct MiniMonster: View {
                         .offset(x: 14, y: -14)
                 }
             } else {
-                Text(character)
+                Text("?")
                     .font(DesignTokens.Font.rounded(size: isBoss ? 18 : 16, weight: .bold))
                     .foregroundStyle(isCurrent ? Color.purple : DesignTokens.Colors.onSurfaceSecondary)
             }

@@ -30,9 +30,39 @@ struct AnkiAnnaApp: App {
             ContentView()
                 .onAppear {
                     initializeUserProfile()
+                    migrateContextMasking()
                 }
         }
         .modelContainer(modelContainer)
+    }
+
+    /// Fix AI-generated contexts where entire words were masked instead of just the target character.
+    /// Runs once per app version via AppStorage flag.
+    private func migrateContextMasking() {
+        let defaults = UserDefaults.standard
+        let key = "hasFixedContextMasking_v1"
+        guard !defaults.bool(forKey: key) else { return }
+
+        let context = modelContainer.mainContext
+        guard let cards = try? context.fetch(FetchDescriptor<Card>()) else { return }
+
+        var fixedCount = 0
+        for card in cards {
+            for ctx in card.contexts {
+                guard !ctx.fullText.isEmpty, !card.answer.isEmpty else { continue }
+                let correct = ctx.displayText(answer: card.answer)
+                if correct != ctx.text {
+                    ctx.text = correct
+                    fixedCount += 1
+                }
+            }
+        }
+
+        if fixedCount > 0 {
+            try? context.save()
+            print("[Migration] Fixed \(fixedCount) context masking(s)")
+        }
+        defaults.set(true, forKey: key)
     }
 
     private func initializeUserProfile() {

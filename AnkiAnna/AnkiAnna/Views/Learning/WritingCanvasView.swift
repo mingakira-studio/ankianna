@@ -65,41 +65,34 @@ struct WritingCanvasWithTools: View {
         VStack(spacing: DesignTokens.Spacing.sm) {
             WritingCanvasView(drawing: $drawing, isErasing: isErasing)
 
-            HStack(spacing: DesignTokens.Spacing.md) {
-                Button {
+            HStack(spacing: DesignTokens.Spacing.lg) {
+                toolButton(icon: "pencil.tip", isActive: !isErasing, id: "penToolButton") {
                     isErasing = false
-                } label: {
-                    Label("画笔", systemImage: "pencil.tip")
-                        .font(DesignTokens.Font.caption)
                 }
-                .buttonStyle(.bordered)
-                .tint(isErasing ? .secondary : DesignTokens.Colors.primary)
-                .accessibilityIdentifier("penToolButton")
-
-                Button {
+                toolButton(icon: "eraser", isActive: isErasing, id: "eraserToolButton") {
                     isErasing = true
-                } label: {
-                    Label("橡皮擦", systemImage: "eraser")
-                        .font(DesignTokens.Font.caption)
                 }
-                .buttonStyle(.bordered)
-                .tint(isErasing ? DesignTokens.Colors.primary : .secondary)
-                .accessibilityIdentifier("eraserToolButton")
 
                 Spacer()
 
-                Button {
+                toolButton(icon: "trash", isActive: false, tint: .red, id: "clearCanvasButton") {
                     drawing = PKDrawing()
                     isErasing = false
-                } label: {
-                    Label("清除", systemImage: "trash")
-                        .font(DesignTokens.Font.caption)
                 }
-                .buttonStyle(.bordered)
-                .tint(.red)
-                .accessibilityIdentifier("clearCanvasButton")
             }
             .padding(.horizontal)
         }
+    }
+
+    private func toolButton(icon: String, isActive: Bool, tint: Color? = nil, id: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Image(systemName: icon)
+                .font(.system(size: 18))
+                .foregroundStyle(tint ?? (isActive ? DesignTokens.Colors.primary : .secondary))
+                .frame(width: 36, height: 36)
+                .background(isActive ? DesignTokens.Colors.primary.opacity(0.1) : .clear)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+        }
+        .accessibilityIdentifier(id)
     }
 }

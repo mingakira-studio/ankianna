@@ -3,6 +3,8 @@ import SwiftData
 import PencilKit
 
 struct LearningView: View {
+    var cardTypeFilter: CardType?
+
     @Environment(\.modelContext) private var modelContext
     @Environment(\.accessibilityReduceMotion) var reduceMotion
     @Query private var cards: [Card]
@@ -15,6 +17,10 @@ struct LearningView: View {
     @AppStorage("testModeEnabled") private var testModeEnabled = false
 
     private var profile: UserProfile? { profiles.first }
+    private var filteredCards: [Card] {
+        guard let filter = cardTypeFilter else { return cards }
+        return cards.filter { $0.type == filter }
+    }
 
     var body: some View {
         NavigationStack {
@@ -39,9 +45,9 @@ struct LearningView: View {
             .onAppear {
                 let dailyGoal = profile?.dailyGoal ?? 15
                 if allCharacterStats.isEmpty {
-                    viewModel.loadDueCards(from: cards, dailyGoal: dailyGoal)
+                    viewModel.loadDueCards(from: filteredCards, dailyGoal: dailyGoal)
                 } else {
-                    viewModel.loadDueCards(allCards: cards, characterStats: allCharacterStats, dailyGoal: dailyGoal)
+                    viewModel.loadDueCards(allCards: filteredCards, characterStats: allCharacterStats, dailyGoal: dailyGoal)
                 }
                 #if !targetEnvironment(simulator)
                 modelReady = HandwritingRecognizer.isModelReady(language: "zh-CN")
@@ -88,6 +94,7 @@ struct LearningView: View {
                 CardPromptView(
                     context: viewModel.currentContext,
                     cardType: card.type,
+                    answer: card.answer,
                     onSpeak: {
                         if let ctx = viewModel.currentContext {
                             TTSService.speak(text: ctx.fullText, cardType: card.type)

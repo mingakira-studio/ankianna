@@ -43,29 +43,16 @@ struct LevelsView: View {
     // MARK: - Level Selection (Professional Game UI)
 
     private var levelSelectionView: some View {
-        ZStack {
-            // Dark game background
-            LinearGradient(
-                colors: [
-                    Color(red: 0.06, green: 0.05, blue: 0.15),
-                    Color(red: 0.12, green: 0.08, blue: 0.22),
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
-
-            ScrollView {
-                VStack(spacing: DesignTokens.Spacing.lg) {
-                    // Header
-                    HStack {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("闯关模式")
-                                .font(DesignTokens.Font.largeTitle)
-                                .foregroundStyle(.white)
-                            Text("击败字妖，征服每一课！")
-                                .font(DesignTokens.Font.subheadline)
-                                .foregroundStyle(.white.opacity(0.6))
+        ScrollView {
+            VStack(spacing: DesignTokens.Spacing.lg) {
+                // Header
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("闯关模式")
+                            .font(DesignTokens.Font.largeTitle)
+                        Text("击败字妖，征服每一课！")
+                            .font(DesignTokens.Font.subheadline)
+                            .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
                         }
                         Spacer()
                         MascotView(state: .idle)
@@ -87,7 +74,6 @@ struct LevelsView: View {
                 }
                 .padding(.vertical)
             }
-        }
         .onAppear {
             viewModel.loadLevels(stats: characterStats, progress: levelProgress)
         }
@@ -122,19 +108,18 @@ struct LevelsView: View {
                         VStack(spacing: 4) {
                             Text("第\(level.lesson)课")
                                 .font(DesignTokens.Font.headline)
-                                .foregroundStyle(.white)
                             Text(level.title)
                                 .font(DesignTokens.Font.caption)
-                                .foregroundStyle(.white.opacity(0.7))
+                                .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
                                 .lineLimit(1)
                             Text("\(level.characterCount)字")
                                 .font(DesignTokens.Font.caption2)
-                                .foregroundStyle(.white.opacity(0.5))
+                                .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
                         }
                     } else {
                         Image(systemName: "lock.fill")
                             .font(DesignTokens.Font.title)
-                            .foregroundStyle(.white.opacity(0.3))
+                            .foregroundStyle(Color.gray.opacity(0.4))
                     }
                 }
 
@@ -143,7 +128,7 @@ struct LevelsView: View {
                         ForEach(0..<3, id: \.self) { i in
                             Image(systemName: i < level.stars ? "star.fill" : "star")
                                 .font(.system(size: 12))
-                                .foregroundStyle(i < level.stars ? .yellow : .white.opacity(0.3))
+                                .foregroundStyle(i < level.stars ? .yellow : Color.gray.opacity(0.3))
                         }
                     }
                 }
@@ -155,99 +140,83 @@ struct LevelsView: View {
     // MARK: - Level Complete
 
     private var levelCompleteView: some View {
-        ZStack {
-            LinearGradient(
-                colors: [
-                    Color(red: 0.05, green: 0.12, blue: 0.08),
-                    Color(red: 0.08, green: 0.18, blue: 0.10),
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
+        VStack(spacing: DesignTokens.Spacing.xl) {
+            Spacer()
 
-            VStack(spacing: DesignTokens.Spacing.xl) {
-                Spacer()
+            let stars = viewModel.starsForCurrentLevel()
 
-                let stars = viewModel.starsForCurrentLevel()
-
-                // Trophy
-                ZStack {
-                    Circle()
-                        .fill(Color.yellow.opacity(0.1))
-                        .frame(width: 120, height: 120)
-                    Image(systemName: "trophy.fill")
-                        .font(.system(size: 60))
-                        .foregroundStyle(
-                            LinearGradient(
-                                colors: [.yellow, Color(red: 1.0, green: 0.75, blue: 0.0)],
-                                startPoint: .top, endPoint: .bottom
-                            )
+            // Trophy
+            ZStack {
+                Circle()
+                    .fill(Color.yellow.opacity(0.1))
+                    .frame(width: 120, height: 120)
+                Image(systemName: "trophy.fill")
+                    .font(.system(size: 60))
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [.yellow, Color(red: 1.0, green: 0.75, blue: 0.0)],
+                            startPoint: .top, endPoint: .bottom
                         )
-                        .shadow(color: .yellow.opacity(0.4), radius: 12)
+                    )
+                    .shadow(color: .yellow.opacity(0.4), radius: 12)
+            }
+
+            Text("关卡完成！")
+                .font(DesignTokens.Font.largeTitle)
+
+            // Stars
+            HStack(spacing: DesignTokens.Spacing.md) {
+                ForEach(0..<3, id: \.self) { i in
+                    Image(systemName: i < stars ? "star.fill" : "star")
+                        .font(.system(size: 36))
+                        .foregroundStyle(i < stars ? .yellow : Color.gray.opacity(0.3))
+                        .shadow(color: i < stars ? .yellow.opacity(0.5) : .clear, radius: 6)
                 }
+            }
 
-                Text("关卡完成！")
-                    .font(DesignTokens.Font.largeTitle)
-                    .foregroundStyle(.white)
-
-                // Stars
-                HStack(spacing: DesignTokens.Spacing.md) {
-                    ForEach(0..<3, id: \.self) { i in
-                        Image(systemName: i < stars ? "star.fill" : "star")
-                            .font(.system(size: 36))
-                            .foregroundStyle(i < stars ? .yellow : .white.opacity(0.3))
-                            .shadow(color: i < stars ? .yellow.opacity(0.5) : .clear, radius: 6)
-                    }
+            // Stats
+            HStack(spacing: DesignTokens.Spacing.xxl) {
+                VStack {
+                    Text("\(viewModel.defeatedCount)")
+                        .font(DesignTokens.Font.title)
+                        .foregroundStyle(.green)
+                    Text("击败")
+                        .font(DesignTokens.Font.caption)
+                        .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
                 }
-
-                // Stats
-                HStack(spacing: DesignTokens.Spacing.xxl) {
-                    VStack {
-                        Text("\(viewModel.defeatedCount)")
-                            .font(DesignTokens.Font.title)
-                            .foregroundStyle(.green)
-                        Text("击败")
-                            .font(DesignTokens.Font.caption)
-                            .foregroundStyle(.white.opacity(0.6))
-                    }
-                    VStack {
-                        Text("\(viewModel.errorCount)")
-                            .font(DesignTokens.Font.title)
-                            .foregroundStyle(viewModel.errorCount > 0 ? .red : .green)
-                        Text("失误")
-                            .font(DesignTokens.Font.caption)
-                            .foregroundStyle(.white.opacity(0.6))
-                    }
-                    VStack {
-                        Text("\(3 - (3 - viewModel.dragonHp))♥")
-                            .font(DesignTokens.Font.title)
-                            .foregroundStyle(.red)
-                        Text("剩余生命")
-                            .font(DesignTokens.Font.caption)
-                            .foregroundStyle(.white.opacity(0.6))
-                    }
+                VStack {
+                    Text("\(viewModel.errorCount)")
+                        .font(DesignTokens.Font.title)
+                        .foregroundStyle(viewModel.errorCount > 0 ? .red : .green)
+                    Text("失误")
+                        .font(DesignTokens.Font.caption)
+                        .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
                 }
-                .padding()
-                .background(.white.opacity(0.06))
-                .clipShape(RoundedRectangle(cornerRadius: DesignTokens.Radius.lg))
+                VStack {
+                    Text("\(viewModel.dragonHp)♥")
+                        .font(DesignTokens.Font.title)
+                        .foregroundStyle(.red)
+                    Text("剩余生命")
+                        .font(DesignTokens.Font.caption)
+                        .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
+                }
+            }
+            .padding()
+            .background(DesignTokens.Colors.surface)
+            .clipShape(RoundedRectangle(cornerRadius: DesignTokens.Radius.lg))
 
-                Spacer()
+            Spacer()
 
-                // Buttons
-                HStack(spacing: DesignTokens.Spacing.lg) {
-                    Button {
-                        saveLevelProgress(stars: stars)
-                        dismiss()
-                    } label: {
-                        Label("返回首页", systemImage: "house")
-                            .font(DesignTokens.Font.headline)
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, DesignTokens.Spacing.xl)
-                            .padding(.vertical, DesignTokens.Spacing.md)
-                            .background(.white.opacity(0.1))
-                            .clipShape(Capsule())
-                    }
+            // Buttons
+            HStack(spacing: DesignTokens.Spacing.lg) {
+                Button {
+                    saveLevelProgress(stars: stars)
+                    dismiss()
+                } label: {
+                    Label("返回首页", systemImage: "house")
+                        .font(DesignTokens.Font.headline)
+                }
+                .buttonStyle(.bordered)
 
                     Button {
                         saveLevelProgress(stars: stars)
@@ -256,62 +225,39 @@ struct LevelsView: View {
                     } label: {
                         Label("继续闯关", systemImage: "arrow.right")
                             .font(DesignTokens.Font.headline)
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, DesignTokens.Spacing.xl)
-                            .padding(.vertical, DesignTokens.Spacing.md)
-                            .background(
-                                LinearGradient(colors: [.purple, .blue], startPoint: .leading, endPoint: .trailing)
-                            )
-                            .clipShape(Capsule())
                     }
+                    .buttonStyle(.borderedProminent)
                 }
 
                 Spacer()
             }
-        }
     }
 
     // MARK: - Game Over
 
     private var gameOverView: some View {
-        ZStack {
-            LinearGradient(
-                colors: [
-                    Color(red: 0.15, green: 0.05, blue: 0.05),
-                    Color(red: 0.20, green: 0.08, blue: 0.08),
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
+        VStack(spacing: DesignTokens.Spacing.xl) {
+            Spacer()
 
-            VStack(spacing: DesignTokens.Spacing.xl) {
-                Spacer()
+            MascotView(state: .encourage)
 
-                MascotView(state: .encourage)
+            Text("挑战失败")
+                .font(DesignTokens.Font.largeTitle)
 
-                Text("挑战失败")
-                    .font(DesignTokens.Font.largeTitle)
-                    .foregroundStyle(.white)
+            Text("击败了 \(viewModel.defeatedCount)/\(viewModel.totalCount) 个字妖")
+                .font(DesignTokens.Font.title3)
+                .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
 
-                Text("击败了 \(viewModel.defeatedCount)/\(viewModel.totalCount) 个字妖")
-                    .font(DesignTokens.Font.title3)
-                    .foregroundStyle(.white.opacity(0.7))
+            Spacer()
 
-                Spacer()
-
-                HStack(spacing: DesignTokens.Spacing.lg) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Label("返回首页", systemImage: "house")
-                            .font(DesignTokens.Font.headline)
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, DesignTokens.Spacing.xl)
-                            .padding(.vertical, DesignTokens.Spacing.md)
-                            .background(.white.opacity(0.1))
-                            .clipShape(Capsule())
-                    }
+            HStack(spacing: DesignTokens.Spacing.lg) {
+                Button {
+                    dismiss()
+                } label: {
+                    Label("返回首页", systemImage: "house")
+                        .font(DesignTokens.Font.headline)
+                }
+                .buttonStyle(.bordered)
 
                     Button {
                         if let level = viewModel.currentLevel {
@@ -321,19 +267,13 @@ struct LevelsView: View {
                     } label: {
                         Label("重新挑战", systemImage: "arrow.counterclockwise")
                             .font(DesignTokens.Font.headline)
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, DesignTokens.Spacing.xl)
-                            .padding(.vertical, DesignTokens.Spacing.md)
-                            .background(
-                                LinearGradient(colors: [.red, .orange], startPoint: .leading, endPoint: .trailing)
-                            )
-                            .clipShape(Capsule())
                     }
+                    .buttonStyle(.borderedProminent)
+                    .tint(.orange)
                 }
 
                 Spacer()
             }
-        }
     }
 
     // MARK: - Helpers

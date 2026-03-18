@@ -30,22 +30,23 @@ struct MascotView: View {
     }
 
     var body: some View {
-        VStack(spacing: DesignTokens.Spacing.xs) {
-            DragonCharacter(state: state, reduceMotion: reduceMotion)
-                .frame(width: 80, height: 80)
-                .scaleEffect(bouncing ? 1.15 : 1.0)
+        VStack(spacing: 0) {
+            DinoSceneView(state: state)
+                .frame(width: 200, height: 160)
+                .scaleEffect(bouncing ? 1.08 : 1.0)
 
-            // Speech bubble
+            // Speech bubble below dino
             Text(message)
                 .font(DesignTokens.Font.footnote)
                 .foregroundStyle(DesignTokens.Colors.onSurface)
                 .padding(.horizontal, DesignTokens.Spacing.md)
-                .padding(.vertical, DesignTokens.Spacing.sm)
-                .background {
-                    SpeechBubble()
+                .padding(.vertical, DesignTokens.Spacing.xs)
+                .background(
+                    Capsule()
                         .fill(DesignTokens.Colors.surface)
                         .shadow(color: .black.opacity(0.08), radius: 4, y: 2)
-                }
+                )
+                .offset(y: -8)
         }
         .onChange(of: state) {
             messageIndex = Int.random(in: 0..<100)

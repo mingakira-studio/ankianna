@@ -40,24 +40,15 @@ struct BattleSceneView: View {
     // MARK: - Background
 
     private var battleBackground: some View {
-        LinearGradient(
-            colors: [
-                Color(red: 0.08, green: 0.06, blue: 0.18),
-                Color(red: 0.15, green: 0.10, blue: 0.30),
-                Color(red: 0.10, green: 0.15, blue: 0.25),
-            ],
-            startPoint: .top,
-            endPoint: .bottom
-        )
-        .overlay(
-            // Subtle radial glow behind combatants
-            RadialGradient(
-                colors: [Color.purple.opacity(0.08), .clear],
-                center: .center,
-                startRadius: 50,
-                endRadius: 300
-            )
-        )
+        GeometryReader { geo in
+            if let uiImage = UIImage(named: "jurassic_bg") ?? UIImage(contentsOfFile: Bundle.main.path(forResource: "jurassic_bg", ofType: "png") ?? "") {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: geo.size.width, height: geo.size.height)
+                    .clipped()
+            }
+        }
         .ignoresSafeArea()
     }
 
@@ -69,10 +60,10 @@ struct BattleSceneView: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text("第\(viewModel.currentLevel?.lesson ?? 0)课")
                     .font(DesignTokens.Font.headline)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(DesignTokens.Colors.onSurface)
                 Text(viewModel.currentLevel?.title ?? "")
                     .font(DesignTokens.Font.caption)
-                    .foregroundStyle(.white.opacity(0.6))
+                    .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
             }
 
             Spacer()
@@ -82,7 +73,7 @@ struct BattleSceneView: View {
                 ForEach(0..<3, id: \.self) { i in
                     Image(systemName: i < viewModel.dragonHp ? "heart.fill" : "heart")
                         .font(.system(size: 18))
-                        .foregroundStyle(i < viewModel.dragonHp ? .red : .white.opacity(0.3))
+                        .foregroundStyle(i < viewModel.dragonHp ? .red : Color.gray.opacity(0.3))
                 }
             }
 
@@ -91,7 +82,7 @@ struct BattleSceneView: View {
             // Progress counter
             Text("\(viewModel.defeatedCount)/\(viewModel.totalCount)")
                 .font(DesignTokens.Font.headline)
-                .foregroundStyle(.white)
+                .foregroundStyle(DesignTokens.Colors.onSurface)
         }
     }
 
@@ -115,7 +106,7 @@ struct BattleSceneView: View {
 
             // Divider
             Rectangle()
-                .fill(.white.opacity(0.1))
+                .fill(Color.gray.opacity(0.15))
                 .frame(width: 1)
 
             // Right: Input area
@@ -231,9 +222,9 @@ struct BattleSceneView: View {
 
     private func promptView(ctx: CardContext) -> some View {
         HStack(spacing: DesignTokens.Spacing.sm) {
-            Text(ctx.text)
+            Text(viewModel.currentCard.map { ctx.displayText(answer: $0.answer) } ?? ctx.text)
                 .font(DesignTokens.Font.title2)
-                .foregroundStyle(.white)
+                .foregroundStyle(DesignTokens.Colors.onSurface)
                 .multilineTextAlignment(.center)
 
             Button {
@@ -243,13 +234,13 @@ struct BattleSceneView: View {
             } label: {
                 Image(systemName: "speaker.wave.2.fill")
                     .font(DesignTokens.Font.title3)
-                    .foregroundStyle(.white.opacity(0.7))
+                    .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
             }
             .accessibilityLabel("朗读")
         }
         .padding(.horizontal, DesignTokens.Spacing.lg)
         .padding(.vertical, DesignTokens.Spacing.sm)
-        .background(.white.opacity(0.08))
+        .background(DesignTokens.Colors.surface)
         .clipShape(Capsule())
         .onAppear {
             if let card = viewModel.currentCard {
@@ -286,8 +277,9 @@ struct BattleSceneView: View {
         } else if let card = viewModel.currentCard {
             if card.type == .chineseWriting {
                 WritingCanvasWithTools(drawing: $drawing)
-                    .frame(height: 180)
-                    .claymorphism(cornerRadius: DesignTokens.Radius.lg, fillColor: .white)
+                    .aspectRatio(1, contentMode: .fit)
+                    .frame(maxHeight: 280)
+                    .claymorphism(fillColor: DesignTokens.Colors.canvas)
                     .padding(.horizontal)
 
                 if testModeEnabled {
@@ -336,19 +328,19 @@ struct BattleSceneView: View {
                     .shadow(color: .orange.opacity(0.5), radius: 8)
                 Text("命中!")
                     .font(DesignTokens.Font.title)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(DesignTokens.Colors.onSurface)
             } else {
                 Image(systemName: "shield.lefthalf.filled.slash")
                     .font(.system(size: 40))
                     .foregroundStyle(.red)
                 Text("没写对...")
                     .font(DesignTokens.Font.title)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(DesignTokens.Colors.onSurface)
 
                 if let card = viewModel.currentCard {
                     Text(card.answer)
                         .font(DesignTokens.Font.rounded(size: DesignTokens.CharSize.answer, weight: .bold))
-                        .foregroundStyle(.white.opacity(0.8))
+                        .foregroundStyle(DesignTokens.Colors.onSurfaceSecondary)
                 }
             }
         }
@@ -384,7 +376,7 @@ private struct DragonBattleAvatar: View {
     let state: MascotState
 
     var body: some View {
-        // We reuse MascotView's visual but without the speech bubble
         MascotView(state: state)
     }
 }
+

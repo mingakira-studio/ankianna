@@ -2,6 +2,8 @@ import SwiftUI
 import SwiftData
 
 struct MatchView: View {
+    var cardTypeFilter: CardType?
+
     @Environment(\.dismiss) private var dismiss
     @Query var cards: [Card]
     @State private var viewModel = MatchViewModel(pairs: 6)
@@ -170,7 +172,8 @@ struct MatchView: View {
     }
 
     private func setupGame() {
-        let pairs = cards.prefix(6).map { card -> (char: String, word: String, speakText: String) in
+        let filtered = cardTypeFilter.map { type in cards.filter { $0.type == type } } ?? cards
+        let pairs = filtered.prefix(6).map { card -> (char: String, word: String, speakText: String) in
             let word = card.contexts.first?.text ?? card.audioText
             let speakText = card.contexts.first?.fullText ?? card.audioText
             return (char: card.answer, word: word, speakText: speakText)

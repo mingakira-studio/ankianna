@@ -131,10 +131,24 @@ struct AIGenerateView: View {
                 source: .aiGenerated
             )
             for ctx in gen.contexts {
-                card.contexts.append(CardContext(type: ctx.type, text: ctx.text, fullText: ctx.fullText, source: .aiGenerated))
+                // Sanitize: ensure only the target character is masked, not the whole word
+                let sanitizedText = Self.sanitizeMasking(text: ctx.text, fullText: ctx.fullText, answer: gen.answer)
+                card.contexts.append(CardContext(type: ctx.type, text: sanitizedText, fullText: ctx.fullText, source: .aiGenerated))
             }
             modelContext.insert(card)
         }
         dismiss()
+    }
+
+    /// Re-derive masked text from fullText by replacing only the first occurrence of the answer character.
+    /// AI sometimes masks entire words (e.g., "芬芳" → "___") instead of just the target char ("芬" → "___芳").
+    static func sanitizeMasking(text: String, fullText: String, answer: String) -> String {
+        // If fullText is empty or answer is empty, return as-is
+        guard !fullText.isEmpty, !answer.isEmpty else { return text }
+        // Re-derive: replace first occurrence of answer in fullText with ___
+        if let range = fullText.range(of: answer) {
+            return fullText.replacingCharacters(in: range, with: "___")
+        }
+        return text
     }
 }

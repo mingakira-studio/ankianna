@@ -12,7 +12,7 @@ struct ConfettiView: View {
                 .font(DesignTokens.Font.promptText)
                 .foregroundStyle(.yellow)
         } else {
-            SpriteView(scene: ConfettiScene(), transition: nil, isPaused: false, preferredFramesPerSecond: 60)
+            SpriteView(scene: ConfettiScene(), transition: nil, isPaused: false, preferredFramesPerSecond: 60, options: [.allowsTransparency])
                 .allowsHitTesting(false)
                 .ignoresSafeArea()
         }

@@ -3,12 +3,20 @@ import SwiftUI
 struct CardPromptView: View {
     let context: CardContext?
     let cardType: CardType
+    let answer: String?
     let onSpeak: () -> Void
+
+    init(context: CardContext?, cardType: CardType, answer: String? = nil, onSpeak: @escaping () -> Void) {
+        self.context = context
+        self.cardType = cardType
+        self.answer = answer
+        self.onSpeak = onSpeak
+    }
 
     var body: some View {
         VStack(spacing: DesignTokens.Spacing.lg) {
             if let context {
-                Text(context.text)
+                Text(answer != nil ? context.displayText(answer: answer!) : context.text)
                     .font(DesignTokens.Font.promptText)
                     .multilineTextAlignment(.center)
 

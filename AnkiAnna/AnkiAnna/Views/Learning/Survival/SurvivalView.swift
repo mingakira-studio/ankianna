@@ -3,6 +3,8 @@ import SwiftData
 import PencilKit
 
 struct SurvivalView: View {
+    var cardTypeFilter: CardType?
+
     @Environment(\.dismiss) private var dismiss
     @Query var cards: [Card]
     @State private var viewModel = SurvivalViewModel()
@@ -42,7 +44,8 @@ struct SurvivalView: View {
                 .foregroundColor(DesignTokens.Colors.onSurfaceSecondary)
 
             Button("开始挑战") {
-                viewModel.start(cards: cards)
+                let filtered = cardTypeFilter.map { type in cards.filter { $0.type == type } } ?? cards
+                viewModel.start(cards: filtered)
                 hasStarted = true
             }
             .buttonStyle(.borderedProminent)

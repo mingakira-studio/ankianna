@@ -3,6 +3,8 @@ import SwiftData
 import PencilKit
 
 struct TimeAttackView: View {
+    var cardTypeFilter: CardType?
+
     @Environment(\.dismiss) private var dismiss
     @Query var cards: [Card]
     @State private var viewModel: TimeAttackViewModel?
@@ -49,7 +51,8 @@ struct TimeAttackView: View {
                 ForEach([60, 90, 120], id: \.self) { seconds in
                     Button {
                         let vm = TimeAttackViewModel(duration: seconds)
-                        vm.start(cards: cards)
+                        let filtered = cardTypeFilter.map { type in cards.filter { $0.type == type } } ?? cards
+                        vm.start(cards: filtered)
                         viewModel = vm
                         startTimer()
                     } label: {

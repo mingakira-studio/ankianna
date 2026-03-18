@@ -156,10 +156,17 @@ struct TimeAttackView: View {
     private func inputArea(card: Card, onCorrect: @escaping () -> Void, onWrong: @escaping () -> Void) -> some View {
         if card.type == .chineseWriting {
             WritingCanvasWithTools(drawing: $drawing)
-                .frame(height: 200)
-                .background(DesignTokens.Colors.surface)
-                .cornerRadius(DesignTokens.Radius.md)
+                .aspectRatio(1, contentMode: .fit)
+                .frame(maxHeight: 280)
+                .claymorphism(fillColor: DesignTokens.Colors.canvas)
                 .padding(.horizontal)
+
+            Button("提交") {
+                submitDrawing(card: card, onCorrect: onCorrect, onWrong: onWrong)
+            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.large)
+            .padding(.bottom)
 
             if testModeEnabled {
                 HStack(spacing: DesignTokens.Spacing.lg) {
@@ -190,6 +197,22 @@ struct TimeAttackView: View {
                         onWrong()
                     }
                 }
+        }
+    }
+
+    private func submitDrawing(card: Card, onCorrect: @escaping () -> Void, onWrong: @escaping () -> Void) {
+        let lang = TTSService.languageCode(for: card.type)
+        HandwritingRecognizer.recognize(drawing: drawing, language: lang) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let candidates):
+                    let matched = HandwritingRecognizer.bestMatch(candidates: candidates, expected: card.answer)
+                    if matched { onCorrect() } else { onWrong() }
+                case .failure:
+                    onWrong()
+                }
+                drawing = PKDrawing()
+            }
         }
     }
 

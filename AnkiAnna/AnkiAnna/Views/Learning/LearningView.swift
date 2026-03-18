@@ -42,6 +42,11 @@ struct LearningView: View {
                 }
             }
             .navigationTitle("学习")
+            .onChange(of: viewModel.sessionComplete) {
+                if viewModel.sessionComplete {
+                    saveDailySession()
+                }
+            }
             .onAppear {
                 let dailyGoal = profile?.dailyGoal ?? 15
                 if allCharacterStats.isEmpty {
@@ -57,6 +62,9 @@ struct LearningView: View {
                     }
                 }
                 #endif
+            }
+            .onDisappear {
+                viewModel.showResult = false
             }
             .alert("完全掌握了吗？", isPresented: $viewModel.showMasteryConfirmation) {
                 Button("掌握了！") { viewModel.confirmMastered() }
@@ -570,6 +578,26 @@ struct LearningView: View {
                 }
                 drawing = PKDrawing()
             }
+        }
+    }
+
+    private func saveDailySession() {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+
+        // Find or create today's session
+        let descriptor = FetchDescriptor<DailySession>()
+        let sessions = (try? modelContext.fetch(descriptor)) ?? []
+        let todaySession = sessions.first { calendar.isDate($0.date, inSameDayAs: today) }
+
+        if let session = todaySession {
+            session.completedCount += viewModel.completedCount
+            session.correctCount += viewModel.correctCount
+        } else {
+            let session = DailySession(date: today, targetCount: profile?.dailyGoal ?? 15)
+            session.completedCount = viewModel.completedCount
+            session.correctCount = viewModel.correctCount
+            modelContext.insert(session)
         }
     }
 }

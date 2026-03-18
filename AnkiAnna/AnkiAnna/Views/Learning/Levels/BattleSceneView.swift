@@ -282,6 +282,13 @@ struct BattleSceneView: View {
                     .claymorphism(fillColor: DesignTokens.Colors.canvas)
                     .padding(.horizontal)
 
+                Button("提交") {
+                    onSubmitDrawing()
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
+                .padding(.bottom)
+
                 if testModeEnabled {
                     HStack(spacing: DesignTokens.Spacing.lg) {
                         Button("模拟写对") {

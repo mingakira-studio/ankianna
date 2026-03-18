@@ -37,6 +37,8 @@
 19. [x] 闯关模式重设计 — 战斗化闯关体验（具体研究后设计） (2026-03-16)
 20. [x] 集成收尾 — 全量测试修复、文档更新 (Phase 5, Task 21-23) (2026-03-18)
 21. [>] 用户测试与迭代 — 记录安娜每日学习、检查记录、设计新功能、记录bug
+- [ ] [evolve] 优先做 Phase 4 报告系统（或至少做「今日概览」部分），在游戏模式之前。原因：报告让家长/孩子能看到 SRS 是否有效，形成正反馈循环。没有数据可视化，Anna 和家长都看不到进步。
+- [ ] [evolve] 修复 DailySession 未创建的问题。当前学习完成后不记录 DailySession，导致打卡日历为空、趋势图无数据。这直接影响用户体验——Anna 看不到连续打卡的记录就没有成就感。
 
 ## NEXT: 用户测试与迭代
 > 持续性任务：安娜每日使用 App 学习，观察使用情况，收集反馈
@@ -112,4 +114,5 @@
 - [流程修复] 纯 UI 变更时 /project-next 跳过 test-guard 后连带跳过 e2e-guard，导致 UI 修改无截图验收。已修复：project-next Step 5/10 明确 e2e-guard 独立于 test-guard，纯 UI 仍必须走 e2e-guard Step 6.5 截图验收；e2e-guard 新增「UI 变更强制验收规则」
 
 ## Ideas
+- [2026-03-18] [evolve] 在开发 Phase 3 游戏模式之前，让 Anna 实际使用当前版本至少 1 周。记录她的使用频率、遇到的问题、喜欢/不喜欢什么。用真实反馈而非设计文档来决定做哪个游戏模式。
 - [2026-03-18] [evolve] 立即移除 AIGenerator.swift 中硬编码的阿里云 API Key (***REMOVED***...)。从 git 历史中清除（git filter-branch 或 BFG），然后在阿里云控制台 rotate 这个 Key。改为首次使用时强制 Keychain 输入，不保留 defaultAPIKey。

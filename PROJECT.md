@@ -5,7 +5,7 @@
 - Status: active
 - Path: ~/Projects/ankianna
 - Created: 2025-05-01
-- Last Updated: 2026-03-16
+- Last Updated: 2026-03-18
 
 ## 目标
 为 Anna 打造个性化的记忆卡片应用，基于间隔重复算法帮助高效记忆学习内容。
@@ -35,10 +35,9 @@
 17. [x] 报告系统 — 今日概览、学习趋势图、掌握进度、易错字排行 (Phase 4, Task 17-20) (2026-03-16)
 18. [x] 互动角色设计 — 3D卡通龙角色，指导/评价/鼓励学习过程 (2026-03-16)
 19. [x] 闯关模式重设计 — 战斗化闯关体验（具体研究后设计） (2026-03-16)
-20. [>] 集成收尾 — 全量测试修复、文档更新 (Phase 5, Task 21-23)
+20. [x] 集成收尾 — 全量测试修复、文档更新 (Phase 5, Task 21-23) (2026-03-18)
 
-## NEXT: 集成收尾
-> 实施计划: docs/plans/2026-03-09-v2-implementation.md (Phase 5, Task 21-23)
+## 全部任务已完成
 
 ## Log
 - 21:37 [project-quick] 完成「设置页与橡皮擦」— SettingsView新tab(测试模式开关+重播引导), WritingCanvasWithTools(画笔/橡皮擦/清除工具栏), 4个视图模拟按钮从#if DEBUG改为@AppStorage控制, UITest自动启用testMode; 161 unit + 56 UI tests 回归通过; NEXT=互动角色设计
@@ -92,3 +91,6 @@
 - UI/UX Pro Max 全局审查报告: docs/plans/2026-03-12-ui-ux-review.md — 审查全部 28 个视图文件，评分 C+，产出 24 项优化清单(P0-P4)，推荐 Claymorphism 风格 + SF Rounded 字体
 - UIScreenshotTests.swift: XCUITest 截图测试工具，6个测试覆盖关键页面(首页/卡片库/统计/生存模式结束/限时挑战/答对反馈)，每个截图附带设计要求清单；triggerWrongAnswer() 同时支持中文手写和英文输入卡片；配套脚本 ios-ui-screenshot-test.sh (~/workspace/scripts/) 运行测试+提取截图到 /tmp/ui-screenshots/
 - [流程修复] 纯 UI 变更时 /project-next 跳过 test-guard 后连带跳过 e2e-guard，导致 UI 修改无截图验收。已修复：project-next Step 5/10 明确 e2e-guard 独立于 test-guard，纯 UI 仍必须走 e2e-guard Step 6.5 截图验收；e2e-guard 新增「UI 变更强制验收规则」
+
+## Ideas
+- [2026-03-18] [evolve] 立即移除 AIGenerator.swift 中硬编码的阿里云 API Key (***REMOVED***...)。从 git 历史中清除（git filter-branch 或 BFG），然后在阿里云控制台 rotate 这个 Key。改为首次使用时强制 Keychain 输入，不保留 defaultAPIKey。

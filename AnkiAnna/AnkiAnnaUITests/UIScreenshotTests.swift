@@ -51,8 +51,8 @@ final class UIScreenshotTests: XCTestCase {
     // MARK: - Game Over Screens (via DEBUG 模拟按钮)
 
     func test04_SurvivalGameOver() {
-        // 生存模式 → 开始 → 答错3次 → 游戏结束
-        app.staticTexts["生存模式"].firstMatch.tap()
+        // 生存模式 → 选题组 → 开始 → 答错3次 → 游戏结束
+        LaunchHelper.enterGameMode("生存模式", in: app)
 
         let startButton = app.buttons["开始挑战"]
         guard startButton.waitForExistence(timeout: 3) else {
@@ -87,7 +87,7 @@ final class UIScreenshotTests: XCTestCase {
 
     func test05_TimeAttackStart() {
         // 限时挑战选择页（不实际开始游戏）
-        app.staticTexts["限时挑战"].firstMatch.tap()
+        LaunchHelper.enterGameMode("限时挑战", in: app)
         sleep(1)
         snapshot("05_time_attack_start", requirements: [
             "限时挑战标题",
@@ -125,7 +125,7 @@ final class UIScreenshotTests: XCTestCase {
 
     func test07_LevelsSelection() {
         // 闯关模式关卡选择页
-        app.staticTexts["闯关模式"].firstMatch.tap()
+        LaunchHelper.enterGameMode("闯关模式", in: app)
         sleep(1)
         snapshot("07_levels_selection", requirements: [
             "暗色游戏风格背景（深紫/深蓝渐变，非白色）",
@@ -139,7 +139,7 @@ final class UIScreenshotTests: XCTestCase {
 
     func test08_LevelsBattle() {
         // 闯关模式战斗场景
-        app.staticTexts["闯关模式"].firstMatch.tap()
+        LaunchHelper.enterGameMode("闯关模式", in: app)
         sleep(1)
 
         // 点击第一个解锁的关卡
@@ -166,7 +166,7 @@ final class UIScreenshotTests: XCTestCase {
 
     func test09_LevelsBattleAttack() {
         // 闯关模式 — 攻击效果
-        app.staticTexts["闯关模式"].firstMatch.tap()
+        LaunchHelper.enterGameMode("闯关模式", in: app)
         sleep(1)
 
         let firstLesson = app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH '第'")).firstMatch
@@ -188,7 +188,7 @@ final class UIScreenshotTests: XCTestCase {
 
     func test10_LevelsGameOver() {
         // 闯关模式 — 失败画面
-        app.staticTexts["闯关模式"].firstMatch.tap()
+        LaunchHelper.enterGameMode("闯关模式", in: app)
         sleep(1)
 
         let firstLesson = app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH '第'")).firstMatch

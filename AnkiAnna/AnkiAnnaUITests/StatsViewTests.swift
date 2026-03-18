@@ -17,9 +17,9 @@ final class StatsViewTests: XCTestCase {
     func testStatsViewShowsPoints() {
         LaunchHelper.tapTab("统计", in: app)
 
-        // Should show points label
-        let pointsLabel = app.staticTexts["积分"]
-        XCTAssertTrue(pointsLabel.waitForExistence(timeout: 3))
+        // XP text in the level section
+        let xpText = app.staticTexts.matching(NSPredicate(format: "label CONTAINS 'XP'")).firstMatch
+        XCTAssertTrue(xpText.waitForExistence(timeout: 5))
     }
 
     func testStatsViewShowsStreak() {
@@ -32,9 +32,13 @@ final class StatsViewTests: XCTestCase {
     func testStatsViewShowsBadgesSection() {
         LaunchHelper.tapTab("统计", in: app)
 
-        // Badge grid should show badge names (e.g. first badge "小小学徒")
+        // Scroll down to find badges section — it's now further down in the list
+        let list = app.collectionViews.firstMatch
+        list.swipeUp()
+        sleep(1)
+
         let badgeText = app.staticTexts["小小学徒"]
-        XCTAssertTrue(badgeText.waitForExistence(timeout: 3))
+        XCTAssertTrue(badgeText.waitForExistence(timeout: 5))
     }
 
     func testStatsViewShowsLevel() {

@@ -9,6 +9,9 @@
 ## 技术栈
 - Swift / SwiftUI (iOS 17+, iPad)
 - SwiftData (本地持久化)
+- SceneKit (3D恐龙USDZ模型渲染)
+- SpriteKit (粒子特效/confetti)
+- SwiftUI Charts (学习趋势图表)
 - PencilKit (Apple Pencil 手写输入)
 - Google ML Kit Digital Ink Recognition (手写识别)
 - AVSpeechSynthesizer (TTS)
@@ -17,16 +20,17 @@
 ## 代码结构
 - `AnkiAnna/AnkiAnna/` — 主应用代码
   - `Models/` — SwiftData 数据模型 (Card, CardContext, ReviewRecord, DailySession, UserProfile, CharacterStats, LevelProgress)
+  - `Resources/` — 资源文件 (dino.usdz 3D恐龙模型, jurassic_bg.png 侏罗纪背景, textbook JSON)
   - `Services/` — 业务逻辑 (SM2Engine, TTSService, HandwritingRecognizer, AIGenerator, PointsService, BadgeService, LevelService, TextbookSeeder, HapticService)
   - `Views/` — SwiftUI 视图 (Learning/, AddCard/, CardLibrary/, Stats/, Settings/, DesignTokens.swift)
     - `DesignTokens.swift` — 设计系统 (语义颜色/SF Rounded字体/4pt间距/圆角/阴影/动画常量)
-    - `Learning/` — GameModeSelectionView (入口), LearningView (快速学习), MascotView (DragonCharacter 3D龙), WritingCanvasView (含橡皮擦工具), CelebrationEffects, ResultFeedbackView
+    - `Learning/` — GameModeSelectionView (TrainingGroup题组选择+每日练习弹窗), LearningView (快速学习), MascotView (3D恐龙SceneKit), DinoSceneView (USDZ渲染+状态动画), WritingCanvasView (含橡皮擦工具), CelebrationEffects (SpriteKit粒子), ResultFeedbackView
       - `TimeAttack/` — 限时挑战模式 (TimeAttackView + ViewModel)
       - `Survival/` — 生存模式 (SurvivalView + ViewModel)
-      - `Levels/` — 闯关模式 (LevelsView + ViewModel)
+      - `Levels/` — 闯关模式 (LevelsView + ViewModel + BattleSceneView战斗场景 + MonsterCharacter字妖)
       - `Match/` — 连连看模式 (MatchView + ViewModel)
     - `AddCard/` — AddCardView (入口), ManualAddCardView, AIGenerateView, TextbookBrowserView (课本字库三级导航)
-    - `Stats/` — StatsView (统计入口), TodayOverviewView, MasteryProgressView, DifficultCharactersView, TrendChartView, StreakCalendarView
+    - `Stats/` — StatsView (统计入口), TodayOverviewView (今日概览+快速练习streak), MasteryProgressView (donut圆环图), DifficultCharactersView (易错字排行), TrendChartView (SwiftUI Charts趋势), StreakCalendarView
     - `Settings/` — SettingsView (测试模式开关, 重播引导)
 - `AnkiAnna/AnkiAnnaTests/` — 单元测试
 - `AnkiAnna/AnkiAnnaUITests/` — E2E 测试
@@ -36,7 +40,8 @@
 - 部署到 iPad 前必须 clean build（`xcodebuild clean build`），避免安装缓存的旧版本
 - 真机验证时走 `/deploy-ipad` 全流程（clean build → 安装 → 验证），不要手动拼命令
 - 间隔重复算法 SM-2
-- 儿童友好的 UI 设计（小恐龙/龙/粉虫吉祥物）
+- 儿童友好的 UI 设计（3D恐龙USDZ吉祥物 + 字妖怪物）
+- 训练题组: TrainingGroup(中文听写/英文拼写), 进入游戏模式前选择题组
 - 数据本地存储 (SwiftData)
 - TDD: 先写测试再实现
 - 依赖管理: CocoaPods (`AnkiAnna/Podfile`)

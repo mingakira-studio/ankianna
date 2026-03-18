@@ -24,6 +24,13 @@ enum LaunchHelper {
         case .none:         break
         }
         app.launch()
+
+        // Dismiss the daily practice prompt alert if it appears
+        let freeChoice = app.buttons["自由选择"]
+        if freeChoice.waitForExistence(timeout: 3) {
+            freeChoice.tap()
+        }
+
         return app
     }
 
@@ -63,11 +70,29 @@ enum LaunchHelper {
     }
 
     /// Navigate to Quick Learn mode from the game mode selection screen.
-    /// Call after launching the app (which lands on the 学习 tab with GameModeSelectionView).
-    static func enterQuickLearn(in app: XCUIApplication) {
+    static func enterQuickLearn(in app: XCUIApplication, group: String = "中文听写") {
         let quickLearn = app.staticTexts["快速学习"].firstMatch
         if quickLearn.waitForExistence(timeout: 3) {
             quickLearn.tap()
+        }
+        dismissGroupPicker(in: app, group: group)
+    }
+
+    /// Navigate to a game mode, handling the group picker sheet that appears.
+    static func enterGameMode(_ mode: String, in app: XCUIApplication, group: String = "中文听写") {
+        let modeText = app.staticTexts[mode].firstMatch
+        if modeText.waitForExistence(timeout: 3) {
+            modeText.tap()
+        }
+        dismissGroupPicker(in: app, group: group)
+    }
+
+    /// Dismiss the training group picker by selecting a group.
+    static func dismissGroupPicker(in app: XCUIApplication, group: String = "中文听写") {
+        let groupButton = app.staticTexts[group].firstMatch
+        if groupButton.waitForExistence(timeout: 2) {
+            groupButton.tap()
+            sleep(1)
         }
     }
 }

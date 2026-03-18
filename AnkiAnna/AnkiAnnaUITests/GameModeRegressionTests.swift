@@ -15,7 +15,7 @@ final class GameModeRegressionTests: XCTestCase {
 
     func testTimeAttackShowsBlanksNotAnswer() {
         app = LaunchHelper.launchApp(seed: .testData)
-        app.staticTexts["限时挑战"].firstMatch.tap()
+        LaunchHelper.enterGameMode("限时挑战", in: app)
 
         // Select 60s duration
         let button60 = app.buttons["60 秒"]
@@ -32,7 +32,7 @@ final class GameModeRegressionTests: XCTestCase {
 
     func testSurvivalShowsBlanksNotAnswer() {
         app = LaunchHelper.launchApp(seed: .testData)
-        app.staticTexts["生存模式"].firstMatch.tap()
+        LaunchHelper.enterGameMode("生存模式", in: app)
 
         let startButton = app.buttons["开始挑战"]
         XCTAssertTrue(startButton.waitForExistence(timeout: 3))
@@ -48,7 +48,7 @@ final class GameModeRegressionTests: XCTestCase {
 
     func testLevelsModeShowsCardsNotBlank() {
         app = LaunchHelper.launchApp(seed: .withStats)
-        app.staticTexts["闯关模式"].firstMatch.tap()
+        LaunchHelper.enterGameMode("闯关模式", in: app)
 
         // Should show level grid with lesson "第1课"
         let levelButton = app.staticTexts["第1课"]
@@ -71,7 +71,7 @@ final class GameModeRegressionTests: XCTestCase {
 
     func testMatchModeTilesAreInteractive() {
         app = LaunchHelper.launchApp(seed: .testData)
-        app.staticTexts["连连看"].firstMatch.tap()
+        LaunchHelper.enterGameMode("连连看", in: app)
 
         let startButton = app.buttons["开始游戏"]
         XCTAssertTrue(startButton.waitForExistence(timeout: 3))

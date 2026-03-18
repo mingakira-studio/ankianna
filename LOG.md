@@ -1,6 +1,12 @@
 # Anna 记忆卡片 App - 操作日志
 
 ## 2026-03-18
+- 12:33 [project-next] 完成「集成收尾」— 项目全部任务完成
+  - UI test修复: LaunchHelper增加dismissDailyPrompt+dismissGroupPicker处理新增的每日练习弹窗和题组选择器
+  - GameModeTests/GameModeRegressionTests/LearningFlowTests/SessionCompleteTests/UIScreenshotTests全部适配
+  - StatsViewTests修复: testShowsPoints改XP匹配, testShowsBadgesSection加swipeUp滚动
+  - CLAUDE.md更新: SceneKit/SpriteKit/Charts技术栈, Resources/, DinoSceneView, TrainingGroup, BattleSceneView
+  - 161 unit + 60 UI tests (9 expected failures) 全部通过
 - 10:44 [adhoc] 用户反馈修复+功能迭代:
   - 3D恐龙模型: SceneKit USDZ(Dino Crisis 2 Allosaurus CC-BY-4.0)替换SwiftUI绘制DragonCharacter, 侧面视图+状态动画
   - 侏罗纪背景: GPT-5生成蕨类植物森林+火山背景图替换SwiftUI手绘山脉

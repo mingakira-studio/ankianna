@@ -17,7 +17,7 @@ final class GameModeTests: XCTestCase {
     }
 
     func testQuickLearnModeNavigatesToLearning() {
-        app.staticTexts["快速学习"].firstMatch.tap()
+        LaunchHelper.enterQuickLearn(in: app)
         let hasContent = app.textFields["spellingTextField"].waitForExistence(timeout: 5)
             || app.buttons["提交"].waitForExistence(timeout: 1)
             || app.staticTexts["还没有卡片"].waitForExistence(timeout: 1)
@@ -25,35 +25,35 @@ final class GameModeTests: XCTestCase {
     }
 
     func testTimeAttackShowsDurationPicker() {
-        app.staticTexts["限时挑战"].firstMatch.tap()
+        LaunchHelper.enterGameMode("限时挑战", in: app)
         XCTAssertTrue(app.staticTexts["选择时长"].waitForExistence(timeout: 3)
             || app.buttons["60 秒"].waitForExistence(timeout: 3),
             "Time attack should show duration picker")
     }
 
     func testSurvivalModeShowsStartButton() {
-        app.staticTexts["生存模式"].firstMatch.tap()
+        LaunchHelper.enterGameMode("生存模式", in: app)
         XCTAssertTrue(app.buttons["开始挑战"].waitForExistence(timeout: 3),
             "Survival mode should show start button")
     }
 
     func testLevelsModeShowsLevelGrid() {
-        // Levels mode needs CharacterStats to populate, use withStats seed
         app = LaunchHelper.launchApp(seed: .withStats)
-        app.staticTexts["闯关模式"].firstMatch.tap()
-        // Should show navigation title
-        XCTAssertTrue(app.navigationBars["闯关模式"].waitForExistence(timeout: 3),
-            "Levels mode should show level selection")
+        LaunchHelper.enterGameMode("闯关模式", in: app)
+        // Should show level selection content (闯关模式 is now inline, not nav title)
+        let hasLevels = app.staticTexts["闯关模式"].waitForExistence(timeout: 3)
+            || app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH '第'")).firstMatch.waitForExistence(timeout: 3)
+        XCTAssertTrue(hasLevels, "Levels mode should show level selection")
     }
 
     func testMatchModeShowsStartButton() {
-        app.staticTexts["连连看"].firstMatch.tap()
+        LaunchHelper.enterGameMode("连连看", in: app)
         XCTAssertTrue(app.buttons["开始游戏"].waitForExistence(timeout: 3),
             "Match mode should show start button")
     }
 
     func testNavigationBackFromMode() {
-        app.staticTexts["限时挑战"].firstMatch.tap()
+        LaunchHelper.enterGameMode("限时挑战", in: app)
         // Go back
         app.navigationBars.buttons.firstMatch.tap()
         // Should be back at mode selection

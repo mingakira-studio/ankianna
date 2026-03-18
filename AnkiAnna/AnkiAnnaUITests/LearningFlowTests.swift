@@ -6,7 +6,7 @@ final class LearningFlowTests: XCTestCase {
     override func setUpWithError() throws {
         continueAfterFailure = false
         app = LaunchHelper.launchApp(seedData: false, englishOnly: true)
-        LaunchHelper.enterQuickLearn(in: app)
+        LaunchHelper.enterQuickLearn(in: app, group: "英文拼写")
     }
 
     private func requireSpellingField() -> XCUIElement {

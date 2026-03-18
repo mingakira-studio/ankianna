@@ -7,7 +7,7 @@ final class SessionCompleteTests: XCTestCase {
         continueAfterFailure = false
         // Use single card so we can complete the session quickly
         app = LaunchHelper.launchApp(seedData: false, singleCard: true)
-        LaunchHelper.enterQuickLearn(in: app)
+        LaunchHelper.enterQuickLearn(in: app, group: "英文拼写")
     }
 
     private func requireSpellingField() -> XCUIElement {

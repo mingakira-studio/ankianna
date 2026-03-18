@@ -1,5 +1,13 @@
 # Anna 记忆卡片 App - 操作日志
 
+## 2026-03-18
+- 10:44 [adhoc] 用户反馈修复+功能迭代:
+  - 3D恐龙模型: SceneKit USDZ(Dino Crisis 2 Allosaurus CC-BY-4.0)替换SwiftUI绘制DragonCharacter, 侧面视图+状态动画
+  - 侏罗纪背景: GPT-5生成蕨类植物森林+火山背景图替换SwiftUI手绘山脉
+  - 训练题组: TrainingGroup(中文听写/英文拼写), 每日练习弹窗选题组, 游戏模式入口选题组sheet
+  - Bug修复: SpriteKit confetti透明背景(.allowsTransparency), CardContext遮盖修正(displayText+迁移), 工具栏改图标无文字
+  - deploy-ipad skill创建, 战斗场景白色背景, 字妖隐藏答案显示"?"
+
 ## 2026-03-16
 - 10:29 [project-next] 完成「闯关模式重设计」, 设置 NEXT=集成收尾
   - MonsterCharacter: 渐变紫色字妖(RadialGradient+红角+红眼+齿嘴), Boss(皇冠+发光+2HP), hit震动/defeated, MiniMonster进度图标

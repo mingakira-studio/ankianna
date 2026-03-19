@@ -359,6 +359,12 @@ struct LearningView: View {
             .frame(maxWidth: .infinity)
         }
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.3), value: viewModel.practiceIsCorrect != nil)
+        .onChange(of: viewModel.practicePhase) {
+            // Speak the context when entering blind-write phase
+            if viewModel.practicePhase == 2, let card = viewModel.currentCard {
+                speakCurrentContext(card: card)
+            }
+        }
         .onChange(of: viewModel.showPracticeCorrectFlash) {
             if viewModel.showPracticeCorrectFlash {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {

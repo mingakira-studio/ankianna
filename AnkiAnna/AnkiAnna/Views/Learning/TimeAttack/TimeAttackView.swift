@@ -156,10 +156,8 @@ struct TimeAttackView: View {
     private func inputArea(card: Card, onCorrect: @escaping () -> Void, onWrong: @escaping () -> Void) -> some View {
         if card.type == .chineseWriting {
             WritingCanvasWithTools(drawing: $drawing)
-                .aspectRatio(1, contentMode: .fit)
-                .frame(maxHeight: 280)
                 .claymorphism(fillColor: DesignTokens.Colors.canvas)
-                .padding(.horizontal)
+                .padding()
 
             Button("提交") {
                 submitDrawing(card: card, onCorrect: onCorrect, onWrong: onWrong)

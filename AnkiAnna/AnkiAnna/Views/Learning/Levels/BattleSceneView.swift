@@ -277,10 +277,8 @@ struct BattleSceneView: View {
         } else if let card = viewModel.currentCard {
             if card.type == .chineseWriting {
                 WritingCanvasWithTools(drawing: $drawing)
-                    .aspectRatio(1, contentMode: .fit)
-                    .frame(maxHeight: 280)
                     .claymorphism(fillColor: DesignTokens.Colors.canvas)
-                    .padding(.horizontal)
+                    .padding()
 
                 Button("提交") {
                     onSubmitDrawing()

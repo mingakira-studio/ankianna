@@ -5,7 +5,7 @@
 - Status: active
 - Path: ~/Projects/ankianna
 - Created: 2025-05-01
-- Last Updated: 2026-03-18
+- Last Updated: 2026-03-23
 
 ## 目标
 为 Anna 打造个性化的记忆卡片应用，基于间隔重复算法帮助高效记忆学习内容。
@@ -36,7 +36,8 @@
 18. [x] 互动角色设计 — 3D卡通龙角色，指导/评价/鼓励学习过程 (2026-03-16)
 19. [x] 闯关模式重设计 — 战斗化闯关体验（具体研究后设计） (2026-03-16)
 20. [x] 集成收尾 — 全量测试修复、文档更新 (Phase 5, Task 21-23) (2026-03-18)
-21. [>] 用户测试与迭代 — 记录安娜每日学习、检查记录、设计新功能、记录bug
+21. [ ] 用户测试与迭代 — 记录安娜每日学习、检查记录、设计新功能、记录bug
+22. [>] 学习数据API与细粒度追踪 — WritingAttempt数据模型、内嵌HTTP API服务、书写速度/正确率/用时等细粒度指标
 - [ ] [evolve] 优先做 Phase 4 报告系统（或至少做「今日概览」部分），在游戏模式之前。原因：报告让家长/孩子能看到 SRS 是否有效，形成正反馈循环。没有数据可视化，Anna 和家长都看不到进步。
 - [ ] [evolve] 修复 DailySession 未创建的问题。当前学习完成后不记录 DailySession，导致打卡日历为空、趋势图无数据。这直接影响用户体验——Anna 看不到连续打卡的记录就没有成就感。
 - [x] [evolve] 移除 AIGenerator.swift 硬编码的阿里云 API Key — 已完成：key 已删除，BFG 清除 git 历史，需在阿里云控制台 rotate key (2026-03-23)
@@ -45,8 +46,8 @@
 - [ ] [evolve] 评估 chinese-character-game（汉字小勇士）与 ankianna 的关系。两个项目都是中文汉字学习应用，面向儿童，有游戏化。chinese-character-game 停滞 23 天。建议：(1) 读 chinese-character-game 的 PROJECT.md 评估其独特功能；(2) 如有可迁移的好想法，纳入 ankianna Ideas；(3) 归档 chinese-character-game。
 - [ ] [evolve] 添加 SwiftData SchemaMigrationPlan。当 Anna 的 iPad 升级到 iPadOS 18/26 时，SwiftData 有已知的数据迁移问题（内存暴增、数组属性转换失败）。预防性添加版本化 Schema 和 MigrationPlan，避免升级后数据丢失。这比事后抢救简单得多。
 
-## NEXT: 用户测试与迭代
-> 持续性任务：安娜每日使用 App 学习，观察使用情况，收集反馈
+## NEXT: 学习数据API与细粒度追踪
+> WritingAttempt 细粒度书写数据 + 内嵌 HTTP API 服务，支持外部获取学习数据用于分析
 
 ### 跟踪清单
 - [ ] 每日检查安娜的学习记录（统计 tab 数据）

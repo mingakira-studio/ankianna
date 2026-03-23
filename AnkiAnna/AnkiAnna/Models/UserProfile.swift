@@ -9,7 +9,7 @@ final class UserProfile {
     var totalPoints: Int
     var badges: [String]
 
-    init(name: String, dailyGoal: Int = 15) {
+    init(name: String, dailyGoal: Int = 8) {
         self.id = UUID()
         self.name = name
         self.dailyGoal = dailyGoal

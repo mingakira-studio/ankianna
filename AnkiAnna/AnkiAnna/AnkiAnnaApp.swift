@@ -69,8 +69,12 @@ struct AnkiAnnaApp: App {
         let context = modelContainer.mainContext
         let descriptor = FetchDescriptor<UserProfile>()
         if let existing = try? context.fetch(descriptor), existing.isEmpty {
-            let profile = UserProfile(name: "Anna", dailyGoal: 15)
+            let profile = UserProfile(name: "Anna", dailyGoal: 8)
             context.insert(profile)
+        } else if let profiles = try? context.fetch(descriptor),
+                  let profile = profiles.first, profile.dailyGoal == 15 {
+            // Migrate: 15 was too many, reduce to 8
+            profile.dailyGoal = 8
         }
     }
 }

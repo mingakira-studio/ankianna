@@ -48,7 +48,7 @@ struct LearningView: View {
                 }
             }
             .onAppear {
-                let dailyGoal = profile?.dailyGoal ?? 15
+                let dailyGoal = profile?.dailyGoal ?? 8
                 if allCharacterStats.isEmpty {
                     viewModel.loadDueCards(from: filteredCards, dailyGoal: dailyGoal)
                 } else {
@@ -600,7 +600,7 @@ struct LearningView: View {
             session.completedCount += viewModel.completedCount
             session.correctCount += viewModel.correctCount
         } else {
-            let session = DailySession(date: today, targetCount: profile?.dailyGoal ?? 15)
+            let session = DailySession(date: today, targetCount: profile?.dailyGoal ?? 8)
             session.completedCount = viewModel.completedCount
             session.correctCount = viewModel.correctCount
             modelContext.insert(session)

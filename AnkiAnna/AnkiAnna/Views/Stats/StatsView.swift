@@ -15,7 +15,7 @@ struct StatsView: View {
                     TodayOverviewView(
                         sessions: sessions,
                         characterStats: characterStats,
-                        dailyGoal: profile?.dailyGoal ?? 15
+                        dailyGoal: profile?.dailyGoal ?? 8
                     )
                 }
 

@@ -106,7 +106,7 @@ struct AIGenerateView: View {
         isLoading = true
         errorMessage = nil
         do {
-            let key = apiKey.isEmpty ? (AIGenerator.loadAPIKey() ?? AIGenerator.defaultAPIKey) : apiKey
+            let key = apiKey.isEmpty ? (AIGenerator.loadAPIKey() ?? "") : apiKey
             guard !key.isEmpty else { throw AIGenerator.GeneratorError.noAPIKey }
             let ep = endpoint.isEmpty ? (AIGenerator.loadEndpoint() ?? AIGenerator.defaultEndpoint) : endpoint
             let md = model.isEmpty ? (AIGenerator.loadModel() ?? AIGenerator.defaultModel) : model

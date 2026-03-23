@@ -7,7 +7,7 @@ enum AIGenerator {
 
     static let defaultEndpoint = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
     static let defaultModel = "qwen-plus"
-    static let defaultAPIKey = "***REMOVED***"
+    // API key must be configured in Settings — no hardcoded default
 
     struct GeneratedCard {
         let answer: String
@@ -283,7 +283,7 @@ enum AIGenerator {
     }
 
     static func loadConfig() -> APIConfig {
-        let key = loadAPIKey() ?? defaultAPIKey
+        let key = loadAPIKey() ?? ""
         let ep = loadEndpoint() ?? defaultEndpoint
         let md = loadModel() ?? defaultModel
         let savedModel = loadModel()

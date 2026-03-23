@@ -39,10 +39,8 @@
 21. [>] 用户测试与迭代 — 记录安娜每日学习、检查记录、设计新功能、记录bug
 - [ ] [evolve] 优先做 Phase 4 报告系统（或至少做「今日概览」部分），在游戏模式之前。原因：报告让家长/孩子能看到 SRS 是否有效，形成正反馈循环。没有数据可视化，Anna 和家长都看不到进步。
 - [ ] [evolve] 修复 DailySession 未创建的问题。当前学习完成后不记录 DailySession，导致打卡日历为空、趋势图无数据。这直接影响用户体验——Anna 看不到连续打卡的记录就没有成就感。
-- [ ] [evolve] 移除 AIGenerator.swift:10 硬编码的阿里云 API Key (***REMOVED***...)。这条建议上次被 reject，但问题仍然存在且是真实安全漏洞。具体步骤：(1) 删除 defaultAPIKey 常量，改为 loadAPIKey() 返回 nil 时跳转到设置页强制输入；(2) 用 BFG Repo-Cleaner 清除 git 历史中的 key；(3) 在阿里云控制台 rotate 这个 key。如果这个 repo 曾经 push 到任何远端，key 可能已泄露。
-- [ ] [evolve] 移除 AIGenerator.swift:10 硬编码的阿里云 API Key (***REMOVED***...)。这条建议上次被 reject，但问题仍然存在且是真实安全漏洞。具体步骤：(1) 删除 defaultAPIKey 常量，改为 loadAPIKey() 返回 nil 时跳转到设置页强制输入；(2) 用 BFG Repo-Cleaner 清除 git 历史中的 key；(3) 在阿里云控制台 rotate 这个 key。如果这个 repo 曾经 push 到任何远端，key 可能已泄露。
-- [ ] [evolve] 建立结构化的用户测试记录。当前'用户测试与迭代'是模糊的持续任务。建议：在 PROJECT.md 添加每日测试记录模板（日期/使用时长/完成字数/使用的模式/遇到的问题/Anna的反馈）。没有数据就没有迭代方向。设定 2 周观察期（到 4 月初），然后基于数据决定下一步。
-- [ ] [evolve] 建立结构化的用户测试记录。当前'用户测试与迭代'是模糊的持续任务。建议：在 PROJECT.md 添加每日测试记录模板（日期/使用时长/完成字数/使用的模式/遇到的问题/Anna的反馈）。没有数据就没有迭代方向。设定 2 周观察期（到 4 月初），然后基于数据决定下一步。
+- [x] [evolve] 移除 AIGenerator.swift 硬编码的阿里云 API Key — 已完成：key 已删除，BFG 清除 git 历史，需在阿里云控制台 rotate key (2026-03-23)
+- [ ] [evolve] 建立结构化的用户测试记录。建议：每日测试记录模板（日期/使用时长/完成字数/使用的模式/遇到的问题/Anna的反馈）。设定 2 周观察期（到 4 月初），然后基于数据决定下一步。
 - [ ] [evolve] 修复 DailySession 跨模式记录问题。当前只有快速学习模式 (LearningView) 调用 saveDailySession()，限时挑战/生存/闯关/连连看四个模式的学习数据不进入统计。导致统计页数据不完整——Anna 玩了闯关模式但打卡日历不计数，趋势图不反映。应在每个游戏模式的 session 结束回调中也调用 saveDailySession()。
 - [ ] [evolve] 评估 chinese-character-game（汉字小勇士）与 ankianna 的关系。两个项目都是中文汉字学习应用，面向儿童，有游戏化。chinese-character-game 停滞 23 天。建议：(1) 读 chinese-character-game 的 PROJECT.md 评估其独特功能；(2) 如有可迁移的好想法，纳入 ankianna Ideas；(3) 归档 chinese-character-game。
 - [ ] [evolve] 添加 SwiftData SchemaMigrationPlan。当 Anna 的 iPad 升级到 iPadOS 18/26 时，SwiftData 有已知的数据迁移问题（内存暴增、数组属性转换失败）。预防性添加版本化 Schema 和 MigrationPlan，避免升级后数据丢失。这比事后抢救简单得多。
@@ -123,4 +121,4 @@
 
 ## Ideas
 - [2026-03-18] [evolve] 在开发 Phase 3 游戏模式之前，让 Anna 实际使用当前版本至少 1 周。记录她的使用频率、遇到的问题、喜欢/不喜欢什么。用真实反馈而非设计文档来决定做哪个游戏模式。
-- [2026-03-18] [evolve] 立即移除 AIGenerator.swift 中硬编码的阿里云 API Key (***REMOVED***...)。从 git 历史中清除（git filter-branch 或 BFG），然后在阿里云控制台 rotate 这个 Key。改为首次使用时强制 Keychain 输入，不保留 defaultAPIKey。
+- [2026-03-18] [evolve] ~~移除硬编码 API Key~~ — 已完成 (2026-03-23)

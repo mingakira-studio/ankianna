@@ -6,12 +6,15 @@ struct SurvivalView: View {
     var cardTypeFilter: CardType?
 
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
     @Query var cards: [Card]
     @State private var viewModel = SurvivalViewModel()
     @State private var hasStarted = false
     @State private var drawing = PKDrawing()
     @State private var typedAnswer = ""
+    @State private var attemptStartTime = Date()
     @AppStorage("testModeEnabled") private var testModeEnabled = false
+    private let sessionId = UUID().uuidString
 
     var body: some View {
         Group {
@@ -149,7 +152,7 @@ struct SurvivalView: View {
                 .padding()
 
             Button("提交") {
-                submitDrawing(card: card, onCorrect: { viewModel.handleCorrectAnswer() }, onWrong: { viewModel.handleWrongAnswer() })
+                submitDrawing(card: card, onCorrect: { trackAndHandle(card: card, correct: true) }, onWrong: { trackAndHandle(card: card, correct: false) })
             }
             .buttonStyle(.borderedProminent)
             .controlSize(.large)
@@ -159,13 +162,13 @@ struct SurvivalView: View {
                 HStack(spacing: DesignTokens.Spacing.lg) {
                     Button("模拟写对") {
                         drawing = PKDrawing()
-                        viewModel.handleCorrectAnswer()
+                        if let c = viewModel.currentCard { trackAndHandle(card: c, correct: true) }
                     }
                     .buttonStyle(.bordered)
 
                     Button("模拟写错") {
                         drawing = PKDrawing()
-                        viewModel.handleWrongAnswer()
+                        if let c = viewModel.currentCard { trackAndHandle(card: c, correct: false) }
                     }
                     .buttonStyle(.bordered)
                 }
@@ -271,6 +274,14 @@ struct SurvivalView: View {
             Spacer()
         }
         .navigationTitle("生存模式")
+    }
+
+    private func trackAndHandle(card: Card, correct: Bool) {
+        let duration = Date().timeIntervalSince(attemptStartTime)
+        let attempt = WritingAttempt(character: card.answer, correct: correct, writingDuration: duration, gameMode: "survival", sessionId: sessionId)
+        modelContext.insert(attempt)
+        attemptStartTime = Date()
+        if correct { viewModel.handleCorrectAnswer() } else { viewModel.handleWrongAnswer() }
     }
 
     private func statRow(label: String, value: String) -> some View {

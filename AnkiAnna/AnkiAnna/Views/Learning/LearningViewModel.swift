@@ -55,6 +55,9 @@ final class LearningViewModel {
     // Practice feedback
     var showPracticeCorrectFlash: Bool = false
 
+    // Writing attempt tracking
+    private(set) var pendingAttempts: [WritingAttempt] = []
+
     // MARK: - Internal state (private(set) for testing)
 
     private(set) var queue: [Card] = []
@@ -206,6 +209,17 @@ final class LearningViewModel {
         )
         modelContext.insert(record)
 
+        // Fine-grained writing attempt tracking
+        let duration = activeCharacterStartTime.map { Date().timeIntervalSince($0) } ?? 0
+        let attempt = WritingAttempt(
+            character: card.answer,
+            correct: isCorrect,
+            writingDuration: duration,
+            gameMode: "quick",
+            sessionId: sessionStartTime.ISO8601Format()
+        )
+        modelContext.insert(attempt)
+
         stats?.recordReview(correct: isCorrect, reviewOutput: sm2)
         if stats?.masteryLevel == .new {
             stats?.markLearning()
@@ -300,6 +314,17 @@ final class LearningViewModel {
 
     private func handlePracticeResult(correct: Bool) {
         practiceIsCorrect = correct
+
+        // Track practice attempt
+        let duration = activeCharacterStartTime.map { Date().timeIntervalSince($0) } ?? 0
+        let phaseLabel = practicePhase == 1 ? "practice-copy" : "practice-blind"
+        pendingAttempts.append(WritingAttempt(
+            character: practiceCorrectAnswer,
+            correct: correct,
+            writingDuration: duration,
+            gameMode: phaseLabel,
+            sessionId: sessionStartTime.ISO8601Format()
+        ))
 
         if practicePhase == 1 {
             if correct {

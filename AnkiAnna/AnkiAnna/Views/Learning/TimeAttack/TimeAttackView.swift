@@ -6,12 +6,15 @@ struct TimeAttackView: View {
     var cardTypeFilter: CardType?
 
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
     @Query var cards: [Card]
     @State private var viewModel: TimeAttackViewModel?
     @State private var selectedDuration: Int? = nil
     @State private var timer: Timer?
     @State private var drawing = PKDrawing()
     @State private var typedAnswer = ""
+    @State private var attemptStartTime = Date()
+    private let sessionId = UUID().uuidString
     @AppStorage("testModeEnabled") private var testModeEnabled = false
 
     var body: some View {

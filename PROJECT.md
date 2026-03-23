@@ -47,7 +47,24 @@
 - [ ] [evolve] 添加 SwiftData SchemaMigrationPlan。当 Anna 的 iPad 升级到 iPadOS 18/26 时，SwiftData 有已知的数据迁移问题（内存暴增、数组属性转换失败）。预防性添加版本化 Schema 和 MigrationPlan，避免升级后数据丢失。这比事后抢救简单得多。
 
 ## NEXT: 学习数据API与细粒度追踪
-> WritingAttempt 细粒度书写数据 + 内嵌 HTTP API 服务，支持外部获取学习数据用于分析
+> WritingAttempt 细粒度书写数据 + iCloud Documents 自动同步，支持外部分析
+
+### 子任务
+- [ ] **WritingAttempt 数据模型** | 预估: 0.5h | 类型: code
+  - 产出: Models/WritingAttempt.swift, AnkiAnnaApp.swift ModelContainer更新
+  - 内容: character, correct, writingDuration, gameMode, timestamp, sessionId
+- [ ] **LearningViewModel 埋点** | 预估: 0.5h | 类型: code
+  - blockedBy: WritingAttempt模型
+  - 产出: LearningViewModel.swift 修改
+  - 内容: processMainAnswer + handlePracticeResult 创建WritingAttempt, 用activeCharacterStartTime计算duration
+- [ ] **游戏模式埋点** | 预估: 1h | 类型: code
+  - blockedBy: WritingAttempt模型
+  - 产出: TimeAttackViewModel/SurvivalViewModel/LevelsViewModel 修改
+  - 内容: handleCorrectAnswer/handleWrongAnswer 创建WritingAttempt, 需要传入modelContext
+- [ ] **iCloud Documents 同步** | 预估: 1h | 类型: code
+  - blockedBy: 埋点完成
+  - 产出: Services/LearningDataExporter.swift, project.yml entitlements
+  - 内容: 练习完成时导出全量WritingAttempt+CharacterStats+DailySession为JSON到iCloud container
 
 ### 跟踪清单
 - [ ] 每日检查安娜的学习记录（统计 tab 数据）

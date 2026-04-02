@@ -1,0 +1,92 @@
+name: Auto Review
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  review-push:
+    runs-on: self-hosted
+    if: github.event_name == 'push'
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: AI Code Review
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+        run: |
+          COMMIT_MSG=$(git log -1 --format="%s" "$SHA")
+
+          # Skip review for trivial / GTD metadata commits
+          if echo "$COMMIT_MSG" | grep -qiE "^(docs|chore|ci|sync):|\[project-next\]|\[project-quick\]|\[project-done\]|\[adhoc\]|\[project-adhoc\]"; then
+            echo "Skipping review for: $COMMIT_MSG"
+            exit 0
+          fi
+
+          # Use codex review on the commit, output to file
+          codex review --commit "$SHA" --title "$COMMIT_MSG" > /tmp/codex-review.txt 2>&1 || true
+
+          if [ ! -s /tmp/codex-review.txt ]; then
+            echo "Review generation failed, skipping"
+            exit 0
+          fi
+
+          # Truncate if too long (GitHub comment limit ~65536 chars)
+          head -c 60000 /tmp/codex-review.txt > /tmp/codex-review-trimmed.txt
+
+          # Build comment body
+          {
+            echo "## AI Code Review (Codex)"
+            echo ""
+            cat /tmp/codex-review-trimmed.txt
+            echo ""
+            echo "---"
+            echo "*Automated review by Codex on self-hosted runner*"
+          } > /tmp/codex-comment.txt
+
+          # Post as commit comment via file
+          gh api "/repos/$REPO/commits/$SHA/comments" \
+            -F body=@/tmp/codex-comment.txt
+
+  review-pr:
+    runs-on: self-hosted
+    if: github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'skip-review')
+    steps:
+      - name: Check out PR
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: AI Code Review
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          # Review changes against base branch
+          BASE="${{ github.event.pull_request.base.ref }}"
+          REVIEW=$(codex review --base "$BASE" --title "${{ github.event.pull_request.title }}" 2>&1 || echo "")
+
+          if [ -z "$REVIEW" ]; then
+            echo "Review generation failed, skipping"
+            exit 0
+          fi
+
+          gh pr comment "$PR_NUMBER" --repo "$REPO" --body "## AI Code Review (Codex)
+
+          $REVIEW
+
+          ---
+          *Automated review by Codex on self-hosted runner*"

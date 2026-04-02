@@ -1,0 +1,84 @@
+name: Auto Merge
+
+on:
+  pull_request:
+    types: [labeled]
+  check_suite:
+    types: [completed]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  auto-merge:
+    runs-on: self-hosted
+    if: (github.event_name == 'pull_request' && github.event.label.name == 'auto-merge') || (github.event_name == 'check_suite' && github.event.check_suite.conclusion == 'success')
+    steps:
+      - name: Auto merge eligible PRs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          # Find PRs with auto-merge label that passed all checks → merge
+          PRS=$(gh pr list --repo "$REPO" --label "auto-merge" --json number,mergeable,statusCheckRollup --jq '.[] | select(.mergeable == "MERGEABLE") | select((.statusCheckRollup | length) > 0) | select(all(.statusCheckRollup[]?; .conclusion == "SUCCESS" or .conclusion == "NEUTRAL")) | .number')
+
+          for PR in $PRS; do
+            echo "Merging PR #$PR"
+            PR_TITLE=$(gh pr view "$PR" --repo "$REPO" --json title --jq '.title' 2>/dev/null || echo "PR #$PR")
+            PR_BODY=$(gh pr view "$PR" --repo "$REPO" --json body --jq '.body' 2>/dev/null || echo "")
+
+            if gh pr merge "$PR" --repo "$REPO" --squash --delete-branch \
+              --body "Auto-merged by GitHub Actions"; then
+              echo "Merged PR #$PR successfully"
+
+              # GTD sync: update PROJECT.md subtasks + LOG + Dashboard + git commit
+              REPO_NAME=$(echo "$REPO" | cut -d/ -f2)
+              python3 "$HOME/workspace/scripts/gtd_auto_merge_sync.py" \
+                "$REPO_NAME" "$PR" "$PR_TITLE" --pr-body "$PR_BODY" \
+                2>&1 || echo "GTD sync warning: non-fatal"
+            else
+              echo "Failed to merge PR #$PR"
+            fi
+          done
+
+      - name: Escalate failed agent PRs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          # Find auto-merge PRs where checks FAILED → close PR + escalate to human
+          FAILED_PRS=$(gh pr list --repo "$REPO" --label "auto-merge" --json number,statusCheckRollup --jq '.[] | select((.statusCheckRollup | length) > 0) | select(any(.statusCheckRollup[]?; .conclusion == "FAILURE" or .conclusion == "TIMED_OUT")) | .number')
+
+          for PR in $FAILED_PRS; do
+            PR_TITLE=$(gh pr view "$PR" --repo "$REPO" --json title --jq '.title' 2>/dev/null || echo "PR #$PR")
+            PR_BODY=$(gh pr view "$PR" --repo "$REPO" --json body --jq '.body' 2>/dev/null || echo "")
+
+            # Extract linked issue number from PR body "Closes #N"
+            ISSUE_NUM=$(echo "$PR_BODY" | grep -oiE '(closes?|fixes?|resolves?)\s+#[0-9]+' | grep -oE '[0-9]+' | head -1 || echo "0")
+
+            echo "Agent PR #$PR failed CI — closing and escalating"
+
+            # Close the failed PR
+            gh pr close "$PR" --repo "$REPO" --delete-branch \
+              --comment "CI failed on agent fix. Closing and escalating to human. (issue #$ISSUE_NUM)" \
+              2>/dev/null || true
+
+            # Comment on original issue
+            if [ "$ISSUE_NUM" -gt 0 ] 2>/dev/null; then
+              gh issue comment "$ISSUE_NUM" --repo "$REPO" \
+                --body "Agent fix (PR #$PR) failed CI. Needs human intervention. See: https://github.com/$REPO/pull/$PR" \
+                2>/dev/null || true
+            fi
+
+            # Escalate: label + assign + notify
+            bash "$HOME/workspace/scripts/gtd_escalate_failure.sh" \
+              "$REPO" "auto-merge" "${ISSUE_NUM:-0}" \
+              "Agent PR #$PR failed CI: $PR_TITLE" || true
+          done
+
+      - name: Refresh GitHub Ops snapshot
+        if: always()
+        run: |
+          bash "$HOME/workspace/scripts/gh-ops-snapshot.sh" 2>/dev/null || true
